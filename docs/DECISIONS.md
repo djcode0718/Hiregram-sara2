@@ -74,6 +74,22 @@ This log records all significant technical and design decisions made during the 
      - `NO_RESUME`: Detects empty state, toasts "Upload a resume on Hiregram first", preserves `pending`.
 - **Reason:** Resolves the blocking hang on `/resume`, isolates editing sessions, and prevents double-sends across tabs.
 
+---
+
+### [2026-11-23] Decision 009: Robust Wake-Intent Parsing & Closed Shadow DOM Overlay
+- **Context:** Real-world speech recognition transcripts from Chrome revealed common mis-hearings of "Sara" ("Sahara", "Sarah", "Sera", "Zara", "Saara"), Hindi/Hinglish speech artifacts ("marriage mein", "Mere"), and WebSpeechEngine firing multiple final segments for single utterances.
+- **Decision:**
+  1. Set default speech recognition language to `en-IN`.
+  2. Implemented `WebSpeechEngine` in `src/voice/voice-engine.js` that continuously concatenates all completed final segments with any trailing interim result, capturing up to 3 alternatives per segment.
+  3. Created `parseCommand` in `src/lib/wake-intent.js`:
+     - Accepts `sara`, `sarah`, `sera`, `zara`, `saara`, `sarra`, `sahra`, `sahara`, and any token within Levenshtein distance &le; 1 of "sara" in the first 4 words.
+     - Scans all transcript alternatives and prioritizes the one containing the keyword.
+     - Defaults intent to `TAILOR` without requiring the word "resume". Fuzzy-matches "tailor" (`tailor`, `taylor`, `tailer`, `tailors`, `customise`, etc.).
+     - Strips speech artifacts and only forwards instructions containing explicit instruction markers (`keep`, `focus`, `emphasise`, `highlight`, `one page`, `also`, `make sure`, `without`, `include`, `remove`).
+  4. Built `src/content/overlay.js` rendering a sleek pill inside a closed Shadow DOM (`mode: "closed"`) on the top-level document, displaying live transcript feedback with zero host page style leakage.
+- **Reason:** Satisfies FR-V1..V9, FR-A1..A8, FR-U1..U6, and FR-K1..K7, preventing garbled speech noise from reaching Sara.
+
+
 
 
 

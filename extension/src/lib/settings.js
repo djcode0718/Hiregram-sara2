@@ -11,7 +11,7 @@ export const DEFAULT_SETTINGS = Object.freeze({
     shift: false,
     meta: false
   },
-  language: 'auto', // 'auto' -> navigator.language or fallback en-US
+  language: 'en-IN', // Default en-IN as requested
   requireKeyword: true,
   disabledHosts: [],
   showHints: true,

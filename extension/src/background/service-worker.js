@@ -6,9 +6,19 @@
 import {
   RESTRICTED_BADGE_CLEAR_MS,
   MSG_CLAIM_PENDING,
-  MSG_HANDOFF_RESULT
+  MSG_HANDOFF_RESULT,
+  MSG_VOICE_START,
+  MSG_VOICE_STOP,
+  MSG_VOICE_CANCEL,
+  MSG_ENGINE_EVENT
 } from '../lib/constants.js';
-import { runTailor } from './pipeline.js';
+import {
+  runTailor,
+  handleVoiceStart,
+  handleVoiceStop,
+  handleVoiceCancel,
+  handleEngineEvent
+} from './pipeline.js';
 import { isTabAuthorizedForPending, removeTabAuthorization } from './handoff.js';
 import { logger } from '../lib/logger.js';
 
@@ -97,6 +107,33 @@ chrome.action.onClicked.addListener(async (tab) => {
 
 // 4. Runtime Message Coordinator (Registered synchronously at top level)
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  const tabId = sender?.tab?.id;
+
+  if (message.type === MSG_VOICE_START) {
+    if (tabId) handleVoiceStart(tabId);
+    return;
+  }
+
+  if (message.type === MSG_VOICE_STOP) {
+    if (tabId) handleVoiceStop(tabId);
+    return;
+  }
+
+  if (message.type === MSG_VOICE_CANCEL) {
+    if (tabId) handleVoiceCancel(tabId, message.reason);
+    return;
+  }
+
+  if (message.type === MSG_ENGINE_EVENT) {
+    handleEngineEvent(message);
+    return;
+  }
+
+  if (message.type === 'OPEN_OPTIONS') {
+    chrome.runtime.openOptionsPage().catch(() => {});
+    return;
+  }
+
   if (message.type === MSG_CLAIM_PENDING) {
     const senderTabId = sender?.tab?.id;
     isTabAuthorizedForPending(message.pendingId, senderTabId).then((allowed) => {

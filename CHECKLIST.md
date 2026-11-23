@@ -1,7 +1,7 @@
 # Hiregram Tailor Build Checklist
 
-**Progress:** 49 / 72 items done (68%)  
-**Last updated / commit:** `feat: implement Phase 3 structured message composition and pipeline`
+**Progress:** 65 / 72 items done (90%)  
+**Last updated / commit:** `feat: implement Phase 4 voice push-to-talk & overlay and Phase 5 wake-intent engine`
 
 ## Status Legend
 - `[ ]` Todo
@@ -89,55 +89,42 @@
 ---
 
 ## Phase 4 — Voice Capture, Hotkey and Overlay
-- [ ] Implement `voice/voice-engine.js`: `VoiceEngine` interface + `WebSpeechEngine` (FR-V1..V9)
-- [ ] Implement voice host in chosen form (Offscreen doc / Iframe host)
-- [ ] Implement `content/hotkey.js` (FR-A1..A8):
-  - [ ] Keydown/keyup matching combo by `event.code` (default Alt+S)
-  - [ ] Modifier + non-modifier validation
-  - [ ] Hold-to-talk logic (keydown start, keyup stop)
-  - [ ] preventDefault + stopPropagation on match, ignore isComposing
-  - [ ] Works inside text inputs / contenteditable
-  - [ ] Runs in all frames (`all_frames: true`), forwards to SW
-  - [ ] blur, visibilitychange, Esc cancellation
-  - [ ] Min hold 350ms, max 30s auto-stop
-  - [ ] Per-site disable check & graceful handling of context invalidation
-- [ ] Implement `content/overlay.js` (FR-U1..U6):
-  - [ ] Closed Shadow DOM on `document.documentElement`
-  - [ ] States: starting-mic, listening, understanding, reading-page, sending, sent, error, hint
-  - [ ] role="status" and aria-live="polite", prefers-reduced-motion, dark/light theme
-  - [ ] Auto-dismiss (2.5s success, 6s error, Esc dismiss)
-  - [ ] Action links for error recovery
-- [ ] Implement session state machine in `pipeline.js`
-- [ ] Manual Gate 1 passed (Voice capture & overlay verified)
+- [x] Implement `voice/voice-engine.js`: `VoiceEngine` interface + `WebSpeechEngine` (FR-V1..V9)
+- [x] Implement voice host in chosen form (Offscreen doc)
+- [x] Implement `content/hotkey.js` (FR-A1..A8):
+  - [x] Keydown/keyup matching combo by `event.code` (default Alt+S)
+  - [x] Modifier + non-modifier validation
+  - [x] Hold-to-talk logic (keydown start, keyup stop)
+  - [x] preventDefault + stopPropagation on match, ignore isComposing
+  - [x] Works inside text inputs / contenteditable
+  - [x] Runs in all frames (`all_frames: true`), forwards to SW
+  - [x] blur, visibilitychange, Esc cancellation
+  - [x] Min hold 350ms, max 30s auto-stop
+  - [x] Per-site disable check & graceful handling of context invalidation
+- [x] Implement `content/overlay.js` (FR-U1..U6):
+  - [x] Closed Shadow DOM on `document.documentElement`
+  - [x] States: starting-mic, listening, understanding, reading-page, sending, sent, error, hint
+  - [x] role="status" and aria-live="polite", prefers-reduced-motion, dark/light theme
+  - [x] Auto-dismiss (2.5s success, 6s error, Esc dismiss)
+  - [x] Action links for error recovery
+- [x] Implement session state machine in `pipeline.js`
+- [~] Manual Gate 1 passed (Voice capture & overlay verified) [NEEDS MANUAL TEST]
 
 ---
 
 ## Phase 5 — Keyword, Intent and End-to-End
-- [ ] Implement `lib/wake-intent.js` (FR-K1..K7):
-  - [ ] Fuzzy keyword in first 4 words (Levenshtein <= 1, accepted spellings, prefixes)
-  - [ ] "Require keyword" setting toggle
-  - [ ] Keyword missing rejection
-  - [ ] TAILOR intent matching, "Sara" only defaults to TAILOR
-  - [ ] Unsupported intent rejection
-  - [ ] Extra instructions extraction, boilerplate stripped
-  - [ ] Pure deterministic function with >= 40 unit test phrases
-- [ ] Connect full pipeline: keyup -> transcript -> parse -> extract -> compose -> handoff -> feedback
-- [ ] Implement Error-Handling Matrix (§5.9):
-  - [ ] Mic denied / not granted
-  - [ ] No mic hardware
-  - [ ] Silence / no speech
-  - [ ] Keyword missing
-  - [ ] Unsupported intent
-  - [ ] Speech service offline
-  - [ ] No JD found
-  - [ ] Restricted page
-  - [ ] Extension context invalidated
-  - [ ] Hiregram chat box not found (<= TTL)
-  - [ ] Send disabled
-  - [ ] Another gesture in progress
-  - [ ] Unexpected exception
-- [ ] Debounce/ignore duplicate gestures
-- [ ] Manual Gate 2 passed (End-to-end voice tailoring verified)
+- [x] Implement `lib/wake-intent.js` (FR-K1..K7):
+  - [x] Fuzzy keyword in first 4 words (Levenshtein <= 1, accepted spellings, prefixes, Sahara alias)
+  - [x] "Require keyword" setting toggle
+  - [x] Keyword missing rejection
+  - [x] TAILOR intent matching without requiring "resume", "Sara" only defaults to TAILOR
+  - [x] Unsupported intent rejection
+  - [x] Extra instructions extraction gated by explicit markers, speech noise stripped
+  - [x] Pure deterministic function with >= 40 unit test phrases including real transcripts
+- [x] Connect full pipeline: keyup -> transcript -> parse -> extract -> compose -> handoff -> feedback
+- [x] Implement Error-Handling Matrix (§5.9)
+- [x] Debounce/ignore duplicate gestures
+- [~] Manual Gate 2 passed (End-to-end voice tailoring verified) [NEEDS MANUAL TEST]
 
 ---
 
