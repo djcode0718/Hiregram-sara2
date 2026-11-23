@@ -1,7 +1,7 @@
 # Hiregram Tailor Build Checklist
 
-**Progress:** 5 / 72 items done (7%)  
-**Last updated / commit:** `feat: add icons and voice spike verification harness for Gate 0`
+**Progress:** 19 / 72 items done (26%)  
+**Last updated / commit:** `feat: implement Phase 1 foundation and hardened hand-off`
 
 ## Status Legend
 - `[ ]` Todo
@@ -26,20 +26,20 @@
 ---
 
 ## Phase 1 — Foundation & Refactor of Existing Flow
-- [ ] Update `extension/manifest.json` to MV3 spec v0.2.0
-- [ ] Create `lib/constants.js` (selectors, URLs, limits, timings, message types)
-- [ ] Create `lib/settings.js` (defaults, validation, storage.sync listener)
-- [ ] Create `lib/logger.js` (in-memory ring buffer, privacy-safe)
-- [ ] Refactor `background.js` into `service-worker.js` + `handoff.js` preserving exact behaviour
-- [ ] Implement FR-H1: Keep existing storage -> bridge -> Sara chat box -> Send mechanism
-- [ ] Implement FR-H2: Unique `pending.id`, atomic claim, no double-send across tabs
-- [ ] Implement FR-H3: 10 min TTL, retain pending if chat box not found, toast
-- [ ] Implement FR-H4: Centralized selectors, poll Send up to 8s, leave text if disabled
-- [ ] Implement FR-H5: Support `https://hiregram.ai/*` and `https://www.hiregram.ai/*`
-- [ ] Implement FR-H6: Sara busy wait up to 8s, fill-only + toast
-- [ ] Implement FR-H7: Focus existing tab or create new tab
-- [ ] Implement FR-O4: Toolbar button with badge `!` on restricted pages
-- [ ] Unit tests for `lib/settings.js`
+- [x] Update `extension/manifest.json` to MV3 spec v0.2.0
+- [x] Create `lib/constants.js` (selectors, URLs, limits, timings, message types)
+- [x] Create `lib/settings.js` (defaults, validation, storage.sync listener)
+- [x] Create `lib/logger.js` (in-memory ring buffer, privacy-safe)
+- [x] Refactor `background.js` into `service-worker.js` + `handoff.js` preserving exact behaviour
+- [x] Implement FR-H1: Keep existing storage -> bridge -> Sara chat box -> Send mechanism
+- [x] Implement FR-H2: Unique `pending.id`, atomic claim, no double-send across tabs
+- [x] Implement FR-H3: 10 min TTL, retain pending if chat box not found, toast
+- [x] Implement FR-H4: Centralized selectors, poll Send up to 8s, leave text if disabled
+- [x] Implement FR-H5: Support `https://hiregram.ai/*` and `https://www.hiregram.ai/*`
+- [x] Implement FR-H6: Sara busy wait up to 8s, fill-only + toast
+- [x] Implement FR-H7: Focus existing tab or create new tab
+- [x] Implement FR-O4: Toolbar button with badge `!` on restricted pages
+- [x] Unit tests for `lib/settings.js`
 
 ---
 

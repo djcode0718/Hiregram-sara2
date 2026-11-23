@@ -1,12 +1,25 @@
 {
   "manifest_version": 3,
   "name": "Hiregram Tailor",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Send a job description (or job link) to Sara on hiregram.ai to tailor your resume.",
-  "permissions": ["contextMenus", "storage", "scripting", "activeTab", "tabs", "offscreen"],
+  "minimum_chrome_version": "116",
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "scripting",
+    "activeTab",
+    "tabs",
+    "offscreen"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "src/background/service-worker.js",
+    "type": "module"
+  },
   "options_page": "src/pages/spike.html",
-  "host_permissions": ["https://hiregram.ai/*"],
-  "background": { "service_worker": "background.js" },
   "icons": {
     "16": "icons/icon16.png",
     "32": "icons/icon32.png",
@@ -24,8 +37,21 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://hiregram.ai/*"],
-      "js": ["content.js"],
+      "matches": ["<all_urls>"],
+      "exclude_matches": [
+        "https://hiregram.ai/*",
+        "https://www.hiregram.ai/*"
+      ],
+      "js": ["src/content/overlay.js", "src/content/hotkey.js"],
+      "all_frames": true,
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://hiregram.ai/*",
+        "https://www.hiregram.ai/*"
+      ],
+      "js": ["src/content/hiregram-bridge.js"],
       "run_at": "document_idle"
     }
   ]
