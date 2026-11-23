@@ -20,6 +20,7 @@
   let isHolding = false;
   let pressStartTime = 0;
   let autoStopTimer = null;
+  let keepAlivePort = null;
 
   function loadSettings() {
     try {
@@ -91,6 +92,18 @@
     e.preventDefault();
     e.stopPropagation();
 
+    // Open keep-alive port during active voice session to prevent SW termination
+    try {
+      if (chrome.runtime?.connect) {
+        keepAlivePort = chrome.runtime.connect({ name: 'hg_voice_session' });
+        keepAlivePort.onDisconnect.addListener(() => {
+          keepAlivePort = null;
+        });
+      }
+    } catch {
+      // Non-blocking
+    }
+
     sendRuntimeMessage({
       type: 'VOICE_START',
       isTopFrame: window === window.top
@@ -105,9 +118,21 @@
     }, MAX_RECORDING_DURATION_MS);
   }
 
+  function cleanupKeepAlive() {
+    if (keepAlivePort) {
+      try {
+        keepAlivePort.disconnect();
+      } catch {
+        // Non-blocking
+      }
+      keepAlivePort = null;
+    }
+  }
+
   function stopHold(e) {
     if (!isHolding) return;
     isHolding = false;
+    cleanupKeepAlive();
 
     if (autoStopTimer) {
       clearTimeout(autoStopTimer);
@@ -135,6 +160,7 @@
   function cancelHold(reason) {
     if (!isHolding) return;
     isHolding = false;
+    cleanupKeepAlive();
 
     if (autoStopTimer) {
       clearTimeout(autoStopTimer);

@@ -85,6 +85,11 @@ chrome.runtime.onInstalled.addListener((details) => {
 
   // Inject into pre-existing tabs so user doesn't have to refresh all pages
   injectContentScriptsIntoExistingTabs();
+
+  // Open onboarding on first install (FR-O1)
+  if (details.reason === 'install') {
+    chrome.tabs.create({ url: chrome.runtime.getURL('src/pages/onboarding.html') }).catch(() => {});
+  }
 });
 
 chrome.runtime.onStartup.addListener(() => {
@@ -170,6 +175,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     logger.info('handoff_result_received', {
       id: message.id,
       status: message.status
+    });
+  }
+});
+
+// 5. Keep-Alive Port Listener during active voice sessions
+chrome.runtime.onConnect.addListener((port) => {
+  if (port.name === 'hg_voice_session') {
+    logger.debug('voice_session_keepalive_connected');
+    port.onDisconnect.addListener(() => {
+      logger.debug('voice_session_keepalive_disconnected');
     });
   }
 });

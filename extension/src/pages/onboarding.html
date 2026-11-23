@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome to Hiregram Tailor</title>
+  <link rel="stylesheet" href="onboarding.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo-row">
+        <img src="../../icons/icon48.png" alt="Hiregram Tailor Logo" class="logo">
+        <h1>Hiregram Tailor</h1>
+      </div>
+      <p class="subtitle">Tailor your resume with Sara in seconds using your voice.</p>
+    </header>
+
+    <main class="steps-wrapper">
+      <!-- Step 1: Microphone Permission -->
+      <section class="card step-card" id="step-1">
+        <div class="step-badge">Step 1</div>
+        <h2>Microphone Access</h2>
+        <p>Hiregram Tailor listens only when you hold your hotkey to hear your tailoring instructions.</p>
+        
+        <div class="mic-status-box" id="mic-status-box">
+          <span class="status-indicator" id="mic-indicator"></span>
+          <span id="mic-status-text">Checking microphone access…</span>
+        </div>
+
+        <button type="button" class="btn btn-primary" id="grant-mic-btn">Grant Microphone Permission</button>
+        <p class="privacy-note">
+          <strong>Privacy note:</strong> Audio is processed on-device by Chrome's speech engine (Google Speech API). No voice data is sent to private third-party servers.
+        </p>
+      </section>
+
+      <!-- Step 2: Push-to-Talk Hotkey -->
+      <section class="card step-card" id="step-2">
+        <div class="step-badge">Step 2</div>
+        <h2>Push-to-Talk Hotkey</h2>
+        <p>Hold the key combination while speaking, then release to send.</p>
+
+        <div class="hotkey-display-row">
+          <span class="hotkey-label">Current Hotkey:</span>
+          <kbd class="key-pill" id="hotkey-preview">⌥ Option + S</kbd>
+        </div>
+
+        <div class="hotkey-edit-box">
+          <button type="button" class="btn btn-secondary" id="record-hotkey-btn">Change Hotkey</button>
+          <span class="recording-notice" id="recording-notice" style="display:none;">Press any combination (e.g. Alt+S)…</span>
+        </div>
+      </section>
+
+      <!-- Step 3: Interactive Demo -->
+      <section class="card step-card" id="step-3">
+        <div class="step-badge">Step 3</div>
+        <h2>Try It Now!</h2>
+        <p>Hold <kbd class="inline-key" id="demo-key-ref">⌥ Option + S</kbd>, say: <strong class="sample-phrase">"Sara, tailor my resume for this role"</strong>, then release.</p>
+
+        <div class="demo-job-box">
+          <div class="demo-job-header">
+            <h3>Senior Frontend Engineer</h3>
+            <span class="demo-company">Acme Corp · Remote</span>
+          </div>
+          <p class="demo-job-desc">
+            We are looking for an experienced frontend engineer to build real-time interactive user interfaces with modern web standards, web components, and resilient APIs.
+          </p>
+        </div>
+
+        <div class="demo-feedback-box" id="demo-feedback-box">
+          <span id="demo-feedback-text">Ready — hold your hotkey and try speaking!</span>
+        </div>
+
+        <div class="finish-row">
+          <button type="button" class="btn btn-finish" id="finish-btn">Finish & Start Using</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <a href="options.html" class="footer-link">Advanced Options</a>
+      <span>·</span>
+      <a href="https://hiregram.ai/resume/7c284c1a-26b8-41fd-97fb-210fe973f904" target="_blank" rel="noreferrer" class="footer-link">Open My Resume on Hiregram</a>
+    </footer>
+  </div>
+
+  <script src="onboarding.js" type="module"></script>
+</body>
+</html>

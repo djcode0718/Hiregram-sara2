@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hiregram Tailor Options</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo-row">
+        <img src="../../icons/icon48.png" alt="Hiregram Tailor Logo" class="logo">
+        <div>
+          <h1>Hiregram Tailor Settings</h1>
+          <span class="version-badge" id="version-badge">v0.2.0</span>
+        </div>
+      </div>
+      <p class="subtitle">Configure push-to-talk voice tailoring, permissions, and behavior.</p>
+    </header>
+
+    <main class="settings-grid">
+      <!-- General section -->
+      <section class="card">
+        <h2>General</h2>
+        
+        <div class="setting-item">
+          <div class="setting-info">
+            <label for="enable-toggle" class="setting-title">Enable Voice Extension</label>
+            <p class="setting-desc">Enables the push-to-talk hotkey across web pages.</p>
+          </div>
+          <div class="setting-control">
+            <input type="checkbox" id="enable-toggle" class="toggle">
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <label for="require-keyword-toggle" class="setting-title">Require "Sara" Keyword</label>
+            <p class="setting-desc">When checked, requests must begin with "Sara" or "Sahara".</p>
+          </div>
+          <div class="setting-control">
+            <input type="checkbox" id="require-keyword-toggle" class="toggle">
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <label for="language-select" class="setting-title">Speech Recognition Language</label>
+            <p class="setting-desc">Dialect for Chrome speech recognition.</p>
+          </div>
+          <div class="setting-control">
+            <select id="language-select" class="select-input">
+              <option value="en-IN">English (India) — en-IN</option>
+              <option value="en-US">English (United States) — en-US</option>
+              <option value="en-GB">English (United Kingdom) — en-GB</option>
+              <option value="en-CA">English (Canada) — en-CA</option>
+              <option value="en-AU">English (Australia) — en-AU</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Hotkey section -->
+      <section class="card">
+        <h2>Push-to-Talk Hotkey</h2>
+        <p class="section-desc">Hold this shortcut while speaking, then release to send.</p>
+
+        <div class="hotkey-row">
+          <kbd class="key-pill" id="current-hotkey">⌥ Option + S</kbd>
+          <button type="button" class="btn btn-secondary" id="record-hotkey-btn">Change Hotkey</button>
+        </div>
+        <div class="recording-notice" id="recording-notice" style="display:none;">
+          Press your desired key combination (e.g. Alt+S)… (Esc to cancel)
+        </div>
+      </section>
+
+      <!-- Microphone & Permissions -->
+      <section class="card">
+        <h2>Microphone Permission</h2>
+        <p class="section-desc">Required for Chrome's Speech Recognition API.</p>
+
+        <div class="mic-status-row">
+          <div class="status-indicator-group">
+            <span class="status-indicator" id="mic-indicator"></span>
+            <span id="mic-status-label">Checking permission…</span>
+          </div>
+          <button type="button" class="btn btn-primary" id="test-mic-btn">Grant / Test Mic</button>
+        </div>
+      </section>
+
+      <!-- Disabled sites section -->
+      <section class="card">
+        <h2>Disabled Websites</h2>
+        <p class="section-desc">The hotkey will never intercept key combinations on these domains.</p>
+
+        <div class="disabled-hosts-box">
+          <div class="add-host-row">
+            <input type="text" id="new-host-input" placeholder="e.g. example.com" class="text-input">
+            <button type="button" class="btn btn-secondary" id="add-host-btn">Add Domain</button>
+          </div>
+          <ul class="host-list" id="host-list">
+            <!-- Rendered dynamically -->
+          </ul>
+        </div>
+      </section>
+
+      <!-- Diagnostics section -->
+      <section class="card">
+        <h2>Diagnostics & System Health</h2>
+        <p class="section-desc">Verify extension components and export system logs.</p>
+
+        <div class="diagnostics-actions">
+          <button type="button" class="btn btn-secondary" id="check-active-tab-btn">Check Active Tab</button>
+          <button type="button" class="btn btn-secondary" id="copy-debug-btn">Copy Debug Info</button>
+          <a href="https://hiregram.ai/resume/7c284c1a-26b8-41fd-97fb-210fe973f904" target="_blank" rel="noreferrer" class="btn btn-secondary">Open My Resume</a>
+        </div>
+        <div class="diag-output-box" id="diag-output-box" style="display:none;">
+          <pre id="diag-output-text"></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Hiregram Tailor v0.2.0</span>
+      <span>·</span>
+      <a href="onboarding.html" class="footer-link">First-Run Guide</a>
+      <span>·</span>
+      <a href="https://hiregram.ai" target="_blank" rel="noreferrer" class="footer-link">Hiregram.ai</a>
+    </footer>
+  </div>
+
+  <script src="options.js" type="module"></script>
+</body>
+</html>
