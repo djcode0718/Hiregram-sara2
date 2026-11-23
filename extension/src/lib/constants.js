@@ -39,6 +39,7 @@ export const PENDING_TTL_MS = 10 * 60 * 1000; // 10 minutes
 export const SEND_POLL_TIMEOUT_MS = 8000;
 export const SEND_POLL_INTERVAL_MS = 150;
 export const CHAT_BOX_WAIT_TIMEOUT_MS = 120000; // 2 minutes
+export const LIST_PAGE_WAIT_TIMEOUT_MS = 10000; // 10 seconds
 export const RESTRICTED_BADGE_CLEAR_MS = 4000;
 export const OVERLAY_SUCCESS_DISMISS_MS = 2500;
 export const OVERLAY_ERROR_DISMISS_MS = 6000;
@@ -46,6 +47,10 @@ export const MIN_HOLD_DURATION_MS = 350;
 export const MAX_RECORDING_DURATION_MS = 30000;
 export const SPEECH_FINAL_TIMEOUT_MS = 2500;
 export const EXTRACTION_TIMEOUT_MS = 2500;
+
+// Hand-off Text & Tokens
+export const DEFAULT_RESUME_SECTION_TEXT = 'YOUR DEFAULT';
+export const OPEN_IN_EDITOR_TEXT = 'Open in editor';
 
 // Internal Message Types
 export const MSG_VOICE_START = 'VOICE_START';
@@ -57,6 +62,7 @@ export const MSG_ENGINE_STOP = 'ENGINE_STOP';
 export const MSG_ENGINE_CANCEL = 'ENGINE_CANCEL';
 export const MSG_ENGINE_EVENT = 'ENGINE_EVENT';
 export const MSG_HANDOFF_RESULT = 'HANDOFF_RESULT';
+export const MSG_CLAIM_PENDING = 'CLAIM_PENDING';
 
 // Session State Names
 export const STATE_IDLE = 'idle';

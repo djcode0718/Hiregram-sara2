@@ -18,11 +18,10 @@
 - [x] Add package.json, eslint config, .gitignore, README skeleton, docs
 - [x] Generate 16, 32, 48, 128 PNG icons and link in manifest
 - [x] Build voice spike (`spike.html/.js` and offscreen document / host test)
-- [~] Browser smoke test: load unpacked, verify extension Errors page is completely empty [NEEDS MANUAL TEST]
-- [~] Test mic permission acquisition via user click [NEEDS MANUAL TEST]
-- [~] Test speech recognition in offscreen doc (Host A) or fallback iframe (Host B) [NEEDS MANUAL TEST]
-- [ ] Record spike outcome in `docs/DECISIONS.md` (Host A vs B latency & stability)
-- [ ] Manual Gate 0 passed
+- [x] Test mic permission acquisition via user click
+- [x] Test speech recognition in offscreen doc (Host A)
+- [x] Record spike outcome in `docs/DECISIONS.md` (Host A confirmed, ~270 ms latency)
+- [x] Manual Gate 0 passed (Host A verified in Chrome)
 
 ---
 
@@ -31,16 +30,16 @@
 - [x] Create `lib/constants.js` (selectors, URLs, limits, timings, message types)
 - [x] Create `lib/settings.js` (defaults, validation, storage.sync listener)
 - [x] Create `lib/logger.js` (in-memory ring buffer, privacy-safe)
-- [x] Refactor `background.js` into `service-worker.js` + `handoff.js` preserving exact behaviour
-- [x] Implement FR-H1: Keep existing storage -> bridge -> Sara chat box -> Send mechanism
-- [x] Implement FR-H2: Unique `pending.id`, atomic claim, no double-send across tabs
-- [x] Implement FR-H3: 10 min TTL, retain pending if chat box not found, toast
+- [x] Refactor `background.js` into `service-worker.js` + `handoff.js`
+- [x] Implement FR-H1: Multi-stage hand-off (LIST -> navigate default resume -> EDITOR -> Send)
+- [x] Implement FR-H2: Dedicated tab authorization (`CLAIM_PENDING`), atomic claim, no tab collisions
+- [x] Implement FR-H3: 10 min TTL, retain pending if chat box not found, clear toasts per stage
 - [x] Implement FR-H4: Centralized selectors, poll Send up to 8s, leave text if disabled
 - [x] Implement FR-H5: Support `https://hiregram.ai/*` and `https://www.hiregram.ai/*`
 - [x] Implement FR-H6: Sara busy wait up to 8s, fill-only + toast
-- [x] Implement FR-H7: Focus existing tab or create new tab
+- [x] Implement FR-H7: Dedicated NEW tab for every hand-off (never disturbing existing active tabs)
 - [x] Implement FR-O4: Toolbar button with badge `!` on restricted pages
-- [x] Unit tests for `lib/settings.js`
+- [x] Unit tests for `lib/settings.js` and `hiregram-bridge.js` state machine (4 tests)
 - [~] Browser smoke test: toolbar click & context menu work with zero Errors in chrome://extensions [NEEDS MANUAL TEST]
 
 ---

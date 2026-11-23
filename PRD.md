@@ -166,16 +166,16 @@ Job description:
 | FR-M4 | Source toolbar/context-menu usage without extractable JD and with only URL falls back to the **existing** message `Tailor my resume to this job post: <url>`. | P0 |
 | FR-M5 | Message builder is a pure function with unit tests (empty fields, long JD, unicode, exactly-at-limit). | P0 |
 
-### 5.6 Hand-off to Hiregram (existing, retained and hardened)
+### 5.6 Hand-off to Hiregram (retained, hardened & multi-stage)
 | ID | Requirement | P |
 |---|---|---|
-| FR-H1 | Keep the current mechanism: write `pending` to `chrome.storage.local`, open or focus `https://hiregram.ai/resume*`, content script fills Sara's textarea (native setter + `input` event) and clicks Send. | P0 |
-| FR-H2 | `pending` gets a unique `id`; the bridge claims it atomically (remove-then-send) and ignores an id it already handled. Guarantees no double-send across multiple Hiregram tabs. | P0 |
-| FR-H3 | TTL 10 min (existing). If the chat box never appears (e.g. login page), keep `pending` until TTL so it sends after login. Show toast. | P0 |
-| FR-H4 | All Hiregram DOM selectors live in one constants file with multiple fallbacks (aria-label, placeholder, role=textbox in the chat container). Send button wait extended: poll up to 8 s for enabled. If Send stays disabled, leave text filled and toast. | P0 |
-| FR-H5 | Support `https://hiregram.ai/*` and `https://www.hiregram.ai/*`. Domain/path in one constant. | P0 |
+| FR-H1 | Multi-stage hand-off: write `pending` to `chrome.storage.local`, open a dedicated new tab to `https://hiregram.ai/resume`. Content script handles both the resume list page (navigates default resume to editor) and the editor page (fills Sara's textarea + Send). | P0 |
+| FR-H2 | `pending` gets a unique `id`; service worker records `{ pendingId: tabId }`. The bridge claims only if the service worker confirms its own tab id matches (runtime message `CLAIM_PENDING`). Guarantees no double-send and no other Hiregram tab steals the pending payload. | P0 |
+| FR-H3 | TTL 10 min. If user is logged out, keep `pending` until TTL so it sends after login. Clear toasts for each stage. | P0 |
+| FR-H4 | All Hiregram DOM selectors live in `constants.js` with fallbacks. Bridge state machine handles `LIST` ("Open in editor" under YOUR DEFAULT), `EDITOR` (Sara's textarea), `LOGIN` (login prompt), and `NO_RESUMES`. Send button poll up to 8 s; if disabled, leave text filled and toast. | P0 |
+| FR-H5 | Support `https://hiregram.ai/*` and `https://www.hiregram.ai/*`. Centralized URL patterns and selectors. | P0 |
 | FR-H6 | If Sara is busy (Send disabled because a previous reply is streaming), wait up to 8 s, then fill-only + toast. | P0 |
-| FR-H7 | Keep existing behaviour: focus an already-open Hiregram tab; otherwise open a new tab. | P0 |
+| FR-H7 | Dedicated new tab: open a NEW tab for every hand-off (do not reuse or navigate existing Hiregram tabs) so the candidate's active editing session is never disturbed. | P0 |
 | FR-H8 | Report delivery result back to the job page overlay (best effort): `sent`, `filled-not-sent`, `timeout`. | P1 |
 
 ### 5.7 On-page feedback overlay

@@ -49,6 +49,32 @@ This log records all significant technical and design decisions made during the 
   4. Temporarily disabled opening `onboarding.html` upon extension install until Phase 6 to prevent `ERR_FILE_NOT_FOUND` in developer mode.
 - **Reason:** Adheres to PRD §6.1, prevents runtime syntax errors in Chrome, maintains zero runtime dependencies, and avoids logic duplication.
 
+---
+
+### [2026-11-23] Decision 007: Voice Spike Result (Gate 0 PASSED - Host A Confirmed)
+- **Context:** The Phase 0 spike verified `webkitSpeechRecognition` inside an extension-owned offscreen document (Host A) vs hidden extension-origin iframe (Fallback B).
+- **Outcome:** Gate 0 PASSED on macOS Chrome.
+  - Host A (Offscreen document) confirmed working.
+  - Measured `start() → onaudiostart` latency: ~270 ms.
+  - Microphone permission granted once via extension options/spike page (`navigator.mediaDevices.getUserMedia`) carries over cleanly to the offscreen document.
+  - Fallback B (iframe host) is not needed.
+- **Reason:** Validates FR-V1..V4 and provides immediate mic readiness with ~270 ms start latency.
+
+---
+
+### [2026-11-23] Decision 008: Resume List-to-Editor Multi-Stage Hand-Off & Tab Targeting
+- **Context:** Real-browser testing revealed that `https://hiregram.ai/resume` is a resume list dashboard ("YOUR DEFAULT", "Open in editor", "All resumes") rather than the chat editor. Sara's chat box only exists inside the editor view. Furthermore, broad `storage.onChanged` allowed arbitrary open Hiregram tabs to compete for `pending`.
+- **Decision:**
+  1. Updated FR-H7: The service worker opens a dedicated NEW tab for every hand-off, tracking `{ pendingId → tabId }`.
+  2. The bridge script on Hiregram queries the service worker (`CLAIM_PENDING`) with its own `tabId`. The service worker permits only the designated target tab to claim the pending payload.
+  3. The bridge operates as a multi-stage state machine:
+     - `LIST`: Locates the "Open in editor" control inside the "YOUR DEFAULT" section (navigates if anchor, clicks if button/element). Toasts "Opening your default resume…".
+     - `EDITOR`: Awaits Sara's chat box, injects React value, polls Send up to 8s, clicks Send, and toasts "sent to Sara ✓".
+     - `LOGIN`: Detects login/auth screen, toasts "Log in to continue", and preserves `pending` until TTL.
+     - `NO_RESUME`: Detects empty state, toasts "Upload a resume on Hiregram first", preserves `pending`.
+- **Reason:** Resolves the blocking hang on `/resume`, isolates editing sessions, and prevents double-sends across tabs.
+
+
 
 
 

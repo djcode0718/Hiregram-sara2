@@ -3,8 +3,13 @@
  * Handles context menus, toolbar clicks, extension lifecycle, and message coordination.
  */
 
-import { RESTRICTED_BADGE_CLEAR_MS } from '../lib/constants.js';
+import {
+  RESTRICTED_BADGE_CLEAR_MS,
+  MSG_CLAIM_PENDING,
+  MSG_HANDOFF_RESULT
+} from '../lib/constants.js';
 import { runTailor } from './pipeline.js';
+import { isTabAuthorizedForPending, removeTabAuthorization } from './handoff.js';
 import { logger } from '../lib/logger.js';
 
 function isRestrictedUrl(url) {
@@ -88,4 +93,27 @@ chrome.action.onClicked.addListener(async (tab) => {
     tabId: tab.id,
     source: 'toolbar'
   });
+});
+
+// 4. Runtime Message Coordinator (Registered synchronously at top level)
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === MSG_CLAIM_PENDING) {
+    const senderTabId = sender?.tab?.id;
+    isTabAuthorizedForPending(message.pendingId, senderTabId).then((allowed) => {
+      sendResponse({ allowed, tabId: senderTabId });
+    }).catch(() => {
+      sendResponse({ allowed: false });
+    });
+    return true; // Keep message channel open for async response
+  }
+
+  if (message.type === MSG_HANDOFF_RESULT) {
+    if (message.id) {
+      removeTabAuthorization(message.id).catch(() => {});
+    }
+    logger.info('handoff_result_received', {
+      id: message.id,
+      status: message.status
+    });
+  }
 });
