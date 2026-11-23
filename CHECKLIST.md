@@ -129,38 +129,38 @@
 ---
 
 ## Phase 6 — Options, Onboarding and Settings
-- [ ] Implement `pages/onboarding.html/.js/.css` (FR-O1: 3-step mic grant, hotkey, demo, privacy notice)
-- [ ] Implement `pages/options.html/.js/.css` (FR-O2, FR-A9, FR-A10, FR-O3):
-  - [ ] Hotkey recorder with validation and conflict warnings
-  - [ ] Language selection
-  - [ ] Require-keyword toggle
-  - [ ] Global enable toggle
-  - [ ] Per-site disabled list
-  - [ ] Mic status & Grant/Test button
-  - [ ] Version, links, debug info export
-- [ ] Implement first-run hint in overlay (FR-U2)
-- [ ] Unit tests for hotkey validation
-- [ ] Manual Gate 3 passed (Clean install & onboarding verified)
+- [x] Implement `pages/onboarding.html/.js/.css` (FR-O1: 3-step mic grant, hotkey, demo, privacy notice)
+- [x] Implement `pages/options.html/.js/.css` (FR-O2, FR-A9, FR-A10, FR-O3):
+  - [x] Hotkey recorder with validation and conflict warnings
+  - [x] Language selection
+  - [x] Require-keyword toggle
+  - [x] Global enable toggle
+  - [x] Per-site disabled list
+  - [x] Mic status & Grant/Test button
+  - [x] Version, links, debug info export
+- [x] Implement first-run hint in overlay (FR-U2)
+- [x] Unit tests for hotkey validation
+- [x] Manual Gate 3 passed (Clean install & onboarding verified)
 
 ---
 
 ## Phase 7 — Hardening, Security, Edge Cases
-- [ ] Service worker suspension handling & keep-alive port during session
-- [ ] Context invalidation graceful handling
-- [ ] Tab switch / navigation during listening handling
-- [ ] Multiple Hiregram tabs & logged out scenarios
-- [ ] Security review against PRD §8 (no innerHTML with dynamic data, isolated world, strict CSP)
-- [ ] Performance audit: zero idle cost, overlay <= 100ms
-- [ ] ESLint clean across all files
-- [ ] Accessibility pass on overlay and pages
+- [x] Service worker suspension handling & keep-alive port during session
+- [x] Context invalidation graceful handling
+- [x] Tab switch / navigation during listening handling
+- [x] Multiple Hiregram tabs & logged out scenarios
+- [x] Security review against PRD §8 (no innerHTML with dynamic data, isolated world, strict CSP)
+- [x] Performance audit: zero idle cost, overlay <= 100ms
+- [x] ESLint clean across all files
+- [x] Accessibility pass on overlay and pages
 
 ---
 
 ## Phase 8 — QA, Docs and Packaging
-- [ ] `docs/MANUAL_QA.md`: complete scripted test plan (voice, 12+ real job pages, hand-off, restricted)
-- [ ] `README.md`: complete guide (install, hotkey, settings, architecture, dev setup, troubleshooting)
-- [ ] `docs/PRIVACY.md`: privacy policy draft
-- [ ] `docs/STORE_LISTING.md`: descriptions, single-purpose, permission justifications, screenshot list
-- [ ] `scripts/package.mjs`: package script creating `dist/hiregram-tailor-<version>.zip`
-- [ ] Bump version to 0.2.0, write `docs/PR_SUMMARY.md`
-- [ ] Tag `v0.2.0` locally
+- [x] `docs/MANUAL_QA.md`: complete scripted test plan (voice, 12+ real job pages, hand-off, restricted)
+- [x] `README.md`: complete guide (install, hotkey, settings, architecture, dev setup, troubleshooting)
+- [x] `docs/PRIVACY.md`: privacy policy draft
+- [x] `docs/STORE_LISTING.md`: descriptions, single-purpose, permission justifications, screenshot list
+- [x] `scripts/package.mjs`: package script creating `dist/hiregram-tailor-<version>.zip`
+- [x] Bump version to 0.2.0, write `docs/PR_SUMMARY.md`
+- [x] Tag `v0.2.0` locally

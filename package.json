@@ -1,6 +1,6 @@
 {
   "name": "hiregram-tailor",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Send a job description to Sara on hiregram.ai with a single voice command.",
   "type": "module",
   "scripts": {
