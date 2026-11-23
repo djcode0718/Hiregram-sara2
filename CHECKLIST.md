@@ -1,7 +1,7 @@
 # Hiregram Tailor Build Checklist
 
-**Progress:** 0 / 72 items done (0%)  
-**Last updated / commit:** Initial setup (`chore: project infrastructure and checklist`)
+**Progress:** 5 / 72 items done (7%)  
+**Last updated / commit:** `feat: add icons and voice spike verification harness for Gate 0`
 
 ## Status Legend
 - `[ ]` Todo
@@ -16,10 +16,10 @@
 - [x] Verify git state, create `feat/sara-voice`, commit MVP baseline untouched
 - [x] Consolidate loose files vs `hiregram-tailor/` vs zip into `extension/`
 - [x] Add package.json, eslint config, .gitignore, README skeleton, docs
-- [ ] Generate 16, 32, 48, 128 PNG icons and link in manifest
-- [ ] Build voice spike (`spike.html/.js` and offscreen document / host test)
-- [ ] Test mic permission acquisition via user click
-- [ ] Test speech recognition in offscreen doc (Host A) or fallback iframe (Host B)
+- [x] Generate 16, 32, 48, 128 PNG icons and link in manifest
+- [x] Build voice spike (`spike.html/.js` and offscreen document / host test)
+- [~] Test mic permission acquisition via user click [NEEDS MANUAL TEST]
+- [~] Test speech recognition in offscreen doc (Host A) or fallback iframe (Host B) [NEEDS MANUAL TEST]
 - [ ] Record spike outcome in `docs/DECISIONS.md` (Host A vs B latency & stability)
 - [ ] Manual Gate 0 passed
 

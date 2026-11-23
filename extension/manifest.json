@@ -3,10 +3,25 @@
   "name": "Hiregram Tailor",
   "version": "0.1.0",
   "description": "Send a job description (or job link) to Sara on hiregram.ai to tailor your resume.",
-  "permissions": ["contextMenus", "storage", "scripting", "activeTab", "tabs"],
+  "permissions": ["contextMenus", "storage", "scripting", "activeTab", "tabs", "offscreen"],
+  "options_page": "src/pages/spike.html",
   "host_permissions": ["https://hiregram.ai/*"],
   "background": { "service_worker": "background.js" },
-  "action": { "default_title": "Tailor resume with Hiregram" },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "Tailor resume with Hiregram",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
   "content_scripts": [
     {
       "matches": ["https://hiregram.ai/*"],

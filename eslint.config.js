@@ -33,7 +33,9 @@ export default [
         webkitSpeechRecognition: "readonly",
         SpeechRecognition: "readonly",
         URL: "readonly",
-        process: "readonly"
+        process: "readonly",
+        performance: "readonly",
+        Buffer: "readonly"
       }
     },
     rules: {

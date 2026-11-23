@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hiregram Voice Spike Verification (Gate 0)</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      max-width: 720px;
+      margin: 40px auto;
+      padding: 0 20px;
+      color: #1e293b;
+      line-height: 1.5;
+    }
+    h1 { font-size: 24px; margin-bottom: 8px; color: #0f172a; }
+    .card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .badge-pending { background: #fef3c7; color: #92400e; }
+    .badge-success { background: #dcfce7; color: #166534; }
+    .badge-error { background: #fee2e2; color: #991b1b; }
+    button {
+      background: #4f46e5;
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-right: 10px;
+      margin-bottom: 8px;
+      transition: background 0.15s ease;
+    }
+    button:hover { background: #4338ca; }
+    button:disabled { background: #94a3b8; cursor: not-allowed; }
+    button.secondary { background: #64748b; }
+    button.secondary:hover { background: #475569; }
+    button.danger { background: #ef4444; }
+    button.danger:hover { background: #dc2626; }
+    pre {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      overflow-x: auto;
+      max-height: 280px;
+    }
+    .metric {
+      font-size: 14px;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+    .metric span { color: #4f46e5; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <h1>🎤 Hiregram Voice Spike Verification (Gate 0)</h1>
+  <p>Tests Web Speech API recognition inside an extension offscreen document and measures startup latency.</p>
+
+  <div class="card">
+    <h2>Step 1: Extension Microphone Permission</h2>
+    <div id="micStatus" class="status-badge badge-pending">Permission: Not Checked</div>
+    <div>
+      <button id="btnGrantMic">Grant Microphone Permission</button>
+    </div>
+    <p style="font-size: 13px; color: #64748b; margin-top: 8px;">
+      Calls <code>navigator.mediaDevices.getUserMedia({ audio: true })</code> from this extension-owned page, then releases audio tracks immediately.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Step 2: Offscreen Speech Recognition (Host A)</h2>
+    <div id="recStatus" class="status-badge badge-pending">Speech Engine: Idle</div>
+    <div class="metric">Measured Latency (start → onaudiostart): <span id="latencyDisplay">—</span></div>
+    <div class="metric">Interim transcript: <span id="interimDisplay">—</span></div>
+    <div class="metric">Final transcript: <span id="finalDisplay">—</span></div>
+    <div style="margin-top: 16px;">
+      <button id="btnStartRec" disabled>Start Speech Recognition</button>
+      <button id="btnStopRec" class="secondary" disabled>Stop (Yield Final Result)</button>
+      <button id="btnAbortRec" class="danger" disabled>Abort</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Event Log</h2>
+    <button id="btnClearLog" class="secondary" style="padding: 4px 10px; font-size: 12px;">Clear Log</button>
+    <pre id="logOutput">[Ready to run spike tests]</pre>
+  </div>
+
+  <script src="spike.js"></script>
+</body>
+</html>
