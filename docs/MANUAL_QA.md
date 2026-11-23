@@ -3,7 +3,7 @@
 ## Test Environment
 - **Browser:** Google Chrome (macOS / Windows / Linux)
 - **Extension Version:** 0.2.0 (Manifest V3)
-- **Target URL:** `https://hiregram.ai/resume/7c284c1a-26b8-41fd-97fb-210fe973f904`
+- **Target URL:** `https://hiregram.ai/resume/c07fbf6b-dc4b-497f-98d9-41f3b5e3e37b`
 
 ---
 

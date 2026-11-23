@@ -37,7 +37,7 @@
   const SEND_POLL_TIMEOUT_MS = 8000;
   const TOTAL_HANDOFF_TIMEOUT_MS = 60000;
 
-  const TARGET_RESUME_URL = 'https://hiregram.ai/resume/7c284c1a-26b8-41fd-97fb-210fe973f904';
+  const TARGET_RESUME_URL = 'https://hiregram.ai/resume/c07fbf6b-dc4b-497f-98d9-41f3b5e3e37b';
 
   const handledPendingIds = new Set();
   let isConsuming = false;

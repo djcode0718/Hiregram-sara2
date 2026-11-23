@@ -15,7 +15,7 @@ Hold **Option+S** (`Alt+S` on Windows/Linux), say **"Sara, tailor my resume for 
   - LinkedIn, Wellfound, Indeed, Naukri, Greenhouse, Lever, Ashby, Workday, Instahyre
   - Open Shadow DOM traversal & schema.org `JobPosting` JSON-LD
   - Manual text selection fallback (highlight ≥ 80 characters)
-- **Direct Resume Editor Delivery:** Hardened atomic hand-off opens your dedicated resume editor (`https://hiregram.ai/resume/7c284c1a-26b8-41fd-97fb-210fe973f904`), fills Sara's chat box, and triggers Send.
+- **Direct Resume Editor Delivery:** Hardened atomic hand-off opens your dedicated resume editor (`https://hiregram.ai/resume/c07fbf6b-dc4b-497f-98d9-41f3b5e3e37b`), fills Sara's chat box, and triggers Send.
 - **Zero Runtime Dependencies & Buildless:** Pure vanilla JavaScript (ES modules for service worker and options; self-contained IIFE classic scripts for content scripts).
 - **Privacy First:** No voice or candidate data is sent to third-party tracking servers. Audio is processed natively via Chrome's Web Speech API.
 
