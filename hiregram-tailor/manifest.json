@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Hiregram Tailor",
+  "version": "0.1.0",
+  "description": "Send a job description (or job link) to Sara on hiregram.ai to tailor your resume.",
+  "permissions": ["contextMenus", "storage", "scripting", "activeTab", "tabs"],
+  "host_permissions": ["https://hiregram.ai/*"],
+  "background": { "service_worker": "background.js" },
+  "action": { "default_title": "Tailor resume with Hiregram" },
+  "content_scripts": [
+    {
+      "matches": ["https://hiregram.ai/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
