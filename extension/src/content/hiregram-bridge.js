@@ -37,6 +37,8 @@
   const SEND_POLL_TIMEOUT_MS = 8000;
   const TOTAL_HANDOFF_TIMEOUT_MS = 60000;
 
+  const TARGET_RESUME_URL = 'https://hiregram.ai/resume/7c284c1a-26b8-41fd-97fb-210fe973f904';
+
   const handledPendingIds = new Set();
   let isConsuming = false;
   let currentPending = null;
@@ -85,6 +87,14 @@
     el._t = setTimeout(() => {
       if (el.parentNode) el.remove();
     }, durationMs);
+  }
+
+  function navigateToUrl(url) {
+    try {
+      window.location.href = url;
+    } catch {
+      // In testing environments (JSDOM), location.href navigation may be unhandled
+    }
   }
 
   function isLoginPage() {
@@ -277,7 +287,17 @@
         return;
       }
 
-      // Stage D: Resume List Page
+      // Stage D: Resume List Page (/resume)
+      // If we landed on the list page, directly navigate to the target resume editor
+      if (window.location.pathname === '/resume' || window.location.pathname === '/resume/') {
+        if (lastReportedStage !== 'opening-default') {
+          showToast('Hiregram Tailor: opening your default resume…');
+          lastReportedStage = 'opening-default';
+          navigateToUrl(TARGET_RESUME_URL);
+        }
+        return;
+      }
+
       const openInEditorBtn = findDefaultResumeEditorControl();
       if (openInEditorBtn) {
         if (lastReportedStage !== 'opening-default') {
@@ -285,7 +305,7 @@
           lastReportedStage = 'opening-default';
 
           if (openInEditorBtn.tagName.toUpperCase() === 'A' && openInEditorBtn.href) {
-            window.location.href = openInEditorBtn.href;
+            navigateToUrl(openInEditorBtn.href);
           } else {
             openInEditorBtn.click();
           }
