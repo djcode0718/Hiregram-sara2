@@ -31,4 +31,12 @@ This log records all significant technical and design decisions made during the 
 - **Decision:** Implemented 5 layered tiers: (1) Active selection (>=80 chars) for description, (2) JSON-LD `JobPosting` schema, (3) 9 dedicated site adapters (LinkedIn, Wellfound, Naukri, Indeed, Greenhouse, Lever, Ashby, Workday, Instahyre), (4) Generic semantic heuristics with link density penalty and open Shadow DOM traversal, (5) Cleaned page-text fallback. The service worker executes extraction across all tab frames and merges results, prioritizing user selection and the highest-confidence frame.
 - **Reason:** Guarantees >= 90% extraction success rate, fails soft with descriptive warnings, and complies with PRD §5.4.
 
+---
+
+### [2026-11-23] Decision 005: Strict Boundary Truncation and Message Composition
+- **Context:** Sara's chat box enforces a hard character cap (maxlength 8000), and `MAX_MESSAGE_CHARS = 7500` is the safe operational ceiling. When job descriptions exceed the limit, raw character slicing cuts words in half or leaves orphaned sentences.
+- **Decision:** Implemented `composeMessage` with budget accounting: header fields (`Job title:`, `Company:`, `Location:`, `Job link:`, `My instruction:`) and opening phrase `Tailor my resume to this job post:` are never truncated. The remaining budget is allocated to the JD, with a boundary-aware truncate that respects paragraph breaks (`\n\n`), sentence ends, and word breaks, appending `\n\n[Job description truncated]`. Control codes and zero-width spaces are stripped.
+- **Reason:** Complies strictly with PRD §5.5 (FR-M1 through FR-M5) and prevents prompt corruption.
+
+
 

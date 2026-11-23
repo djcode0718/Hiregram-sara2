@@ -3,25 +3,9 @@
  * Handles context menus, toolbar clicks, extension lifecycle, and message coordination.
  */
 
-import {
-  RESTRICTED_BADGE_CLEAR_MS,
-  MAX_MESSAGE_CHARS
-} from '../lib/constants.js';
-import { sendToHiregram } from './handoff.js';
-import { extractJobContext } from './extract.js';
+import { RESTRICTED_BADGE_CLEAR_MS } from '../lib/constants.js';
+import { runTailor } from './pipeline.js';
 import { logger } from '../lib/logger.js';
-
-// Baseline message builder (will be augmented in Phase 3 with compose-message)
-function buildBaselineMessage(selection, url) {
-  const cleanSelection = (selection || '').trim();
-  if (cleanSelection) {
-    const text = cleanSelection.length > MAX_MESSAGE_CHARS
-      ? cleanSelection.slice(0, MAX_MESSAGE_CHARS)
-      : cleanSelection;
-    return `Tailor my resume to this job post:\n\n${text}`;
-  }
-  return `Tailor my resume to this job post: ${url}`;
-}
 
 function isRestrictedUrl(url) {
   if (!url) return true;
@@ -82,20 +66,9 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     return;
   }
 
-  const jobCtx = await extractJobContext(tab.id);
-  if (info.selectionText) {
-    jobCtx.description = info.selectionText;
-    jobCtx.source = 'selection';
-  }
-
-  const message = buildBaselineMessage(jobCtx.description, jobCtx.url || url);
-  await sendToHiregram({
-    text: message,
-    meta: {
-      title: jobCtx.title,
-      company: jobCtx.company,
-      url: jobCtx.url || url
-    }
+  await runTailor({
+    tabId: tab.id,
+    source: 'context-menu'
   });
 });
 
@@ -109,14 +82,8 @@ chrome.action.onClicked.addListener(async (tab) => {
     return;
   }
 
-  const jobCtx = await extractJobContext(tab.id);
-  const message = buildBaselineMessage(jobCtx.description, jobCtx.url || url);
-  await sendToHiregram({
-    text: message,
-    meta: {
-      title: jobCtx.title,
-      company: jobCtx.company,
-      url: jobCtx.url || url
-    }
+  await runTailor({
+    tabId: tab.id,
+    source: 'toolbar'
   });
 });

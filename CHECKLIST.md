@@ -1,7 +1,7 @@
 # Hiregram Tailor Build Checklist
 
-**Progress:** 40 / 72 items done (55%)  
-**Last updated / commit:** `feat: implement Phase 2 multi-layer job context extraction`
+**Progress:** 49 / 72 items done (68%)  
+**Last updated / commit:** `feat: implement Phase 3 structured message composition and pipeline`
 
 ## Status Legend
 - `[ ]` Todo
@@ -71,16 +71,16 @@
 ---
 
 ## Phase 3 — Message Composition & Delivery Polish
-- [ ] Implement `lib/compose-message.js` (FR-M1..M5):
-  - [ ] Preserve opening phrase `Tailor my resume to this job post:`
-  - [ ] Omit empty fields (no "undefined" or "Unknown")
-  - [ ] 7500 char cap with budget calculation, sentence/paragraph boundary truncation + marker
-  - [ ] Normalize whitespace, strip control and zero-width characters
-  - [ ] URL-only fallback message when no JD is extractable
-- [ ] Support optional instruction (`My instruction: ...`)
-- [ ] Implement FR-H8 (P1): Delivery result reporting to origin tab
-- [ ] Integrate into `pipeline.js`: `runTailor({ tabId, instruction, source })`
-- [ ] Unit tests for message composition
+- [x] Implement `lib/compose-message.js` (FR-M1..M5):
+  - [x] Preserve opening phrase `Tailor my resume to this job post:`
+  - [x] Omit empty fields (no "undefined" or "Unknown")
+  - [x] 7500 char cap with budget calculation, sentence/paragraph boundary truncation + marker
+  - [x] Normalize whitespace, strip control and zero-width characters
+  - [x] URL-only fallback message when no JD is extractable
+- [x] Support optional instruction (`My instruction: ...`)
+- [x] Implement FR-H8 (P1): Delivery result reporting to origin tab
+- [x] Integrate into `pipeline.js`: `runTailor({ tabId, instruction, source })`
+- [x] Unit tests for message composition
 
 ---
 
