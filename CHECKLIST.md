@@ -18,6 +18,7 @@
 - [x] Add package.json, eslint config, .gitignore, README skeleton, docs
 - [x] Generate 16, 32, 48, 128 PNG icons and link in manifest
 - [x] Build voice spike (`spike.html/.js` and offscreen document / host test)
+- [~] Browser smoke test: load unpacked, verify extension Errors page is completely empty [NEEDS MANUAL TEST]
 - [~] Test mic permission acquisition via user click [NEEDS MANUAL TEST]
 - [~] Test speech recognition in offscreen doc (Host A) or fallback iframe (Host B) [NEEDS MANUAL TEST]
 - [ ] Record spike outcome in `docs/DECISIONS.md` (Host A vs B latency & stability)
@@ -40,6 +41,7 @@
 - [x] Implement FR-H7: Focus existing tab or create new tab
 - [x] Implement FR-O4: Toolbar button with badge `!` on restricted pages
 - [x] Unit tests for `lib/settings.js`
+- [~] Browser smoke test: toolbar click & context menu work with zero Errors in chrome://extensions [NEEDS MANUAL TEST]
 
 ---
 
@@ -67,6 +69,8 @@
 - [x] In service worker: `extractJobContext(tabId)` merging all frames
 - [x] Wire right-click context menu and toolbar click to new extractor
 - [x] Extractor unit & fixture tests in jsdom for all adapters, JSON-LD variants, edge cases
+- [x] Guard test & ESLint rule: zero import/export in content scripts or injected scripts
+- [~] Browser smoke test: extract on a real job page, verify zero console SyntaxErrors and clean hand-off [NEEDS MANUAL TEST]
 
 ---
 
@@ -81,6 +85,7 @@
 - [x] Implement FR-H8 (P1): Delivery result reporting to origin tab
 - [x] Integrate into `pipeline.js`: `runTailor({ tabId, instruction, source })`
 - [x] Unit tests for message composition
+- [~] Browser smoke test: structured message delivered to Sara on Hiregram [NEEDS MANUAL TEST]
 
 ---
 

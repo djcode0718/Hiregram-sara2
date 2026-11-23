@@ -1,9 +1,23 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
 import { JSDOM } from 'jsdom';
-import {
-  extractJobContextFromDocument
-} from '../../extension/src/content/extractor.js';
+
+// Load the exact shipping content script (self-contained IIFE)
+const EXTRACTOR_SCRIPT = fs.readFileSync(
+  path.resolve('extension/src/content/extractor.js'),
+  'utf8'
+);
+
+function createTestDom(html, options = {}) {
+  const opts = typeof options === 'string' ? { url: options } : options;
+  return new JSDOM(html, { runScripts: 'dangerously', ...opts });
+}
+
+function runShippingExtractor(dom) {
+  return dom.window.eval(EXTRACTOR_SCRIPT);
+}
 
 test('JSON-LD JobPosting with standard schema extraction', () => {
   const html = `
@@ -36,8 +50,8 @@ test('JSON-LD JobPosting with standard schema extraction', () => {
       <body></body>
     </html>
   `;
-  const dom = new JSDOM(html, { url: 'https://stripe.com/jobs/12345?utm_source=test' });
-  const ctx = extractJobContextFromDocument(dom.window.document, dom.window);
+  const dom = createTestDom(html, { url: 'https://stripe.com/jobs/12345?utm_source=test' });
+  const ctx = runShippingExtractor(dom);
 
   assert.equal(ctx.source, 'jsonld');
   assert.equal(ctx.title, 'Senior Backend Engineer');
@@ -75,8 +89,8 @@ test('JSON-LD with @graph array and invalid JSON blocks', () => {
       <body></body>
     </html>
   `;
-  const dom = new JSDOM(html, { url: 'https://vercel.com/careers/frontend' });
-  const ctx = extractJobContextFromDocument(dom.window.document, dom.window);
+  const dom = createTestDom(html, { url: 'https://vercel.com/careers/frontend' });
+  const ctx = runShippingExtractor(dom);
 
   assert.equal(ctx.title, 'Frontend Architect');
   assert.equal(ctx.company, 'Vercel');
@@ -106,8 +120,8 @@ test('LinkedIn adapter extraction', () => {
       </body>
     </html>
   `;
-  const dom = new JSDOM(html, { url: 'https://www.linkedin.com/jobs/view/999888777/' });
-  const ctx = extractJobContextFromDocument(dom.window.document, dom.window);
+  const dom = createTestDom(html, { url: 'https://www.linkedin.com/jobs/view/999888777/' });
+  const ctx = runShippingExtractor(dom);
 
   assert.equal(ctx.source, 'adapter:linkedin');
   assert.equal(ctx.title, 'Staff AI Engineer');
@@ -140,8 +154,8 @@ test('Greenhouse adapter extraction', () => {
       </body>
     </html>
   `;
-  const dom = new JSDOM(html, { url: 'https://boards.greenhouse.io/figma/jobs/555123' });
-  const ctx = extractJobContextFromDocument(dom.window.document, dom.window);
+  const dom = createTestDom(html, { url: 'https://boards.greenhouse.io/figma/jobs/555123' });
+  const ctx = runShippingExtractor(dom);
 
   assert.equal(ctx.source, 'adapter:greenhouse');
   assert.equal(ctx.title, 'Lead Product Designer');
@@ -168,8 +182,8 @@ test('Lever adapter extraction', () => {
       </body>
     </html>
   `;
-  const dom = new JSDOM(html, { url: 'https://jobs.lever.co/retool/abc-123' });
-  const ctx = extractJobContextFromDocument(dom.window.document, dom.window);
+  const dom = createTestDom(html, { url: 'https://jobs.lever.co/retool/abc-123' });
+  const ctx = runShippingExtractor(dom);
 
   assert.equal(ctx.source, 'adapter:lever');
   assert.equal(ctx.title, 'Full Stack Engineer');
@@ -193,8 +207,8 @@ test('Wellfound adapter extraction', () => {
       </body>
     </html>
   `;
-  const dom = new JSDOM(html, { url: 'https://wellfound.com/jobs/12345' });
-  const ctx = extractJobContextFromDocument(dom.window.document, dom.window);
+  const dom = createTestDom(html, { url: 'https://wellfound.com/jobs/12345' });
+  const ctx = runShippingExtractor(dom);
 
   assert.equal(ctx.source, 'adapter:wellfound');
   assert.equal(ctx.title, 'Founding Growth Engineer');
@@ -217,8 +231,8 @@ test('Indeed adapter extraction', () => {
       </body>
     </html>
   `;
-  const dom = new JSDOM(html, { url: 'https://www.indeed.com/viewjob?jk=123abc' });
-  const ctx = extractJobContextFromDocument(dom.window.document, dom.window);
+  const dom = createTestDom(html, { url: 'https://www.indeed.com/viewjob?jk=123abc' });
+  const ctx = runShippingExtractor(dom);
 
   assert.equal(ctx.source, 'adapter:indeed');
   assert.equal(ctx.title, 'DevOps Specialist');
@@ -241,8 +255,8 @@ test('Naukri adapter extraction', () => {
       </body>
     </html>
   `;
-  const dom = new JSDOM(html, { url: 'https://www.naukri.com/job-listings-123' });
-  const ctx = extractJobContextFromDocument(dom.window.document, dom.window);
+  const dom = createTestDom(html, { url: 'https://www.naukri.com/job-listings-123' });
+  const ctx = runShippingExtractor(dom);
 
   assert.equal(ctx.source, 'adapter:naukri');
   assert.equal(ctx.title, 'Senior Java Developer');
@@ -265,8 +279,8 @@ test('Ashby adapter extraction', () => {
       </body>
     </html>
   `;
-  const dom = new JSDOM(html, { url: 'https://jobs.ashbyhq.com/ramp/job-1' });
-  const ctx = extractJobContextFromDocument(dom.window.document, dom.window);
+  const dom = createTestDom(html, { url: 'https://jobs.ashbyhq.com/ramp/job-1' });
+  const ctx = runShippingExtractor(dom);
 
   assert.equal(ctx.source, 'adapter:ashby');
   assert.equal(ctx.title, 'Platform Engineer');
@@ -288,8 +302,8 @@ test('Workday adapter extraction', () => {
       </body>
     </html>
   `;
-  const dom = new JSDOM(html, { url: 'https://salesforce.myworkdayjobs.com/en-US/Careers/job/1' });
-  const ctx = extractJobContextFromDocument(dom.window.document, dom.window);
+  const dom = createTestDom(html, { url: 'https://salesforce.myworkdayjobs.com/en-US/Careers/job/1' });
+  const ctx = runShippingExtractor(dom);
 
   assert.equal(ctx.source, 'adapter:workday');
   assert.equal(ctx.title, 'Security Engineer');
@@ -312,8 +326,8 @@ test('Instahyre adapter extraction', () => {
       </body>
     </html>
   `;
-  const dom = new JSDOM(html, { url: 'https://www.instahyre.com/job-1234' });
-  const ctx = extractJobContextFromDocument(dom.window.document, dom.window);
+  const dom = createTestDom(html, { url: 'https://www.instahyre.com/job-1234' });
+  const ctx = runShippingExtractor(dom);
 
   assert.equal(ctx.source, 'adapter:instahyre');
   assert.equal(ctx.title, 'Senior ML Engineer');
@@ -332,8 +346,8 @@ test('Non-job page triggers NO_JOB_DESCRIPTION_FOUND warning', () => {
       </body>
     </html>
   `;
-  const dom = new JSDOM(html, { url: 'https://example.com/about' });
-  const ctx = extractJobContextFromDocument(dom.window.document, dom.window);
+  const dom = createTestDom(html, { url: 'https://example.com/about' });
+  const ctx = runShippingExtractor(dom);
 
   assert.ok(ctx.warnings.includes('NO_JOB_DESCRIPTION_FOUND'));
 });

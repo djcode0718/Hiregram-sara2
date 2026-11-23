@@ -4,8 +4,11 @@
   "description": "Send a job description to Sara on hiregram.ai with a single voice command.",
   "type": "module",
   "scripts": {
+    "build": "node scripts/build-content.mjs",
+    "pretest": "node scripts/build-content.mjs",
     "test": "node --test tests/unit/*.test.js tests/extractor/*.test.js",
     "lint": "eslint .",
+    "prepackage": "node scripts/build-content.mjs",
     "package": "node scripts/package.mjs"
   },
   "devDependencies": {

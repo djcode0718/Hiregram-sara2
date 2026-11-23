@@ -42,5 +42,29 @@ export default [
       "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
       "no-undef": "error"
     }
+  },
+  {
+    files: ["extension/src/content/**/*.js"],
+    ignores: ["extension/src/content/extractor-src.js"],
+    languageOptions: {
+      ecmaVersion: "latest",
+      sourceType: "script",
+      globals: {
+        chrome: "readonly",
+        window: "readonly",
+        document: "readonly",
+        console: "readonly",
+        setTimeout: "readonly",
+        clearTimeout: "readonly",
+        setInterval: "readonly",
+        clearInterval: "readonly",
+        HTMLTextAreaElement: "readonly",
+        Event: "readonly",
+        CustomEvent: "readonly",
+        MutationObserver: "readonly",
+        Node: "readonly",
+        Element: "readonly"
+      }
+    }
   }
 ];

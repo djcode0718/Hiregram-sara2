@@ -38,5 +38,17 @@ This log records all significant technical and design decisions made during the 
 - **Decision:** Implemented `composeMessage` with budget accounting: header fields (`Job title:`, `Company:`, `Location:`, `Job link:`, `My instruction:`) and opening phrase `Tailor my resume to this job post:` are never truncated. The remaining budget is allocated to the JD, with a boundary-aware truncate that respects paragraph breaks (`\n\n`), sentence ends, and word breaks, appending `\n\n[Job description truncated]`. Control codes and zero-width spaces are stripped.
 - **Reason:** Complies strictly with PRD §5.5 (FR-M1 through FR-M5) and prevents prompt corruption.
 
+---
+
+### [2026-11-23] Decision 006: Classic Content Scripts & Zero-Bundler Inlining for Injected Scripts
+- **Context:** Content scripts declared in `manifest.json` and scripts injected via `chrome.scripting.executeScript` (`src/content/extractor.js`, `hotkey.js`, `overlay.js`, `hiregram-bridge.js`) run as classic scripts in Chrome's isolated world, not ES modules. Using `import` or `export` statements throws `Uncaught SyntaxError: Cannot use import statement outside a module`.
+- **Decision:**
+  1. Built `scripts/build-content.mjs`, a lightweight, zero-dependency concatenation script that takes single-source-of-truth modules (`lib/html-to-text.js`, `lib/url-utils.js`, `content/extractor-src.js`), strips `import`/`export` keywords, and generates a self-contained IIFE classic script `extension/src/content/extractor.js`.
+  2. Guarded content scripts by configuring ESLint `sourceType: "script"` for `extension/src/content/**/*.js` and adding automated guard test `tests/unit/content-scripts-guard.test.js` checking all manifest and injected scripts.
+  3. Made extractor unit tests evaluate the exact shipping content script via `dom.window.eval(EXTRACTOR_SCRIPT)` inside JSDOM rather than importing an ESM copy.
+  4. Temporarily disabled opening `onboarding.html` upon extension install until Phase 6 to prevent `ERR_FILE_NOT_FOUND` in developer mode.
+- **Reason:** Adheres to PRD §6.1, prevents runtime syntax errors in Chrome, maintains zero runtime dependencies, and avoids logic duplication.
+
+
 
 

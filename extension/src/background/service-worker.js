@@ -50,10 +50,12 @@ chrome.runtime.onInstalled.addListener((details) => {
     contexts: ['selection', 'page']
   });
 
+  // Onboarding tab will be enabled in Phase 6 once onboarding.html is built
+  /*
   if (details.reason === 'install') {
-    // Open onboarding on first install
     chrome.tabs.create({ url: chrome.runtime.getURL('src/pages/onboarding.html') }).catch(() => {});
   }
+  */
 });
 
 // 2. Context Menu Click Listener
