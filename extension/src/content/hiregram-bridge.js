@@ -342,14 +342,14 @@
         type: 'HANDOFF_RESULT',
         id,
         status: 'sent'
-      }).catch(() => {});
+      }).catch(() => { });
     } else {
       showToast('Hiregram Tailor: text is filled in, press Send yourself.');
       chrome.runtime.sendMessage({
         type: 'HANDOFF_RESULT',
         id,
         status: 'filled-not-sent'
-      }).catch(() => {});
+      }).catch(() => { });
     }
   }
 
