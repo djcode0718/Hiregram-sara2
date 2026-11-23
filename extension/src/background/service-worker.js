@@ -54,6 +54,24 @@ function showRestrictedBadge(tabId) {
   }
 }
 
+// Helper: programmatically inject hotkey & overlay scripts into existing active/http tabs
+async function injectContentScriptsIntoExistingTabs() {
+  try {
+    const tabs = await chrome.tabs.query({ url: ['http://*/*', 'https://*/*'] });
+    for (const tab of tabs) {
+      if (!tab.id || isRestrictedUrl(tab.url)) continue;
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id, allFrames: true },
+        files: ['src/content/overlay.js', 'src/content/hotkey.js']
+      }).catch(() => {
+        // Tab might be discarded, navigating or restricted
+      });
+    }
+  } catch (e) {
+    logger.debug('tab_script_injection_failed', { error: String(e) });
+  }
+}
+
 // 1. Extension Lifecycle Listener (Registered synchronously at top level)
 chrome.runtime.onInstalled.addListener((details) => {
   logger.info('runtime_onInstalled', { reason: details.reason });
@@ -65,12 +83,13 @@ chrome.runtime.onInstalled.addListener((details) => {
     contexts: ['selection', 'page']
   });
 
-  // Onboarding tab will be enabled in Phase 6 once onboarding.html is built
-  /*
-  if (details.reason === 'install') {
-    chrome.tabs.create({ url: chrome.runtime.getURL('src/pages/onboarding.html') }).catch(() => {});
-  }
-  */
+  // Inject into pre-existing tabs so user doesn't have to refresh all pages
+  injectContentScriptsIntoExistingTabs();
+});
+
+chrome.runtime.onStartup.addListener(() => {
+  logger.info('runtime_onStartup');
+  injectContentScriptsIntoExistingTabs();
 });
 
 // 2. Context Menu Click Listener

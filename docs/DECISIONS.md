@@ -58,6 +58,29 @@ This log records all significant technical and design decisions made during the 
   - Measured `start() → onaudiostart` latency: ~270 ms.
   - Microphone permission granted once via extension options/spike page (`navigator.mediaDevices.getUserMedia`) carries over cleanly to the offscreen document.
   - Fallback B (iframe host) is not needed.
+
+---
+
+### [2026-11-23] Decision 008: Real Hiregram Editor DOM and SPA Hand-off Architecture
+- **Context:** Real-browser inspection revealed that the editor chat interface has the following DOM structure:
+  - Container / field: `<div class="rs-as-field min-w-0 flex-1">` inside `<div class="rs-as-composer px-3 py-2.5">`
+  - Input: `<textarea data-chat-box rows="1" maxlength="8000" aria-label="Message Sara" aria-describedby="_r_1o_" autocomplete="off" data-1p-ignore="true" data-lpignore="true" class="glass-scrollbar ph-no-capture min-h-[20px]" style="height: 21px;"></textarea>`
+  - Placeholder / label: `<span id="_r_1o_" class="sr-only ph-no-capture">Ask for a change, or paste a job post</span>`
+  - Send button: `<button type="button" class="rs-as-send rs-tip rs-tip-up" data-tip-side="end" data-tip="Send" data-keys="↵" aria-label="Send" disabled>...</button>`
+  - Editor URL structure: `https://hiregram.ai/resume/<uuid>` (e.g. `https://hiregram.ai/resume/c07fbf6b-dc4b-497f-98d9-41f3b5e3e37b`)
+  - Navigation: Moving from list page (`/resume`) to editor page (`/resume/<uuid>`) occurs via SPA client-side transition without full page reload.
+- **Root Cause of Bug 1:**
+  1. The bridge was waiting synchronously once and not continuously re-evaluating DOM/URL changes across the SPA navigation.
+  2. The send button was disabled until proper input events triggered Hiregram's state update.
+  3. When long text is pasted, Hiregram can convert it into a "Pasted text" chip.
+- **Decision:**
+  1. Bridge observes URL changes via `popstate`, navigation listeners, and continuous 300 ms polling loop up to timeout.
+  2. Explicit selectors updated:
+     - Chat input: `textarea[data-chat-box]`, `textarea[aria-label="Message Sara"]`, `.rs-as-composer textarea`, `.rs-as-field textarea`.
+     - Send button: `button.rs-as-send`, `button[aria-label="Send"]`, `button[data-tip="Send"]`.
+  3. Support both React native value setter AND fallback `document.execCommand('insertText')` / synthetic paste. Verify that textarea value or chip exists before clicking Send.
+  4. Poll Send button every 150 ms until `button:not([disabled])` and click it.
+  5. Programmatic content script injection in `service-worker.js` on install and startup so open tabs immediately get `hotkey.js` and `overlay.js` without manual refresh.
 - **Reason:** Validates FR-V1..V4 and provides immediate mic readiness with ~270 ms start latency.
 
 ---

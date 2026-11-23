@@ -7,6 +7,8 @@
 (() => {
   // Only inject overlay in the top-level window
   if (window !== window.top) return;
+  if (window.__hg_tailor_overlay_injected__) return;
+  window.__hg_tailor_overlay_injected__ = true;
 
   const OVERLAY_SUCCESS_DISMISS_MS = 2500;
   const OVERLAY_ERROR_DISMISS_MS = 6000;

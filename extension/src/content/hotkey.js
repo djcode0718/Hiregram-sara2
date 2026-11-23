@@ -4,9 +4,13 @@
  * Follows PRD §5.1 (FR-A1..A8).
  */
 (() => {
+  if (window.__hg_tailor_hotkey_injected__) return;
+  window.__hg_tailor_hotkey_injected__ = true;
+
   const MIN_HOLD_DURATION_MS = 350;
   const MAX_RECORDING_DURATION_MS = 30000;
 
+  // Default fallback settings available synchronously immediately
   let currentSettings = {
     enabled: true,
     hotkey: { code: 'KeyS', alt: true, ctrl: false, shift: false, meta: false },
@@ -165,6 +169,24 @@
       cancelHold('hidden');
     }
   });
+
+  // Handle diagnostics ping from options page
+  try {
+    if (chrome.runtime?.onMessage) {
+      chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+        if (msg?.type === 'PING_CONTENT_SCRIPT') {
+          sendResponse({
+            status: 'ok',
+            url: window.location.href,
+            isTopFrame: window === window.top,
+            settings: currentSettings
+          });
+        }
+      });
+    }
+  } catch {
+    // Ignore runtime listener error
+  }
 
   // Listen for settings changes
   try {

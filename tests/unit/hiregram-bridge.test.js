@@ -167,6 +167,57 @@ test('Bridge state machine: LOGIN page toasts and preserves pending', async () =
   assert.match(toast.textContent, /log in to continue/i);
 });
 
+test('Bridge state machine: EDITOR page with real Hiregram markup fills and sends', async () => {
+  const html = `
+    <!DOCTYPE html>
+    <html>
+      <body>
+        <div class="rs-as-composer px-3 py-2.5">
+          <div class="rs-as-tools flex items-start">
+            <div class="rs-as-field min-w-0 flex-1">
+              <textarea data-chat-box rows="1" maxlength="8000" aria-label="Message Sara" aria-describedby="_r_1o_" autocomplete="off" class="glass-scrollbar ph-no-capture min-h-[20px]"></textarea>
+            </div>
+            <span id="_r_1o_" class="sr-only ph-no-capture">Ask for a change, or paste a job post</span>
+            <button type="button" class="rs-as-send rs-tip rs-tip-up" data-tip-side="end" data-tip="Send" data-keys="↵" aria-label="Send">
+              <svg><path d="M5 12 7-7 7 7"></path></svg>
+            </button>
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+
+  let sendClicked = false;
+  const pending = { id: 'test_real_dom', text: 'Tailor resume for Senior Engineer at Anthropic', ts: Date.now() };
+  const { dom, getPending, getMessages } = setupBridgeDom(html, {
+    url: 'https://hiregram.ai/resume/c07fbf6b-dc4b-497f-98d9-41f3b5e3e37b',
+    allowed: true,
+    pending
+  });
+
+  const sendBtn = dom.window.document.querySelector('button.rs-as-send');
+  sendBtn.addEventListener('click', () => {
+    sendClicked = true;
+  });
+
+  dom.window.eval(BRIDGE_SCRIPT);
+
+  await new Promise((r) => setTimeout(r, 200));
+
+  const textarea = dom.window.document.querySelector('textarea[data-chat-box]');
+  assert.equal(textarea.value, 'Tailor resume for Senior Engineer at Anthropic');
+  assert.equal(sendClicked, true, 'Expected Send button to be clicked');
+  assert.equal(getPending(), null, 'Expected pending to be atomically removed upon send');
+
+  const toast = dom.window.document.getElementById('hg-tailor-toast');
+  assert.ok(toast);
+  assert.match(toast.textContent, /sent to Sara ✓/i);
+
+  const handoffMsg = getMessages().find((m) => m.type === 'HANDOFF_RESULT');
+  assert.ok(handoffMsg);
+  assert.equal(handoffMsg.status, 'sent');
+});
+
 test('Bridge state machine: Unallocated tab does not claim pending', async () => {
   const html = `
     <!DOCTYPE html>

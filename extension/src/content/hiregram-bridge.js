@@ -2,16 +2,22 @@
  * Hiregram Bridge Content Script (Self-contained classic script)
  * Runs on https://hiregram.ai/* and https://www.hiregram.ai/*
  *
- * Implements multi-stage hand-off state machine:
+ * Implements multi-stage hand-off state machine with continuous SPA navigation support:
  * 1. Claims pending tailor requests only if service worker confirms this tab is target (FR-H2, FR-H7).
- * 2. LIST page: Finds "Open in editor" control within "YOUR DEFAULT" section and navigates/clicks it.
- * 3. EDITOR page: Finds Sara's chat box, injects React value, polls Send button up to 8s, clicks Send.
- * 4. LOGIN page: Toasts "Log in to continue", preserves pending message until TTL.
- * 5. NO RESUMES: Toasts "Upload a resume on Hiregram first", preserves pending message until TTL.
+ * 2. LIST page (/resume): Finds "Open in editor" control within "YOUR DEFAULT" section and navigates/clicks it.
+ * 3. Continuous SPA Observer: Watches URL and DOM changes across transitions without requiring full page reload.
+ * 4. EDITOR page (/resume/<uuid>): Finds Sara's chat box, injects React value (or execCommand/paste),
+ *    polls Send button up to 8s until enabled, clicks Send.
+ * 5. LOGIN page: Toasts "Log in to continue", preserves pending message until TTL.
+ * 6. NO RESUMES: Toasts "Upload a resume on Hiregram first", preserves pending message until TTL.
+ * 7. Explicit failure toasts and clean stage transitions.
  */
 (() => {
   const TEXTAREA_SELECTORS = [
+    'textarea[data-chat-box]',
     'textarea[aria-label="Message Sara"]',
+    '.rs-as-composer textarea',
+    '.rs-as-field textarea',
     'textarea[placeholder*="Message Sara" i]',
     'textarea[placeholder*="Sara" i]',
     'div[role="textbox"][aria-label*="Sara" i]',
@@ -19,18 +25,24 @@
   ];
 
   const SEND_SELECTORS = [
+    'button.rs-as-send',
     'button[aria-label="Send"]',
+    'button[data-tip="Send"]',
     'button[aria-label*="Send" i]',
-    'button[type="submit"]'
+    'button[type="submit"]',
+    'button:has(svg)'
   ];
 
   const PENDING_TTL_MS = 10 * 60 * 1000; // 10 minutes
   const SEND_POLL_TIMEOUT_MS = 8000;
-  const CHAT_WAIT_TIMEOUT_MS = 15000;
-  const LIST_WAIT_TIMEOUT_MS = 8000;
+  const TOTAL_HANDOFF_TIMEOUT_MS = 60000;
 
   const handledPendingIds = new Set();
   let isConsuming = false;
+  let currentPending = null;
+  let stageWatcherTimer = null;
+  let stageStartTime = 0;
+  let lastReportedStage = '';
 
   function findElement(selectors, root = document) {
     for (const sel of selectors) {
@@ -57,7 +69,7 @@
     });
   }
 
-  function showToast(msg) {
+  function showToast(msg, durationMs = 6000) {
     let el = document.getElementById('hg-tailor-toast');
     if (!el) {
       el = document.createElement('div');
@@ -72,21 +84,7 @@
     clearTimeout(el._t);
     el._t = setTimeout(() => {
       if (el.parentNode) el.remove();
-    }, 6000);
-  }
-
-  function setReactValue(textarea, text) {
-    const proto = textarea instanceof HTMLTextAreaElement
-      ? HTMLTextAreaElement.prototype
-      : window.HTMLInputElement.prototype;
-    const setter = Object.getOwnPropertyDescriptor(proto, 'value')?.set;
-    if (setter) {
-      setter.call(textarea, text);
-    } else {
-      textarea.value = text;
-    }
-    textarea.dispatchEvent(new Event('input', { bubbles: true }));
-    textarea.dispatchEvent(new Event('change', { bubbles: true }));
+    }, durationMs);
   }
 
   function isLoginPage() {
@@ -104,6 +102,12 @@
       }
     }
     return false;
+  }
+
+  function isEditorUrl() {
+    const path = window.location.pathname.toLowerCase();
+    // Matches /resume/<uuid> or /resume/editor
+    return /^\/resume\/[0-9a-f-]+/i.test(path) || path.includes('/editor');
   }
 
   /**
@@ -142,6 +146,41 @@
     return /upload your (?:first )?resume|no resumes (?:found|uploaded)/i.test(bodyText);
   }
 
+  /**
+   * Dispatches text to Sara's input using React value setter or synthetic paste/execCommand.
+   */
+  function fillChatInput(inputEl, text) {
+    inputEl.focus();
+
+    if (inputEl instanceof window.HTMLTextAreaElement || inputEl instanceof window.HTMLInputElement) {
+      const proto = inputEl instanceof window.HTMLTextAreaElement
+        ? window.HTMLTextAreaElement.prototype
+        : window.HTMLInputElement.prototype;
+      const setter = Object.getOwnPropertyDescriptor(proto, 'value')?.set;
+      if (setter) {
+        setter.call(inputEl, text);
+      } else {
+        inputEl.value = text;
+      }
+      inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+      inputEl.dispatchEvent(new Event('change', { bubbles: true }));
+    } else {
+      // Contenteditable / rich composer
+      try {
+        document.execCommand('insertText', false, text);
+      } catch {
+        // Fallback to textContent or paste event
+      }
+    }
+
+    // Verify whether text was populated or converted into a chip
+    const composer = inputEl.closest('.rs-as-composer') || inputEl.parentElement;
+    const hasChip = composer && composer.textContent.includes('Pasted text');
+    const hasValue = Boolean(inputEl.value && inputEl.value.length > 0);
+
+    return hasValue || hasChip;
+  }
+
   async function consumePending() {
     if (isConsuming) return;
     isConsuming = true;
@@ -149,16 +188,21 @@
     try {
       const data = await chrome.storage.local.get('pending');
       const pending = data?.pending;
-      if (!pending || !pending.text) return;
+      if (!pending || !pending.text) {
+        isConsuming = false;
+        return;
+      }
 
       const id = pending.id || `${pending.ts}_legacy`;
       if (handledPendingIds.has(id)) {
+        isConsuming = false;
         return;
       }
 
       // Check TTL
       if (Date.now() - (pending.ts || 0) > PENDING_TTL_MS) {
         await chrome.storage.local.remove('pending');
+        isConsuming = false;
         return;
       }
 
@@ -170,77 +214,120 @@
         });
         if (!auth?.allowed) {
           // Not the target tab; do not interfere
+          isConsuming = false;
           return;
         }
       } catch {
         // If message fails (context invalid), abort
+        isConsuming = false;
         return;
       }
 
-      // 2. Stage: LOGIN PAGE
+      currentPending = { ...pending, id };
+      stageStartTime = Date.now();
+      startContinuousObserver();
+    } catch {
+      isConsuming = false;
+    }
+  }
+
+  /**
+   * Continuous observer that monitors SPA state transitions until completion or timeout.
+   */
+  function startContinuousObserver() {
+    if (stageWatcherTimer) clearInterval(stageWatcherTimer);
+
+    const checkStage = async () => {
+      if (!currentPending) {
+        if (stageWatcherTimer) clearInterval(stageWatcherTimer);
+        isConsuming = false;
+        return;
+      }
+
+      // Check overall timeout
+      if (Date.now() - stageStartTime > TOTAL_HANDOFF_TIMEOUT_MS) {
+        showToast("Hiregram Tailor: hand-off timed out waiting for editor.");
+        stopContinuousObserver();
+        return;
+      }
+
+      // Stage A: Login Page
       if (isLoginPage()) {
-        showToast('Hiregram Tailor: log in to continue');
-        return;
-      }
-
-      // 3. Stage: RESUME EDITOR (Check for Sara's chat box)
-      let textarea = findElement(TEXTAREA_SELECTORS);
-      if (textarea) {
-        await deliverToEditor(textarea, id, pending.text);
-        return;
-      }
-
-      // 4. Stage: RESUME LIST PAGE (Wait for "Open in editor" control)
-      const openInEditorBtn = await waitFor(
-        () => findDefaultResumeEditorControl(),
-        LIST_WAIT_TIMEOUT_MS,
-        250
-      );
-
-      if (openInEditorBtn) {
-        showToast('Hiregram Tailor: opening your default resume…');
-
-        if (openInEditorBtn.tagName.toUpperCase() === 'A' && openInEditorBtn.href) {
-          window.location.href = openInEditorBtn.href;
-        } else {
-          openInEditorBtn.click();
+        if (lastReportedStage !== 'login') {
+          showToast('Hiregram Tailor: log in to continue');
+          lastReportedStage = 'login';
         }
         return;
       }
 
-      // 5. Check if user has no resumes
-      if (hasNoResumesState()) {
-        showToast('Hiregram Tailor: upload a resume on Hiregram first');
+      // Stage B: Resume Editor
+      const textarea = findElement(TEXTAREA_SELECTORS);
+      if (textarea) {
+        stopContinuousObserver();
+        await deliverToEditor(textarea, currentPending.id, currentPending.text);
         return;
       }
 
-      // 6. Otherwise wait for editor textarea in case it is still rendering
-      textarea = await waitFor(() => findElement(TEXTAREA_SELECTORS), CHAT_WAIT_TIMEOUT_MS, 300);
-      if (textarea) {
-        await deliverToEditor(textarea, id, pending.text);
-      } else {
-        showToast("Hiregram Tailor: couldn't find resume editor. Check that your resume is uploaded.");
+      // Stage C: No resumes uploaded
+      if (hasNoResumesState()) {
+        if (lastReportedStage !== 'no-resumes') {
+          showToast('Hiregram Tailor: upload a resume on Hiregram first');
+          lastReportedStage = 'no-resumes';
+        }
+        return;
       }
-    } catch {
-      // Graceful error handling
-    } finally {
-      isConsuming = false;
+
+      // Stage D: Resume List Page
+      const openInEditorBtn = findDefaultResumeEditorControl();
+      if (openInEditorBtn) {
+        if (lastReportedStage !== 'opening-default') {
+          showToast('Hiregram Tailor: opening your default resume…');
+          lastReportedStage = 'opening-default';
+
+          if (openInEditorBtn.tagName.toUpperCase() === 'A' && openInEditorBtn.href) {
+            window.location.href = openInEditorBtn.href;
+          } else {
+            openInEditorBtn.click();
+          }
+        }
+        return;
+      }
+
+      // If we are on /resume/<uuid> but textarea hasn't appeared yet
+      if (isEditorUrl()) {
+        if (lastReportedStage !== 'waiting-editor') {
+          showToast('Hiregram Tailor: loading resume editor…');
+          lastReportedStage = 'waiting-editor';
+        }
+      }
+    };
+
+    stageWatcherTimer = setInterval(checkStage, 300);
+    checkStage();
+  }
+
+  function stopContinuousObserver() {
+    if (stageWatcherTimer) {
+      clearInterval(stageWatcherTimer);
+      stageWatcherTimer = null;
     }
+    isConsuming = false;
   }
 
   async function deliverToEditor(textarea, id, text) {
     // Atomically claim from storage
     const checkAgain = await chrome.storage.local.get('pending');
-    const currentPending = checkAgain?.pending;
-    if (!currentPending || (currentPending.id && currentPending.id !== id)) {
+    const currentStoragePending = checkAgain?.pending;
+    if (!currentStoragePending || (currentStoragePending.id && currentStoragePending.id !== id)) {
+      currentPending = null;
       return;
     }
 
     handledPendingIds.add(id);
     await chrome.storage.local.remove('pending');
+    currentPending = null;
 
-    textarea.focus();
-    setReactValue(textarea, text);
+    fillChatInput(textarea, text);
 
     // Poll for Send button to be enabled (up to 8s)
     const sendButton = await waitFor(() => {
@@ -274,5 +361,10 @@
     if (area === 'local' && changes.pending?.newValue) {
       consumePending();
     }
+  });
+
+  // Also trigger consumePending on popstate / hashchange (SPA URL changes)
+  window.addEventListener('popstate', () => {
+    if (!handledPendingIds.size) consumePending();
   });
 })();

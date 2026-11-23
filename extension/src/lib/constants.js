@@ -12,7 +12,10 @@ export const TAB_PATTERNS = [
 
 // Selectors for Sara's chat interface on hiregram.ai
 export const TEXTAREA_SELECTORS = [
+  'textarea[data-chat-box]',
   'textarea[aria-label="Message Sara"]',
+  '.rs-as-composer textarea',
+  '.rs-as-field textarea',
   'textarea[placeholder*="Message Sara" i]',
   'textarea[placeholder*="Sara" i]',
   'div[role="textbox"][aria-label*="Sara" i]',
@@ -20,7 +23,9 @@ export const TEXTAREA_SELECTORS = [
 ];
 
 export const SEND_BUTTON_SELECTORS = [
+  'button.rs-as-send',
   'button[aria-label="Send"]',
+  'button[data-tip="Send"]',
   'button[aria-label*="Send" i]',
   'button[type="submit"]',
   'button:has(svg)'
