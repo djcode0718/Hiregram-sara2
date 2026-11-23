@@ -1,0 +1,15 @@
+{
+  "name": "hiregram-tailor",
+  "version": "0.1.0",
+  "description": "Send a job description to Sara on hiregram.ai with a single voice command.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/unit/*.test.js tests/extractor/*.test.js",
+    "lint": "eslint .",
+    "package": "node scripts/package.mjs"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "jsdom": "^26.0.0"
+  }
+}
