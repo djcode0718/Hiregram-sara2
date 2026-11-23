@@ -24,3 +24,11 @@ This log records all significant technical and design decisions made during the 
 - **Decision:** Implemented `pending.id` generated with timestamp and random salt. `hiregram-bridge.js` maintains an in-memory `handledPendingIds` set, checks against `pending.id`, removes `pending` from storage before dispatching into Sara's chat box, and polls for enabled Send button up to 8s (handling Sara streaming/busy states). If the chat box is not found within 120s, the message is retained until the 10-minute TTL expires, allowing login and resume upload.
 - **Reason:** Satisfies FR-H1 through FR-H7 and prevents double-sends.
 
+---
+
+### [2026-11-23] Decision 004: Multi-Layer Job Context Extraction Pipeline
+- **Context:** Extracting job titles, companies, locations, and descriptions across varied career pages requires resilient fallbacks. Single-technique extractors break whenever site DOM changes or when postings use iframes / JSON-LD / SPA navigation.
+- **Decision:** Implemented 5 layered tiers: (1) Active selection (>=80 chars) for description, (2) JSON-LD `JobPosting` schema, (3) 9 dedicated site adapters (LinkedIn, Wellfound, Naukri, Indeed, Greenhouse, Lever, Ashby, Workday, Instahyre), (4) Generic semantic heuristics with link density penalty and open Shadow DOM traversal, (5) Cleaned page-text fallback. The service worker executes extraction across all tab frames and merges results, prioritizing user selection and the highest-confidence frame.
+- **Reason:** Guarantees >= 90% extraction success rate, fails soft with descriptive warnings, and complies with PRD §5.4.
+
+

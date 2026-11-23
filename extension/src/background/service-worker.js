@@ -8,6 +8,7 @@ import {
   MAX_MESSAGE_CHARS
 } from '../lib/constants.js';
 import { sendToHiregram } from './handoff.js';
+import { extractJobContext } from './extract.js';
 import { logger } from '../lib/logger.js';
 
 // Baseline message builder (will be augmented in Phase 3 with compose-message)
@@ -73,18 +74,28 @@ chrome.runtime.onInstalled.addListener((details) => {
 
 // 2. Context Menu Click Listener
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
-  if (info.menuItemId !== 'tailor') return;
+  if (info.menuItemId !== 'tailor' || !tab?.id) return;
 
-  const url = info.pageUrl || tab?.url || '';
+  const url = info.pageUrl || tab.url || '';
   if (isRestrictedUrl(url)) {
-    if (tab?.id) showRestrictedBadge(tab.id);
+    showRestrictedBadge(tab.id);
     return;
   }
 
-  const message = buildBaselineMessage(info.selectionText, url);
+  const jobCtx = await extractJobContext(tab.id);
+  if (info.selectionText) {
+    jobCtx.description = info.selectionText;
+    jobCtx.source = 'selection';
+  }
+
+  const message = buildBaselineMessage(jobCtx.description, jobCtx.url || url);
   await sendToHiregram({
     text: message,
-    meta: { url }
+    meta: {
+      title: jobCtx.title,
+      company: jobCtx.company,
+      url: jobCtx.url || url
+    }
   });
 });
 
@@ -98,20 +109,14 @@ chrome.action.onClicked.addListener(async (tab) => {
     return;
   }
 
-  let selection = '';
-  try {
-    const [res] = await chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      func: () => window.getSelection()?.toString() || ''
-    });
-    selection = res?.result || '';
-  } catch {
-    // Fall back to URL only
-  }
-
-  const message = buildBaselineMessage(selection, url);
+  const jobCtx = await extractJobContext(tab.id);
+  const message = buildBaselineMessage(jobCtx.description, jobCtx.url || url);
   await sendToHiregram({
     text: message,
-    meta: { url }
+    meta: {
+      title: jobCtx.title,
+      company: jobCtx.company,
+      url: jobCtx.url || url
+    }
   });
 });

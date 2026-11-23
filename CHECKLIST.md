@@ -1,7 +1,7 @@
 # Hiregram Tailor Build Checklist
 
-**Progress:** 19 / 72 items done (26%)  
-**Last updated / commit:** `feat: implement Phase 1 foundation and hardened hand-off`
+**Progress:** 40 / 72 items done (55%)  
+**Last updated / commit:** `feat: implement Phase 2 multi-layer job context extraction`
 
 ## Status Legend
 - `[ ]` Todo
@@ -44,29 +44,29 @@
 ---
 
 ## Phase 2 — Job-Context Extraction
-- [ ] Create `lib/html-to-text.js` (FR-E9: bullets, paragraphs, entities, no third-party libs)
-- [ ] Create `lib/url-utils.js` (FR-E7, FR-E8: canonicalization, LinkedIn currentJobId, strip tracking)
-- [ ] Implement FR-E1: Layer 1 user selection (>= 80 chars)
-- [ ] Implement FR-E2: Layer 2 JSON-LD JobPosting parsing (arrays, @graph, entity decode)
-- [ ] Implement FR-E3: Layer 3 Site Adapters:
-  - [ ] LinkedIn (`/jobs/view/` and `/jobs/search` pane) [NEEDS MANUAL VERIFY]
-  - [ ] Wellfound [NEEDS MANUAL VERIFY]
-  - [ ] Naukri [NEEDS MANUAL VERIFY]
-  - [ ] Indeed [NEEDS MANUAL VERIFY]
-  - [ ] Greenhouse [NEEDS MANUAL VERIFY]
-  - [ ] Lever [NEEDS MANUAL VERIFY]
-  - [ ] Ashby [NEEDS MANUAL VERIFY]
-  - [ ] Workday (`myworkdayjobs.com`) [NEEDS MANUAL VERIFY]
-  - [ ] Instahyre [NEEDS MANUAL VERIFY]
-- [ ] Implement FR-E4: Layer 4 generic heuristics (headings, keywords, link-density penalty, open shadow DOM)
-- [ ] Implement FR-E5: Layer 5 page-text fallback (confidence: low)
-- [ ] Implement FR-E6: < 150 chars fallback error
-- [ ] Implement FR-E10 (P1): Expand See more / Show more safely
-- [ ] Implement FR-E11: Confidence scoring (high, medium, low)
-- [ ] Implement FR-E12: 2.5s execution time budget
-- [ ] In service worker: `extractJobContext(tabId)` merging all frames
-- [ ] Wire right-click context menu and toolbar click to new extractor
-- [ ] Extractor unit & fixture tests in jsdom for all adapters, JSON-LD variants, edge cases
+- [x] Create `lib/html-to-text.js` (FR-E9: bullets, paragraphs, entities, no third-party libs)
+- [x] Create `lib/url-utils.js` (FR-E7, FR-E8: canonicalization, LinkedIn currentJobId, strip tracking)
+- [x] Implement FR-E1: Layer 1 user selection (>= 80 chars)
+- [x] Implement FR-E2: Layer 2 JSON-LD JobPosting parsing (arrays, @graph, entity decode)
+- [x] Implement FR-E3: Layer 3 Site Adapters:
+  - [x] LinkedIn (`/jobs/view/` and `/jobs/search` pane) [NEEDS MANUAL VERIFY]
+  - [x] Wellfound [NEEDS MANUAL VERIFY]
+  - [x] Naukri [NEEDS MANUAL VERIFY]
+  - [x] Indeed [NEEDS MANUAL VERIFY]
+  - [x] Greenhouse [NEEDS MANUAL VERIFY]
+  - [x] Lever [NEEDS MANUAL VERIFY]
+  - [x] Ashby [NEEDS MANUAL VERIFY]
+  - [x] Workday (`myworkdayjobs.com`) [NEEDS MANUAL VERIFY]
+  - [x] Instahyre [NEEDS MANUAL VERIFY]
+- [x] Implement FR-E4: Layer 4 generic heuristics (headings, keywords, link-density penalty, open shadow DOM)
+- [x] Implement FR-E5: Layer 5 page-text fallback (confidence: low)
+- [x] Implement FR-E6: < 150 chars fallback error
+- [x] Implement FR-E10 (P1): Expand See more / Show more safely
+- [x] Implement FR-E11: Confidence scoring (high, medium, low)
+- [x] Implement FR-E12: 2.5s execution time budget
+- [x] In service worker: `extractJobContext(tabId)` merging all frames
+- [x] Wire right-click context menu and toolbar click to new extractor
+- [x] Extractor unit & fixture tests in jsdom for all adapters, JSON-LD variants, edge cases
 
 ---
 
