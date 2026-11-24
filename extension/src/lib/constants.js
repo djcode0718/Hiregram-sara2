@@ -3,7 +3,7 @@
  */
 
 // Hiregram Target URLs
-export const HIREGRAM_URL = 'https://hiregram.ai/resume/c07fbf6b-dc4b-497f-98d9-41f3b5e3e37b';
+export const HIREGRAM_RESUME_LIST_URL = 'https://hiregram.ai/resume';
 export const HIREGRAM_ORIGINS = ['https://hiregram.ai', 'https://www.hiregram.ai'];
 export const TAB_PATTERNS = [
   'https://hiregram.ai/resume*',

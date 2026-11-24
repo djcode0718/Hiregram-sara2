@@ -67,12 +67,23 @@ This log records all significant technical and design decisions made during the 
   - Input: `<textarea data-chat-box rows="1" maxlength="8000" aria-label="Message Sara" aria-describedby="_r_1o_" autocomplete="off" data-1p-ignore="true" data-lpignore="true" class="glass-scrollbar ph-no-capture min-h-[20px]" style="height: 21px;"></textarea>`
   - Placeholder / label: `<span id="_r_1o_" class="sr-only ph-no-capture">Ask for a change, or paste a job post</span>`
   - Send button: `<button type="button" class="rs-as-send rs-tip rs-tip-up" data-tip-side="end" data-tip="Send" data-keys="↵" aria-label="Send" disabled>...</button>`
-  - Editor URL structure: `https://hiregram.ai/resume/<uuid>` (e.g. `https://hiregram.ai/resume/c07fbf6b-dc4b-497f-98d9-41f3b5e3e37b`)
-  - Direct default resume URL: `https://hiregram.ai/resume/7c284c1a-26b8-41fd-97fb-210fe973f904`
-  - Navigation: Opening directly to `https://hiregram.ai/resume/7c284c1a-26b8-41fd-97fb-210fe973f904` bypasses the resume picker on `/resume`, loading the editor immediately.
+  - Editor URL structure: `https://hiregram.ai/resume/<uuid>`
+  - Dynamic default resolution: The service worker opens a new tab at `https://hiregram.ai/resume`. The content script reads the list of resumes, locates the row marked with leaf element text `Default`, and navigates to its anchor href.
 - **Decision:**
-  1. Updated `HIREGRAM_URL` to directly target `https://hiregram.ai/resume/7c284c1a-26b8-41fd-97fb-210fe973f904`.
-  2. Preserved the list page fallback in `hiregram-bridge.js` so if a user ever ends up on `/resume`, it can still navigate into the default editor.
+  1. Removed all hardcoded resume IDs.
+  2. Implemented `findDefaultResumeTarget` in `extension/src/lib/default-resume.js`.
+  3. Bridge observes URL changes via `popstate`, navigation listeners, and continuous polling state machine.
+
+---
+
+### [2026-11-24] Decision 009: Dynamic Default Resume Resolver, Idempotent Claim & Reload Survival
+- **Context:** Hardcoding a resume URL restricts the extension to a single document and breaks whenever a user sets another resume as default or uses multiple accounts. The list page `https://hiregram.ai/resume` contains 34+ resumes where only the default row has metadata starting with leaf element text `Default · ` (with decoy controls like "Set as default", "Make this your default?", and hero cards).
+- **Decision:**
+  1. **Anchor-href navigation over hero button:** Finding the default row's `<a data-row-link="true" href="/resume/<uuid>">` and performing `location.assign(url)` is deterministic and bypasses unpredictable modal/dialog triggers. The hero card button is only used as a fallback if the list rows have no marker.
+  2. **Fresh resolution without caching:** The default resume is resolved fresh from the DOM on every hand-off without caching the ID in storage. If the user changes their default resume on Hiregram, the very next hand-off immediately respects the new default.
+  3. **Non-destructive idempotent claim:** `CLAIM_PENDING` verifies tab authorization and returns the pending message without deleting it from `chrome.storage.local`. The pending message is removed ONLY after the Send button is clicked and confirmed in the editor.
+  4. **Full page reload survival:** Introduced lifecycle tracking via `pending.status` ("queued" &rarr; "sending" &rarr; "sent") and `pending.navAttempts`. If the page reloads during list &rarr; editor navigation, it re-claims safely without duplicate sends. If a deleted resume causes a redirection loop back to `/resume`, `navAttempts >= 2` halts with an explicit error toast.
+  5. **Decoy immunity:** Pure resolver in `lib/default-resume.js` strictly checks leaf text nodes normalized to exactly `"Default"`, ignoring elements inside `button`, `[role="group"]`, or `[role="menu"]`.
 - **Reason:** Validates FR-V1..V4 and provides immediate mic readiness with ~270 ms start latency.
 
 ---

@@ -5,7 +5,7 @@
  */
 
 import {
-  HIREGRAM_URL,
+  HIREGRAM_RESUME_LIST_URL,
   STORAGE_KEY_PENDING
 } from '../lib/constants.js';
 import { logger } from '../lib/logger.js';
@@ -109,8 +109,8 @@ export async function sendToHiregram({ text, meta = {} }) {
   await chrome.storage.local.set({ [STORAGE_KEY_PENDING]: payload });
   logger.info('handoff_pending_set', { id, textLength: text.length });
 
-  // FR-H7: Always open a DEDICATED NEW TAB for every hand-off
-  const newTab = await chrome.tabs.create({ url: HIREGRAM_URL });
+  // FR-H7: Always open a DEDICATED NEW TAB for every hand-off at /resume list page
+  const newTab = await chrome.tabs.create({ url: HIREGRAM_RESUME_LIST_URL });
   if (newTab.id) {
     await recordTabAuthorization(id, newTab.id);
   }

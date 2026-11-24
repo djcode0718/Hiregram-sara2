@@ -8,7 +8,7 @@ This PR upgrades the Hiregram Tailor Chrome extension from an MVP right-click te
 ## Key Changes
 
 ### 1. Hardened Resume Editor Hand-off
-- Direct targeting to candidate's dedicated resume editor: `https://hiregram.ai/resume/7c284c1a-26b8-41fd-97fb-210fe973f904`.
+- Dynamic default resume detection: resolves candidate's default resume from `https://hiregram.ai/resume` without hardcoded URLs.
 - Multi-stage bridge state machine on `hiregram-bridge.js` observing SPA navigation transitions with continuous polling.
 - Dual composer support: React native prototype setter for `<textarea data-chat-box>` and `contenteditable` fallback.
 - Support for Hiregram's "Pasted text · N words" chip formatting.

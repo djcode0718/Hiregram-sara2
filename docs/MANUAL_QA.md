@@ -3,7 +3,7 @@
 ## Test Environment
 - **Browser:** Google Chrome (macOS / Windows / Linux)
 - **Extension Version:** 0.2.0 (Manifest V3)
-- **Target URL:** `https://hiregram.ai/resume/c07fbf6b-dc4b-497f-98d9-41f3b5e3e37b`
+- **Target URL:** `https://hiregram.ai/resume` (dynamically resolves the default resume)
 
 ---
 

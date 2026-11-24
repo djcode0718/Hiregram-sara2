@@ -38,9 +38,17 @@
 - [x] Implement FR-H5: Support `https://hiregram.ai/*` and `https://www.hiregram.ai/*`
 - [x] Implement FR-H6: Sara busy wait up to 8s, fill-only + toast
 - [x] Implement FR-H7: Dedicated NEW tab for every hand-off (never disturbing existing active tabs)
+- [x] Implement FR-H9: Pure resolver for default resume on /resume (FR-H9..FR-H11)
+- [x] Implement FR-H10: Decoy immunity ("Set as default", "Make this your default?", etc.)
+- [x] Implement FR-H11: Hero card fallback ("YOUR DEFAULT")
+- [x] Implement FR-H12: Non-destructive idempotent claim with status lifecycle ("queued" -> "sending" -> "sent")
+- [x] Implement FR-H13: Loop guard (navAttempts >= 2 stops redirect loops)
+- [x] Implement FR-H14: User-visible stage feedback toasts with clean observer & timer teardown
+- [x] Guard test: Zero UUID literals in extension/src
 - [x] Implement FR-O4: Toolbar button with badge `!` on restricted pages
 - [x] Unit tests for `lib/settings.js` and `hiregram-bridge.js` state machine (4 tests)
 - [~] Browser smoke test: toolbar click & context menu work with zero Errors in chrome://extensions [NEEDS MANUAL TEST]
+- [~] Browser smoke test: dynamic default resume detection and switching verified in Chrome [NEEDS MANUAL TEST]
 
 ---
 

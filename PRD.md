@@ -177,6 +177,12 @@ Job description:
 | FR-H6 | If Sara is busy (Send disabled because a previous reply is streaming), wait up to 8 s, then fill-only + toast. | P0 |
 | FR-H7 | Dedicated new tab: open a NEW tab for every hand-off (do not reuse or navigate existing Hiregram tabs) so the candidate's active editing session is never disturbed. | P0 |
 | FR-H8 | Report delivery result back to the job page overlay (best effort): `sent`, `filled-not-sent`, `timeout`. | P1 |
+| FR-H9 | **Dynamic default resume detection:** Service worker opens `https://hiregram.ai/resume`. Bridge inspects `section[aria-labelledby="rh-index"]` (or fallback `<ul>` containing `a[data-row-link]`) for the row whose metadata paragraph starts with leaf element text `Default` (excluding buttons, group menus, decoys). Navigates via `location.assign` to that row's anchor href. No hardcoded resume IDs anywhere. | P0 |
+| FR-H10 | **Decoy immunity:** Strictly ignore "Set as default", "Make this your default?", "YOUR DEFAULT", and row action menus. Never use loose substring or class-only matching. | P0 |
+| FR-H11 | **Hero card fallback:** If no list marker exists, resolve via hero card ("YOUR DEFAULT") anchor to `/resume/<id>` or click its "Open in editor" button. | P0 |
+| FR-H12 | **Non-destructive idempotent claim:** `CLAIM_PENDING` verifies target tab authorization and returns payload without deleting from storage. Payload deleted ONLY after Send click is confirmed. Reloading the page survives cleanly. | P0 |
+| FR-H13 | **Hand-off lifecycle states & loop guard:** Track `pending.status` ("queued" -> "sending" -> "sent") and `pending.navAttempts`. If redirected back to list &ge; 2 times, stop with loop guard toast. Never re-send if status is "sending" or "sent". | P0 |
+| FR-H14 | **Stage feedback & timeouts:** Explicit toasts per stage (finding, opening, empty, no-default, timed-out, loop, login). Overall resolve timeout 12s; empty confirmed after &ge; 3s. Clean up all observers and timers on stage exit or page unload. | P0 |
 
 ### 5.7 On-page feedback overlay
 | ID | Requirement | P |

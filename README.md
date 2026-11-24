@@ -141,8 +141,7 @@ flowchart TD
 ```
 
 ### 🎯 5. Dedicated Resume Editor Hand-off
-- **Direct Editor Navigation:** Targets your specific resume editor directly:
-  `https://hiregram.ai/resume/c07fbf6b-dc4b-497f-98d9-41f3b5e3e37b`
+- **Dynamic Default Editor Navigation:** Opens `https://hiregram.ai/resume`, resolves your default resume row, and navigates seamlessly to its editor.
 - **Continuous SPA Observer:** Monitors client-side route changes (`/resume` &rarr; `/resume/<uuid>`) without requiring full page refreshes.
 - **Dual Composer Support:** Populates `<textarea data-chat-box>` via native prototype setters and rich text container paste events, handling Hiregram's *"Pasted text · N words"* chip conversion.
 - **Send Polling:** Polls the Send button every 150ms for up to 8s (handling Sara streaming/busy states) and triggers submission once enabled.

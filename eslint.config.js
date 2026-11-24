@@ -45,7 +45,10 @@ export default [
   },
   {
     files: ["extension/src/content/**/*.js"],
-    ignores: ["extension/src/content/extractor-src.js"],
+    ignores: [
+      "extension/src/content/extractor-src.js",
+      "extension/src/content/hiregram-bridge-src.js"
+    ],
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "script",
