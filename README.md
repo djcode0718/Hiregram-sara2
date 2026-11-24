@@ -8,7 +8,7 @@
   [![Version](https://img.shields.io/badge/version-0.2.0-blue.svg?style=flat-square)](https://github.com/djcode0718/Hiregram-sara2)
   [![Manifest V3](https://img.shields.io/badge/Chrome-MV3-brightgreen.svg?style=flat-square)](https://developer.chrome.com/docs/extensions/mv3/intro/)
   [![License](https://img.shields.io/badge/license-MIT-purple.svg?style=flat-square)](LICENSE)
-  [![Tests](https://img.shields.io/badge/tests-41%2F41%20passing-success.svg?style=flat-square)](tests/)
+  [![Tests](https://img.shields.io/badge/tests-57%2F57%20passing-success.svg?style=flat-square)](tests/)
   [![Zero Build](https://img.shields.io/badge/runtime-buildless%20vanilla-orange.svg?style=flat-square)](extension/)
 
   <p align="center">
@@ -34,11 +34,11 @@
 
 Job hunting often involves repetitively copying job descriptions, switching tabs, pasting them into an AI chat composer, and asking for adjustments. 
 
-**Hiregram Tailor** replaces this entire friction-filled loop with a single push-to-talk voice gesture:
-1. You browse any job board (LinkedIn, Wellfound, Indeed, Greenhouse, etc.).
-2. You hold your hotkey (`Option+S` on macOS or `Alt+S` on Windows/Linux).
-3. You speak naturally to **Sara** (your AI career agent on Hiregram).
-4. Upon release, the extension parses your instructions, cleans and extracts the job context (role, company, location, requirements), opens your dedicated Hiregram editor, and initiates the tailoring session automatically.
+**Hiregram Tailor** replaces this entire friction-filled loop with two effortless options:
+- **🎙️ Voice Push-to-Talk:** Hold `Option+S` (`Alt+S`), speak to **Sara** (e.g. *"Sara, tailor my resume for this backend role"*), and release.
+- **🖱️ 1-Click Context Menu:** Right-click anywhere on the job posting and click **"Tailor resume with Hiregram"**.
+
+The extension cleans and extracts the job context (role, company, location, requirements), dynamically finds your default resume on Hiregram, opens its editor, and submits the tailored prompt to Sara automatically.
 
 ---
 
@@ -141,8 +141,10 @@ flowchart TD
 ```
 
 ### 🎯 5. Dedicated Resume Editor Hand-off
-- **Dynamic Default Editor Navigation:** Opens `https://hiregram.ai/resume`, resolves your default resume row, and navigates seamlessly to its editor.
-- **Continuous SPA Observer:** Monitors client-side route changes (`/resume` &rarr; `/resume/<uuid>`) without requiring full page refreshes.
+- **Dynamic Default Resume Resolution:** Zero hardcoded IDs. Opens `https://hiregram.ai/resume`, safely inspects the list DOM for the active default resume marker (`Default · `), and smoothly navigates to its editor.
+- **Decoy Immunity:** Ignores "Set as default" hover buttons, confirmation dialogs ("Make this your default?"), and hero cards to target strictly the true user-set default resume.
+- **Continuous SPA Observer:** Monitors client-side route changes (`/resume` &rarr; `/resume/<uuid>`) with clean observer and timer teardown to prevent memory or CPU leaks.
+- **Non-Destructive Handoff & Loop Guard:** Preserves pending handoff across reloads, guarantees idempotent single-send delivery, and prevents navigation loops if an editor redirects back to the list.
 - **Dual Composer Support:** Populates `<textarea data-chat-box>` via native prototype setters and rich text container paste events, handling Hiregram's *"Pasted text · N words"* chip conversion.
 - **Send Polling:** Polls the Send button every 150ms for up to 8s (handling Sara streaming/busy states) and triggers submission once enabled.
 
@@ -231,6 +233,7 @@ Hiregram-sara2/
 │       │   └── options.html/.js     # Options, hotkey recorder & diagnostics
 │       └── lib/                     # Pure Functional Modules
 │           ├── constants.js         # Selectors, timeouts, message types
+│           ├── default-resume.js    # Pure resolver for default resume row
 │           ├── wake-intent.js       # Fuzzy keyword & intent parser
 │           ├── compose-message.js   # Character budgeting & safe truncation
 │           ├── html-to-text.js      # HTML-to-markdown text converter
@@ -265,7 +268,7 @@ Hiregram-sara2/
 ## 🧪 Developer Commands
 
 ```bash
-# Run all 41 unit and extractor tests
+# Run all 57 unit and extractor tests
 npm test
 
 # Run ESLint linter
