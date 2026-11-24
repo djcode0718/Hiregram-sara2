@@ -23,7 +23,7 @@ export function sanitizeUrlForLog(rawUrl) {
 
 /**
  * Formats a log entry safely without private data.
- * @param {'info' | 'warn' | 'error'} level
+ * @param {'debug' | 'info' | 'warn' | 'error'} level
  * @param {string} event
  * @param {Record<string, unknown>} [details]
  */
@@ -55,6 +55,9 @@ function createEntry(level, event, details = {}) {
 }
 
 export const logger = {
+  debug(event, details) {
+    return createEntry('debug', event, details);
+  },
   info(event, details) {
     return createEntry('info', event, details);
   },
