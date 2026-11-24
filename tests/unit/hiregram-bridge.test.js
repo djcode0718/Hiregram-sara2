@@ -75,8 +75,6 @@ test('Bridge state machine: LIST page detects default resume and clicks Open in 
     pending
   });
 
-  const btn = dom.window.document.getElementById('openEditorBtn');
-
   // Mock window.location setter
   dom.window.addEventListener('error', (e) => {
     e.preventDefault();
