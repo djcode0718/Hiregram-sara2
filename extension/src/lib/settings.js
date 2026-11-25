@@ -13,6 +13,7 @@ export const DEFAULT_SETTINGS = Object.freeze({
   },
   language: 'en-IN', // Default en-IN as requested
   requireKeyword: true,
+  openInBackground: true,
   disabledHosts: [],
   showHints: true,
   debug: false,
@@ -57,6 +58,10 @@ export function validateSettings(input) {
     ? s.requireKeyword
     : DEFAULT_SETTINGS.requireKeyword;
 
+  const openInBackground = typeof s.openInBackground === 'boolean'
+    ? s.openInBackground
+    : DEFAULT_SETTINGS.openInBackground;
+
   let disabledHosts = DEFAULT_SETTINGS.disabledHosts;
   if (Array.isArray(s.disabledHosts)) {
     disabledHosts = [...new Set(
@@ -79,6 +84,7 @@ export function validateSettings(input) {
     hotkey,
     language,
     requireKeyword,
+    openInBackground,
     disabledHosts,
     showHints,
     debug,

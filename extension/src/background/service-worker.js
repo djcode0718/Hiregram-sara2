@@ -158,6 +158,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     return;
   }
 
+  if (message.type === 'SWITCH_TAB') {
+    if (message.tabId) {
+      chrome.tabs.update(message.tabId, { active: true }).catch(() => {});
+      chrome.tabs.get(message.tabId, (tab) => {
+        if (!chrome.runtime.lastError && tab?.windowId) {
+          chrome.windows.update(tab.windowId, { focused: true }).catch(() => {});
+        }
+      });
+    }
+    return;
+  }
+
   if (message.type === MSG_CLAIM_PENDING) {
     const senderTabId = sender?.tab?.id;
     isTabAuthorizedForPending(message.pendingId, senderTabId).then((allowed) => {

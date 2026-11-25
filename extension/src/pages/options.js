@@ -5,6 +5,7 @@ import { getSettings, saveSettings } from '../lib/settings.js';
 
 const enableToggle = document.getElementById('enable-toggle');
 const requireKeywordToggle = document.getElementById('require-keyword-toggle');
+const openInBackgroundToggle = document.getElementById('open-in-background-toggle');
 const languageSelect = document.getElementById('language-select');
 const currentHotkeyEl = document.getElementById('current-hotkey');
 const recordHotkeyBtn = document.getElementById('record-hotkey-btn');
@@ -111,6 +112,9 @@ async function init() {
 
   enableToggle.checked = Boolean(currentSettings.enabled);
   requireKeywordToggle.checked = Boolean(currentSettings.requireKeyword);
+  if (openInBackgroundToggle) {
+    openInBackgroundToggle.checked = currentSettings.openInBackground !== false;
+  }
   languageSelect.value = currentSettings.language || 'en-IN';
   currentHotkeyEl.textContent = formatHotkey(currentSettings.hotkey);
   renderHostList(currentSettings.disabledHosts);
@@ -126,6 +130,13 @@ async function init() {
     currentSettings.requireKeyword = requireKeywordToggle.checked;
     await saveSettings({ requireKeyword: requireKeywordToggle.checked });
   });
+
+  if (openInBackgroundToggle) {
+    openInBackgroundToggle.addEventListener('change', async () => {
+      currentSettings.openInBackground = openInBackgroundToggle.checked;
+      await saveSettings({ openInBackground: openInBackgroundToggle.checked });
+    });
+  }
 
   languageSelect.addEventListener('change', async () => {
     currentSettings.language = languageSelect.value;

@@ -220,7 +220,19 @@
       case 'sent':
         dot.className = 'dot success';
         textSpan.textContent = message || 'Sent to Sara ✓';
-        autoDismissTimer = setTimeout(hideOverlay, OVERLAY_SUCCESS_DISMISS_MS);
+        if (action?.title) {
+          const btn = document.createElement('button');
+          btn.className = 'action-btn';
+          btn.textContent = action.title;
+          btn.onclick = () => {
+            if (action.type === 'switch_tab' && action.tabId) {
+              chrome.runtime.sendMessage({ type: 'SWITCH_TAB', tabId: action.tabId }).catch(() => {});
+            }
+            hideOverlay();
+          };
+          textSpan.appendChild(btn);
+        }
+        autoDismissTimer = setTimeout(hideOverlay, action ? 6000 : OVERLAY_SUCCESS_DISMISS_MS);
         break;
 
       case 'error':

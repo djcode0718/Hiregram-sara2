@@ -145,6 +145,7 @@ flowchart TD
 
 ### 🎯 5. Dedicated Resume Editor Hand-off
 - **Dynamic Default Resume Resolution:** Zero hardcoded IDs. Opens `https://hiregram.ai/resume`, safely inspects the list DOM for the active default resume marker (`Default · `), and smoothly navigates to its editor.
+- **Background Execution & 1-Click Pill:** Opens Hiregram in the background without stealing focus from your job search. Sara prepares your tailored resume while you keep reading, with an interactive `[View in Hiregram ↗]` button on your screen to jump over whenever you are ready.
 - **Decoy Immunity:** Ignores "Set as default" hover buttons, confirmation dialogs ("Make this your default?"), and hero cards to target strictly the true user-set default resume.
 - **Continuous SPA Observer:** Monitors client-side route changes (`/resume` &rarr; `/resume/<uuid>`) with clean observer and timer teardown to prevent memory or CPU leaks.
 - **Non-Destructive Handoff & Loop Guard:** Preserves pending handoff across reloads, guarantees idempotent single-send delivery, and prevents navigation loops if an editor redirects back to the list.
@@ -181,6 +182,7 @@ Access settings by right-clicking the extension icon &rarr; **Options** (or via 
 ├────────────────────────────────────────────────────────┤
 │  [✓] Enable Voice Extension                            │
 │  [✓] Require "Sara" Keyword                            │
+│  [✓] Open Hiregram in Background                       │
 │  Language: [ English (India) — en-IN ▼ ]               │
 │                                                        │
 │  Push-to-Talk Hotkey:                                  │

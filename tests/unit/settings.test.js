@@ -14,12 +14,14 @@ test('validateSettings returns defaults for empty or non-object input', () => {
 
 test('validateSettings preserves valid custom hotkey', () => {
   const custom = {
-    hotkey: { code: 'KeyJ', alt: false, ctrl: true, shift: false, meta: false }
+    hotkey: { code: 'KeyJ', alt: false, ctrl: true, shift: false, meta: false },
+    openInBackground: false
   };
   const validated = validateSettings(custom);
   assert.equal(validated.hotkey.code, 'KeyJ');
   assert.equal(validated.hotkey.ctrl, true);
   assert.equal(validated.hotkey.alt, false);
+  assert.equal(validated.openInBackground, false);
 });
 
 test('validateSettings enforces at least one modifier key', () => {

@@ -8,6 +8,7 @@ import {
   HIREGRAM_RESUME_LIST_URL,
   STORAGE_KEY_PENDING
 } from '../lib/constants.js';
+import { getSettings } from '../lib/settings.js';
 import { logger } from '../lib/logger.js';
 
 // In-memory mapping of pendingId -> targetTabId
@@ -91,12 +92,14 @@ export async function removeTabAuthorization(pendingId) {
 
 /**
  * Writes pending payload to storage and opens a DEDICATED NEW TAB (FR-H7).
+ * By default, opens in background (active: false) to preserve user context.
  * @param {Object} options
  * @param {string} options.text - Formatted message text to deliver to Sara.
  * @param {Object} [options.meta] - Job metadata (title, company, url).
+ * @param {boolean} [options.active] - Override whether tab should be active.
  * @returns {Promise<{ id: string, tabId: number }>}
  */
-export async function sendToHiregram({ text, meta = {} }) {
+export async function sendToHiregram({ text, meta = {}, active }) {
   const id = generatePendingId();
   const payload = {
     id,
@@ -109,12 +112,27 @@ export async function sendToHiregram({ text, meta = {} }) {
   await chrome.storage.local.set({ [STORAGE_KEY_PENDING]: payload });
   logger.info('handoff_pending_set', { id, textLength: text.length });
 
+  let tabActive = false;
+  if (active !== undefined) {
+    tabActive = Boolean(active);
+  } else {
+    try {
+      const settings = await getSettings();
+      tabActive = settings.openInBackground === false;
+    } catch {
+      tabActive = false;
+    }
+  }
+
   // FR-H7: Always open a DEDICATED NEW TAB for every hand-off at /resume list page
-  const newTab = await chrome.tabs.create({ url: HIREGRAM_RESUME_LIST_URL });
+  const newTab = await chrome.tabs.create({
+    url: HIREGRAM_RESUME_LIST_URL,
+    active: tabActive
+  });
   if (newTab.id) {
     await recordTabAuthorization(id, newTab.id);
   }
 
-  logger.info('handoff_new_tab_created', { tabId: newTab.id, pendingId: id });
+  logger.info('handoff_new_tab_created', { tabId: newTab.id, pendingId: id, active: tabActive });
   return { id, tabId: newTab.id };
 }

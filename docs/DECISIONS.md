@@ -130,6 +130,17 @@ This log records all significant technical and design decisions made during the 
      `"I can only tailor your resume for jobs on screen. Try: 'Sara, tailor my resume for this role.'"`
 - **Reason:** Prevents accidental triggers and false positives while supporting dozens of natural ways to express resume tailoring.
 
+---
+
+### [2026-11-25] Decision 011: Background Tab Hand-off with 1-Click Pill Navigation
+- **Context:** Previously, creating the Hiregram tab immediately focused it (`active: true`), abruptly pulling the user away from the active job posting while Sara was still initializing and tailoring.
+- **Decision:**
+  1. Updated `sendToHiregram` in `src/background/handoff.js` to open the new tab in the background (`active: false`) by default, reading `openInBackground: true` from user settings.
+  2. Enhanced `src/content/overlay.js` on `STATE_SENT` to display an interactive action button: `"Sent to Sara ✓"` `[View in Hiregram ↗]`.
+  3. Added `SWITCH_TAB` message handling in `src/background/service-worker.js` to bring the Hiregram tab and window into focus when clicked.
+  4. Added user setting toggle in `options.html` / `options.js` allowing candidates to configure background vs active tab opening.
+- **Reason:** Preserves the user's reading flow on job boards, allows Sara to analyze and tailor in the background without staring at an empty chat box, and gives a 1-click shortcut to switch when ready.
+
 
 
 

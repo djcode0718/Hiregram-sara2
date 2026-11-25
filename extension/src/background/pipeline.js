@@ -243,7 +243,12 @@ export async function handleVoiceStop(tabId) {
 
     await notifyTabOverlay(tabId, {
       state: STATE_SENT,
-      message: 'Sent to Sara ✓'
+      message: 'Sent to Sara ✓',
+      action: {
+        type: 'switch_tab',
+        tabId: handoff.tabId,
+        title: 'View in Hiregram ↗'
+      }
     });
 
     logger.info('session_complete_success', { tabId, pendingId: handoff.id });
@@ -325,7 +330,12 @@ export async function runTailor({ tabId, instruction = '', source = 'toolbar' })
     // 5. Notify Origin Tab
     await notifyTabOverlay(tabId, {
       state: STATE_SENT,
-      message: 'Sent to Sara ✓'
+      message: 'Sent to Sara ✓',
+      action: {
+        type: 'switch_tab',
+        tabId: handoffResult.tabId,
+        title: 'View in Hiregram ↗'
+      }
     });
 
     logger.info('pipeline_runTailor_success', {
