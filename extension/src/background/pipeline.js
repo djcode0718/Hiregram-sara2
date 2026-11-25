@@ -181,6 +181,8 @@ export async function handleVoiceStop(tabId) {
       errorMsg = parsed.heard
         ? `Didn't hear 'Sara'. Heard: "${parsed.heard}"`
         : "Didn't hear 'Sara'. Try: 'Sara, tailor my resume for this role.'";
+    } else if (parsed.reason === 'NO_INSTRUCTION') {
+      errorMsg = "Didn't catch what to tailor. Try: 'Sara, tailor my resume for this role.'";
     } else if (parsed.reason === 'UNSUPPORTED_INTENT') {
       errorMsg = "I can only tailor your resume for jobs on screen. Try: 'Sara, tailor my resume for this role.'";
     } else if (parsed.reason === 'NO_SPEECH') {

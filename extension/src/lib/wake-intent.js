@@ -219,7 +219,9 @@ export const NON_TAILORING_PATTERNS = [
   /^(?:order\s+|buy\s+|call\s+|send\s+(?:an?\s+)?email|text\s+|message\s+)/i,
   /^(?:weather|forecast)/i,
   /^(?:hello|hi|hey|howdy|sup)\b/i,
-  /^(?:can\s+you\s+(?:tell|play|search|call|order|buy|sing))/i
+  /^(?:can\s+you\s+(?:tell|play|search|call|order|buy|sing|make))/i,
+  /\b(?:coffee|tea|pizza|burger|food|lunch|dinner|breakfast|drink|water|groceries)\b/i,
+  /\b(?:joke|laugh|music|song|spotify|youtube|netflix|movie|game)\b/i
 ];
 
 const BOILERPLATE_PATTERNS = [
@@ -327,15 +329,11 @@ function findKeywordInTranscript(transcript) {
  */
 export function isTailoringIntent(afterKeywordText) {
   if (!afterKeywordText || typeof afterKeywordText !== 'string') {
-    // If only the keyword was spoken (e.g. "Sara"), allow it as minimal trigger
-    return true;
+    return false;
   }
 
   const clean = afterKeywordText.trim();
-  if (!clean) return true;
-
-  // Shortcut command "go"
-  if (clean.toLowerCase() === 'go') return true;
+  if (!clean) return false;
 
   // 1. Explicit Non-tailoring patterns
   for (const pattern of NON_TAILORING_PATTERNS) {
@@ -479,7 +477,19 @@ export function parseCommand(transcriptAlternatives, options = {}) {
     afterKeywordText = heard;
   }
 
-  // 4. Intent Determination
+  // 4. Require an instruction after the keyword (bare "Sara" does not trigger tailoring)
+  if (!afterKeywordText) {
+    return {
+      ok: false,
+      keywordFound: keywordMatch.found,
+      intent: 'NONE',
+      instruction: '',
+      reason: 'NO_INSTRUCTION',
+      heard
+    };
+  }
+
+  // 5. Intent Determination
   if (!isTailoringIntent(afterKeywordText)) {
     return {
       ok: false,
@@ -494,7 +504,7 @@ export function parseCommand(transcriptAlternatives, options = {}) {
   // Validated tailoring intent
   const intent = 'TAILOR';
 
-  // 5. Instruction Extraction
+  // 6. Instruction Extraction
   const instruction = extractValidInstruction(afterKeywordText);
 
   return {

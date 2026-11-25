@@ -188,15 +188,18 @@ const TEST_PHRASES = [
   },
   {
     input: ['Sara, go'],
-    expectedOk: true,
-    expectedKeyword: true,
-    expectedIntent: 'TAILOR'
+    expectedOk: false,
+    expectedReason: 'UNSUPPORTED_INTENT'
   },
   {
     input: ['Sara'],
-    expectedOk: true,
-    expectedKeyword: true,
-    expectedIntent: 'TAILOR'
+    expectedOk: false,
+    expectedReason: 'NO_INSTRUCTION'
+  },
+  {
+    input: ['Sara, make me a coffee'],
+    expectedOk: false,
+    expectedReason: 'UNSUPPORTED_INTENT'
   },
 
   // 26-32: Fuzzy tailor verb variants

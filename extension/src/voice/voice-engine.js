@@ -170,15 +170,20 @@ export class WebSpeechEngine extends VoiceEngine {
         this.isActive = false;
 
         // Build full final transcript: all finals + trailing interim if any
-        let fullTranscript = this.finalSegments.join(' ').trim();
-        if (!fullTranscript && this.lastInterim) {
-          fullTranscript = this.lastInterim;
+        const fullTranscript = [...this.finalSegments, this.lastInterim]
+          .filter(Boolean)
+          .join(' ')
+          .trim();
+
+        const allAlts = this.allAlternatives.length > 0 ? [...this.allAlternatives] : [];
+        if (fullTranscript && !allAlts.includes(fullTranscript)) {
+          allAlts.unshift(fullTranscript);
         }
 
         if (this.onEnd) {
           this.onEnd({
             transcript: fullTranscript,
-            alternatives: this.allAlternatives.length > 0 ? this.allAlternatives : [fullTranscript]
+            alternatives: allAlts.length > 0 ? allAlts : [fullTranscript]
           });
         }
 
@@ -186,7 +191,7 @@ export class WebSpeechEngine extends VoiceEngine {
           if (this.stopTimeoutId) clearTimeout(this.stopTimeoutId);
           this.stopPromiseResolve({
             transcript: fullTranscript,
-            alternatives: this.allAlternatives.length > 0 ? this.allAlternatives : [fullTranscript]
+            alternatives: allAlts.length > 0 ? allAlts : [fullTranscript]
           });
           this.stopPromiseResolve = null;
         }
