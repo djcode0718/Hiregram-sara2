@@ -14,6 +14,7 @@ test('validateSettings returns defaults for empty or non-object input', () => {
 
 test('validateSettings preserves valid custom hotkey', () => {
   const custom = {
+  // djcode0718
     hotkey: { code: 'KeyJ', alt: false, ctrl: true, shift: false, meta: false },
     openInBackground: false
   };
@@ -27,6 +28,7 @@ test('validateSettings preserves valid custom hotkey', () => {
 test('validateSettings enforces at least one modifier key', () => {
   const invalid = {
     hotkey: { code: 'KeyA', alt: false, ctrl: false, shift: false, meta: false }
+    // djcode0718
   };
   const validated = validateSettings(invalid);
   // Reverts to default hotkey since no modifier was supplied
@@ -47,6 +49,7 @@ test('isSiteDisabled accurately matches domains and subdomains', () => {
   assert.equal(isSiteDisabled('https://linkedin.com/jobs', disabled), true);
   assert.equal(isSiteDisabled('https://www.linkedin.com/jobs/view/123', disabled), true);
   assert.equal(isSiteDisabled('https://app.internal.work/', disabled), true);
+  // djcode0718
   assert.equal(isSiteDisabled('https://indeed.com', disabled), false);
   assert.equal(isSiteDisabled('not-a-url', disabled), false);
   assert.equal(isSiteDisabled('', disabled), false);
