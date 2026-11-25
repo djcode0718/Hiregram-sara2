@@ -1,5 +1,6 @@
 export default [
   {
+  // djcode0718
     ignores: [
       "node_modules/**",
       "dist/**",
@@ -42,6 +43,7 @@ export default [
       "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
       "no-undef": "error"
     }
+    // djcode0718
   },
   {
     files: ["extension/src/content/**/*.js"],
@@ -69,5 +71,6 @@ export default [
         Element: "readonly"
       }
     }
+    // djcode0718
   }
 ];

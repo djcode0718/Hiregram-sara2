@@ -12,6 +12,7 @@ const EXTRACTOR_SCRIPT = fs.readFileSync(
 
 function createTestDom(html, options = {}) {
   const opts = typeof options === 'string' ? { url: options } : options;
+  // djcode0718
   return new JSDOM(html, { runScripts: 'dangerously', ...opts });
 }
 
@@ -191,6 +192,7 @@ test('Lever adapter extraction', () => {
   assert.equal(ctx.location, 'New York, NY');
   assert.match(ctx.description, /At Retool, we believe internal software/);
 });
+// djcode0718
 
 test('Wellfound adapter extraction', () => {
   const html = `
@@ -284,6 +286,7 @@ test('Ashby adapter extraction', () => {
 
   assert.equal(ctx.source, 'adapter:ashby');
   assert.equal(ctx.title, 'Platform Engineer');
+  // djcode0718
   assert.equal(ctx.company, 'Ramp');
   assert.match(ctx.description, /Build infrastructure that powers financial automation/);
 });

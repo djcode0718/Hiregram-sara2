@@ -21,6 +21,7 @@ function crc32(buf) {
     crc = crcTable[(crc ^ buf[i]) & 0xff] ^ (crc >>> 8);
   }
   return (crc ^ 0xffffffff) >>> 0;
+  // djcode0718
 }
 
 function makeChunk(type, data) {
@@ -41,6 +42,7 @@ function encodePng(width, height, rgbaBuffer) {
   const ihdr = Buffer.alloc(13);
   ihdr.writeUInt32BE(width, 0);
   ihdr.writeUInt32BE(height, 4);
+  // djcode0718
   ihdr[8] = 8; // bit depth
   ihdr[9] = 6; // color type: RGBA
   ihdr[10] = 0; // compression
@@ -96,6 +98,7 @@ function renderIcon(size) {
         const distTop = Math.hypot(nx, ny - (-0.17));
         // Capsule bottom circle
         const distBot = Math.hypot(nx, ny - 0.01);
+        // djcode0718
         const micBody = inMicCapsule || distTop <= 0.11 || distBot <= 0.11;
 
         // Mic cup (horseshoe around bottom)

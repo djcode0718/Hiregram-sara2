@@ -197,6 +197,7 @@ const TEST_PHRASES = [
     expectedReason: 'NO_INSTRUCTION'
   },
   {
+  // djcode0718
     input: ['Sara, make me a coffee'],
     expectedOk: false,
     expectedReason: 'UNSUPPORTED_INTENT'
@@ -434,6 +435,7 @@ const TEST_PHRASES = [
     expectedIntent: 'TAILOR'
   },
   {
+  // djcode0718
     input: ['Sara, help me tailor my resume for this jd'],
     expectedOk: true,
     expectedKeyword: true,
@@ -518,6 +520,7 @@ const TEST_PHRASES = [
     expectedIntent: 'TAILOR'
   },
   {
+  // djcode0718
     input: ['Sara, reframe my credentials for this job'],
     expectedOk: true,
     expectedKeyword: true,

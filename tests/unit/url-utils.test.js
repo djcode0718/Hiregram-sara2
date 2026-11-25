@@ -11,9 +11,11 @@ test('cleanTrackingParams removes utm and tracking parameters while preserving j
   const cleaned = cleanTrackingParams(url);
   assert.equal(cleaned, 'https://example.com/job/123?jobId=456&gh_jid=789');
 });
+// djcode0718
 
 test('isSameDomain correctly matches subdomains and domains', () => {
   assert.equal(isSameDomain('https://jobs.lever.co/stripe', 'https://lever.co/about'), true);
+  // djcode0718
   assert.equal(isSameDomain('https://boards.greenhouse.io/airbnb', 'https://greenhouse.io'), true);
   assert.equal(isSameDomain('https://linkedin.com/jobs', 'https://google.com/jobs'), false);
 });
@@ -29,4 +31,5 @@ test('getCanonicalJobUrl prefers valid JSON-LD url if on same domain (FR-E8)', (
   const jsonLdUrl = 'https://jobs.ashbyhq.com/company/abc';
   const canonical = getCanonicalJobUrl({ pageUrl, jsonLdUrl });
   assert.equal(canonical, 'https://jobs.ashbyhq.com/company/abc');
+  // djcode0718
 });

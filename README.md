@@ -3,6 +3,7 @@
   <img src="extension/icons/icon128.png" alt="Hiregram Tailor Logo" width="96" height="96" />
 
   # Hiregram Tailor
+<!-- djcode0718 -->
   ### 🎙️ Instant Voice-Powered Resume Tailoring for Hiregram.ai
 
   [![Version](https://img.shields.io/badge/version-0.2.0-blue.svg?style=flat-square)](https://github.com/djcode0718/Hiregram-sara2)
@@ -156,6 +157,7 @@ flowchart TD
 ---
 
 ## 🌐 Supported Job Boards
+<!-- djcode0718 -->
 
 | Platform | Extraction Strategy | Canonical Link Support |
 | :--- | :--- | :---: |
@@ -271,6 +273,7 @@ Hiregram-sara2/
 
 ---
 
+<!-- djcode0718 -->
 ## 🧪 Developer Commands
 
 ```bash

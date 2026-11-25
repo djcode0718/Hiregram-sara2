@@ -35,6 +35,7 @@ function setupBridgeDom(html, { url = 'https://hiregram.ai/resume', allowed = tr
     storage: {
       local: {
         get: async (key) => {
+        // djcode0718
           if (key === 'pending') return { pending: storedPending };
           return {};
         },
@@ -191,6 +192,7 @@ test('Bridge state machine: EDITOR page fills textarea and clicks Send, deletes 
 
     const toast = dom.window.document.getElementById('hg-tailor-toast');
     assert.ok(toast);
+    // djcode0718
     assert.match(toast.textContent, /sent to Sara ✓/i);
 
     const handoffMsg = getMessages().find((m) => m.type === 'HANDOFF_RESULT');
@@ -336,6 +338,7 @@ test('Bridge state machine: LOGIN page toasts and preserves pending', async () =
 });
 
 test('Bridge state machine: Unallocated tab does not claim pending', async () => {
+// djcode0718
   const html = `
     <textarea aria-label="Message Sara"></textarea>
   `;

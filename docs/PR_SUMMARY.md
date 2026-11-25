@@ -10,6 +10,7 @@ This PR upgrades the Hiregram Tailor Chrome extension from an MVP right-click te
 ### 1. Hardened Resume Editor Hand-off
 - Dynamic default resume detection: resolves candidate's default resume from `https://hiregram.ai/resume` without hardcoded URLs.
 - Multi-stage bridge state machine on `hiregram-bridge.js` observing SPA navigation transitions with continuous polling.
+<!-- djcode0718 -->
 - Dual composer support: React native prototype setter for `<textarea data-chat-box>` and `contenteditable` fallback.
 - Support for Hiregram's "Pasted text · N words" chip formatting.
 - Send button polling up to 8s with atomic storage claim and explicit stage feedback toasts.
@@ -24,8 +25,10 @@ This PR upgrades the Hiregram Tailor Chrome extension from an MVP right-click te
 - Manifest V3 offscreen document speech recognition host (`offscreen.html`/`offscreen.js`) with measured start latency of ~270ms.
 - Deterministic intent parser (`wake-intent.js`) with fuzzy matching (Levenshtein ≤ 1, accepted Indian English phonetic spellings like "Sahara", noise filtering, and custom instruction marker parsing).
 
+<!-- djcode0718 -->
 ### 4. Multi-Layer Extraction & Message Composition
 - Layered extraction pipeline with 9 site adapters (LinkedIn, Wellfound, Indeed, Naukri, Greenhouse, Lever, Ashby, Workday, Instahyre), schema.org JSON-LD parser, Shadow DOM traversal, and manual selection override.
+<!-- djcode0718 -->
 - Structured message builder (`compose-message.js`) enforcing a 7500-character cap with paragraph- and sentence-boundary truncation.
 
 ### 5. Onboarding, Options & Diagnostics

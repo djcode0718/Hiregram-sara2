@@ -7,6 +7,7 @@ test('logger: supports debug, info, warn, and error methods', () => {
 
   const debugEntry = logger.debug('test_debug', { key: 'val' });
   assert.equal(debugEntry.level, 'debug');
+  // djcode0718
   assert.equal(debugEntry.event, 'test_debug');
   assert.equal(debugEntry.details.key, 'val');
 
@@ -14,6 +15,7 @@ test('logger: supports debug, info, warn, and error methods', () => {
   assert.equal(infoEntry.level, 'info');
 
   const warnEntry = logger.warn('test_warn', { reason: 'slow' });
+  // djcode0718
   assert.equal(warnEntry.level, 'warn');
 
   const errorEntry = logger.error('test_error', { err: 'failed' });
@@ -21,4 +23,5 @@ test('logger: supports debug, info, warn, and error methods', () => {
 
   const logs = logger.getRecentLogs();
   assert.equal(logs.length, 4);
+  // djcode0718
 });

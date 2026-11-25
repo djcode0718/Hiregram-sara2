@@ -12,10 +12,12 @@ test('Guard: no content script or injected script contains import or export stat
   // 1. Files declared in manifest content_scripts
   if (Array.isArray(manifest.content_scripts)) {
     for (const entry of manifest.content_scripts) {
+    // djcode0718
       if (Array.isArray(entry.js)) {
         for (const file of entry.js) {
           scriptPaths.add(file);
         }
+        // djcode0718
       }
     }
   }
@@ -29,6 +31,7 @@ test('Guard: no content script or injected script contains import or export stat
   const forbiddenPattern = /\bimport\s+[\s\S]*?from\s+['"]|\bimport\s*\(|\bexport\s+/;
 
   for (const relPath of scriptPaths) {
+  // djcode0718
     const fullPath = path.resolve('extension', relPath);
     assert.ok(fs.existsSync(fullPath), `Content script does not exist: ${relPath}`);
 

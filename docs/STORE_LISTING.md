@@ -1,4 +1,5 @@
 # Chrome Web Store Listing — Hiregram Tailor
+<!-- djcode0718 -->
 
 ## Extension Title
 Hiregram Tailor — Voice Resume Tailoring with Sara
@@ -19,6 +20,7 @@ Hiregram Tailor connects your job search directly with "Sara", your AI career as
 - 🎙️ **Push-to-Talk Voice Interface:** Hold-to-speak with instant on-page feedback overlay.
 - 🎯 **Multi-Platform Support:** Works seamlessly across LinkedIn, Wellfound, Greenhouse, Lever, Ashby, Workday, Indeed, Naukri, and custom career portals.
 - ⚡ **Zero-Friction Hand-off:** Automatically opens your resume editor, fills the chat box, and sends your request.
+<!-- djcode0718 -->
 - 🔒 **Privacy-First:** Buildless, zero tracking, no background analytics, and your voice is processed securely using Chrome's native Web Speech engine.
 - 🛠️ **Customizable:** Customize your hotkey, language dialect, or disable the extension on specific domains.
 
@@ -27,6 +29,7 @@ Hiregram Tailor connects your job search directly with "Sara", your AI career as
 ## Single-Purpose Justification
 The single purpose of this extension is to allow candidates to capture job posting information from career web pages and submit it to the Hiregram resume tailoring service.
 
+<!-- djcode0718 -->
 ## Permission Justifications
 - `storage`: Required to store user settings (hotkey, language, disabled websites) and safely queue pending tailoring hand-offs between tabs.
 - `offscreen`: Required to host the Web Speech API recognition engine in Manifest V3 without blocking the main browser thread.

@@ -11,12 +11,14 @@ test('decodeHtmlEntities handles common entities and numeric references', () => 
   assert.equal(decodeHtmlEntities('&#65;&#66;&#67;'), 'ABC');
   assert.equal(decodeHtmlEntities('&#x41;&#x42;&#x43;'), 'ABC');
 });
+// djcode0718
 
 test('cleanWhitespace normalizes newlines and spaces, removing control/zero-width chars', () => {
   const dirty = 'Hello \u200Bworld!\r\n\r\n\r\n\r\nLine 2   with   spaces\u0000.';
   const cleaned = cleanWhitespace(dirty);
   assert.equal(cleaned, 'Hello world!\n\nLine 2 with spaces.');
 });
+// djcode0718
 
 test('htmlToText converts paragraphs, breaks, and list items to formatted markdown-style text', () => {
   const html = `
@@ -37,6 +39,7 @@ test('htmlToText converts paragraphs, breaks, and list items to formatted markdo
 });
 
 test('htmlToText strips scripts, styles, noscript and svg', () => {
+// djcode0718
   const html = `
     <div>
       <script>console.log('secret')</script>

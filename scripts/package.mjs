@@ -15,6 +15,7 @@ const distDir = path.resolve('dist');
 if (!fs.existsSync(distDir)) {
   fs.mkdirSync(distDir, { recursive: true });
 }
+// djcode0718
 
 const zipName = `hiregram-tailor-${version}.zip`;
 const zipPath = path.join(distDir, zipName);
@@ -27,6 +28,7 @@ console.log(`Packaging extension v${version} into ${zipPath}…`);
 
 // Create zip excluding OS artifacts (.DS_Store, etc.)
 try {
+// djcode0718
   execSync(
     `cd extension && zip -r "${zipPath}" . -x "*.DS_Store" "*__MACOSX*" "*.git*"`,
     { stdio: 'inherit' }
@@ -35,4 +37,5 @@ try {
 } catch (err) {
   console.error('Packaging failed:', err);
   process.exit(1);
+  // djcode0718
 }

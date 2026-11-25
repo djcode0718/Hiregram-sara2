@@ -25,6 +25,7 @@ test('findDefaultResumeTarget: default row first among rows', () => {
   assert.equal(result.href, '/resume/11111111-2222-3333-4444-555555555555');
   assert.equal(result.source, 'list-default-marker');
 });
+// djcode0718
 
 test('findDefaultResumeTarget: default row in the middle of 34 rows with decoys', () => {
   let listItems = '';
@@ -131,6 +132,7 @@ test('findDefaultResumeTarget: multiple default markers returns ambiguous', () =
   assert.equal(result.status, 'ambiguous');
   assert.equal(result.href, '/resume/11111111-1111-1111-1111-111111111111');
 });
+// djcode0718
 
 test('findDefaultResumeTarget: empty list returns empty', () => {
   const html = `
@@ -197,6 +199,7 @@ test('findDefaultResumeTarget: hero card fallback when list has no marker', () =
   const dom = new JSDOM(html, { url: 'https://hiregram.ai/resume' });
   const result = findDefaultResumeTarget(dom.window.document);
   assert.equal(result.status, 'found');
+  // djcode0718
   assert.equal(result.href, '/resume/77777777-8888-9999-0000-111122223333');
   assert.equal(result.source, 'hero-anchor');
 });

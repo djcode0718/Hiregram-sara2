@@ -59,6 +59,7 @@ The hand-off to Hiregram (storage → content script → Sara's chat box → Sen
 | S8 | User not logged in / no resume uploaded on Hiregram | Message waits (TTL 10 min) and sends once the chat box appears; clear toast otherwise |
 
 ## 4. User flow
+<!-- djcode0718 -->
 
 ### 4.1 Primary flow (voice)
 1. User is on a job page in Chrome. The page is focused.
@@ -273,6 +274,7 @@ IDLE → STARTING_MIC → LISTENING → TRANSCRIBING → PARSING → EXTRACTING 
 - **A (preferred): Offscreen document** (`chrome.offscreen.createDocument`, reason `USER_MEDIA`) running `voice-engine.js`. Mic permission pre-granted at onboarding.
 - **B (fallback): Extension-origin iframe** (`voice.html`, listed in `web_accessible_resources`, `allow="microphone"`) injected hidden into the top frame by the content script.
 - Do **not** run recognition directly in the page's content script (prompts per site) and do **not** use a separate popup window (steals focus, key-up would be lost).
+<!-- djcode0718 -->
 
 **Phase 0 spike must prove** that `webkitSpeechRecognition` starts, delivers interim + final results, and stops cleanly in option A after mic permission was granted from the Options page. If it doesn't, switch to B and record the decision in `docs/DECISIONS.md`.
 
@@ -335,6 +337,7 @@ IDLE → STARTING_MIC → LISTENING → TRANSCRIBING → PARSING → EXTRACTING 
 - **Page data:** Page content is read only when the user triggers an action (hotkey, menu, toolbar) and is sent **only** to hiregram.ai through the existing storage → bridge path. No other network calls. No analytics in MVP.
 - **Logs:** Debug log (local ring buffer, last 100 events) stores event names, timings, error codes, hostnames only. Never transcripts, JD text or full URLs. Opt-in "Copy debug info".
 - **Permissions and justification** (for the Store listing):
+<!-- djcode0718 -->
   | Permission | Why |
   |---|---|
   | `contextMenus` | Right-click entry |
