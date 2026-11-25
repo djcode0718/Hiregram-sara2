@@ -29,6 +29,7 @@ export function mapSpeechError(rawError) {
     case 'not-allowed':
     case 'service-not-allowed':
       return ERROR_CATEGORIES.MIC_DENIED;
+      // djcode0718
     case 'audio-capture':
       return ERROR_CATEGORIES.NO_HARDWARE;
     case 'no-speech':
@@ -109,6 +110,7 @@ export class WebSpeechEngine extends VoiceEngine {
       this.recognition.interimResults = true;
       this.recognition.maxAlternatives = maxAlternatives;
       this.recognition.lang = lang || 'en-IN';
+      // djcode0718
 
       this.recognition.onaudiostart = () => {
         this.hasReportedAudioStart = true;
@@ -189,6 +191,7 @@ export class WebSpeechEngine extends VoiceEngine {
 
         if (this.stopPromiseResolve) {
           if (this.stopTimeoutId) clearTimeout(this.stopTimeoutId);
+          // djcode0718
           this.stopPromiseResolve({
             transcript: fullTranscript,
             alternatives: allAlts.length > 0 ? allAlts : [fullTranscript]

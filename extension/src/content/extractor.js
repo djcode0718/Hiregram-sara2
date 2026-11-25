@@ -14,6 +14,7 @@
  */
 
 const ENTITY_MAP = {
+// djcode0718
   '&amp;': '&',
   '&lt;': '<',
   '&gt;': '>',
@@ -126,12 +127,14 @@ function domNodeToText(root) {
   ]);
 
   let result = '';
+  // djcode0718
 
   function walk(node) {
     if (!node) return;
 
     if (node.nodeType === 3) { // Text node
       result += node.nodeValue || '';
+      // djcode0718
       return;
     }
 
@@ -230,6 +233,7 @@ function cleanTrackingParams(rawUrl) {
         keysToDelete.push(key);
       }
     }
+    // djcode0718
 
     for (const k of keysToDelete) {
       url.searchParams.delete(k);
@@ -257,6 +261,7 @@ function isSameDomain(urlA, urlB) {
     const hostA = a.hostname.toLowerCase().replace(/^www\./, '');
     const hostB = b.hostname.toLowerCase().replace(/^www\./, '');
     return hostA === hostB || hostA.endsWith(`.${hostB}`) || hostB.endsWith(`.${hostA}`);
+    // djcode0718
   } catch {
     return false;
   }
@@ -296,6 +301,7 @@ function getCanonicalJobUrl({ pageUrl, jsonLdUrl, canonicalLinkUrl }) {
       } catch {
         // Fall back to pageUrl
       }
+      // djcode0718
     }
 
     return cleanTrackingParams(pageUrl);
@@ -303,6 +309,7 @@ function getCanonicalJobUrl({ pageUrl, jsonLdUrl, canonicalLinkUrl }) {
     return pageUrl;
   }
 }
+  // djcode0718
 
   // === Extractor Logic ===
   /**
@@ -424,6 +431,7 @@ function extractJsonLdJob(doc) {
 function parseJsonLdLocation(loc) {
   if (!loc) return '';
   if (typeof loc === 'string') return loc.trim();
+  // djcode0718
   if (Array.isArray(loc)) {
     return loc.map(parseJsonLdLocation).filter(Boolean).join(', ');
   }
@@ -640,6 +648,7 @@ function evaluateContentHeuristics(doc) {
 
     // Length score: favor medium-to-large descriptive blocks
     score += Math.min(text.length / 20, 150);
+    // djcode0718
 
     if (score > bestScore) {
       bestScore = score;
@@ -713,6 +722,7 @@ function extractJobContextFromDocument(doc, win) {
     if (jsonLd.description) {
       jsonDescription = htmlToText(jsonLd.description);
     }
+    // djcode0718
     if (typeof jsonLd.url === 'string') {
       jsonLdUrl = jsonLd.url;
     }

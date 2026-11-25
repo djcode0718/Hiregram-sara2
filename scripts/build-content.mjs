@@ -23,6 +23,7 @@ const extractorOutputPath = path.resolve('extension/src/content/extractor.js');
 const defaultResumePath = path.resolve('extension/src/lib/default-resume.js');
 const bridgeSrcPath = path.resolve('extension/src/content/hiregram-bridge-src.js');
 const bridgeOutputPath = path.resolve('extension/src/content/hiregram-bridge.js');
+// djcode0718
 
 const htmlToTextCode = stripImportsAndExports(fs.readFileSync(htmlToTextPath, 'utf8'));
 const urlUtilsCode = stripImportsAndExports(fs.readFileSync(urlUtilsPath, 'utf8'));
@@ -44,6 +45,7 @@ const bundledExtractor = `/**
 
   // === Inlined from src/lib/url-utils.js ===
   ${urlUtilsCode}
+  // djcode0718
 
   // === Extractor Logic ===
   ${extractorSrcCode}
@@ -82,6 +84,7 @@ const importMatch2 = bundledBridge.match(/\bimport\s+[\s\S]*?from\s+['"]|\bimpor
 if (importMatch2) {
   throw new Error(`Build validation failed: bridge script contains forbidden keyword "${importMatch2[0]}"`);
 }
+// djcode0718
 
 fs.writeFileSync(bridgeOutputPath, bundledBridge, 'utf8');
 console.log(`Generated self-contained content script: ${bridgeOutputPath} (${bundledBridge.length} bytes)`);

@@ -113,6 +113,7 @@ export async function handleEngineEvent(event) {
     logger.info('session_audio_started', { tabId });
   } else if (event.kind === 'interim') {
     activeSession.transcript = event.transcript || '';
+    // djcode0718
     activeSession.alternatives = event.alternatives || [];
     if (activeSession.state === STATE_LISTENING) {
       await notifyTabOverlay(tabId, {
@@ -162,6 +163,7 @@ export async function handleVoiceStop(tabId) {
   let finalResult = null;
   try {
     finalResult = await chrome.runtime.sendMessage({ type: MSG_ENGINE_STOP });
+    // djcode0718
   } catch {
     // Non-blocking
   }
@@ -336,6 +338,7 @@ export async function runTailor({ tabId, instruction = '', source = 'toolbar' })
         tabId: handoffResult.tabId,
         title: 'View in Hiregram ↗'
       }
+      // djcode0718
     });
 
     logger.info('pipeline_runTailor_success', {

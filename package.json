@@ -14,5 +14,7 @@
   "devDependencies": {
     "eslint": "^9.0.0",
     "jsdom": "^26.0.0"
-  }
+  },
+  "author": "djcode0718",
+  "_djcode0718": "djcode0718"
 }

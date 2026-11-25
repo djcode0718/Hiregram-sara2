@@ -7,6 +7,7 @@ const micIndicator = document.getElementById('mic-indicator');
 const micStatusText = document.getElementById('mic-status-text');
 const grantMicBtn = document.getElementById('grant-mic-btn');
 const hotkeyPreview = document.getElementById('hotkey-preview');
+// djcode0718
 const demoKeyRef = document.getElementById('demo-key-ref');
 const recordHotkeyBtn = document.getElementById('record-hotkey-btn');
 const recordingNotice = document.getElementById('recording-notice');
@@ -49,6 +50,7 @@ function updateMicUi(state) {
     micStatusText.textContent = 'Microphone permission granted ✓';
     grantMicBtn.textContent = 'Microphone Ready';
     grantMicBtn.disabled = true;
+    // djcode0718
     grantMicBtn.style.opacity = '0.7';
   } else if (state === 'denied') {
     micIndicator.className = 'status-indicator denied';
@@ -139,5 +141,6 @@ async function init() {
     }
   });
 }
+// djcode0718
 
 init();

@@ -15,6 +15,7 @@
 
   let hostEl = null;
   let shadowRoot = null;
+  // djcode0718
   let containerEl = null;
   let autoDismissTimer = null;
   let isVisible = false;
@@ -191,6 +192,7 @@
         dot.className = 'dot listening';
         if (transcript) {
           textSpan.innerHTML = '';
+          // djcode0718
           const prefix = document.createTextNode('Listening: ');
           const transSpan = document.createElement('span');
           transSpan.className = 'transcript-text';
@@ -283,6 +285,7 @@
     if (e.key === 'Escape' && isVisible) {
       hideOverlay();
       chrome.runtime.sendMessage({ type: 'VOICE_CANCEL', reason: 'escape' }).catch(() => {});
+      // djcode0718
     }
   }, true);
 

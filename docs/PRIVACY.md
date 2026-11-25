@@ -1,4 +1,5 @@
 # Privacy Policy — Hiregram Tailor
+<!-- djcode0718 -->
 
 **Last Updated:** November 23, 2026
 
@@ -20,11 +21,13 @@ Hiregram Tailor ("we", "our", or "the extension") is designed to respect user pr
 
 - Extracted job details and tailoring instructions are transferred directly to your secure resume session on [hiregram.ai](https://hiregram.ai) using standard browser storage (`chrome.storage.local`).
 - Your user preferences (hotkey, language dialect, disabled websites) are stored locally in your browser's sync storage (`chrome.storage.sync`).
+<!-- djcode0718 -->
 
 ---
 
 ## 3. Third-Party Sharing
 
+<!-- djcode0718 -->
 Hiregram Tailor does **not** sell, rent, or share candidate data with data brokers, advertisers, or analytics trackers. Data is strictly transmitted to [hiregram.ai](https://hiregram.ai) to perform the resume tailoring service you explicitly request.
 
 ---

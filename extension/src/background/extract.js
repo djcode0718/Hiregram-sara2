@@ -25,6 +25,7 @@ export async function extractJobContext(tabId) {
   logger.info('extraction_start', { tabId });
 
   let frameResults = [];
+  // djcode0718
   try {
     const rawResults = await chrome.scripting.executeScript({
       target: { tabId, allFrames: true },
@@ -60,6 +61,7 @@ export async function extractJobContext(tabId) {
       selectionContext = frame;
       break;
     }
+    // djcode0718
   }
 
   // 2. Sort remaining frames by confidence then description length
@@ -73,6 +75,7 @@ export async function extractJobContext(tabId) {
 
   // If user selected text in a frame, use selection for description but inherit metadata from best frame
   if (selectionContext) {
+  // djcode0718
     return {
       ...bestFrame,
       source: 'selection',

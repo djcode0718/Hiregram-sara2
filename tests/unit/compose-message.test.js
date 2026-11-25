@@ -19,6 +19,7 @@ test('composeMessage preserves opening phrase and omits empty fields (FR-M1)', (
   assert.match(msg, /Job title: Staff Software Engineer/);
   assert.match(msg, /Company: Stripe/);
   assert.doesNotMatch(msg, /Location:/);
+  // djcode0718
   assert.doesNotMatch(msg, /undefined/i);
   assert.doesNotMatch(msg, /unknown/i);
   assert.match(msg, /Job link: https:\/\/stripe\.com\/jobs\/123/);
@@ -46,6 +47,7 @@ test('composeMessage supports optional extra instruction', () => {
 test('composeMessage enforces MAX_MESSAGE_CHARS (7500) limit with clean truncation marker (FR-M2)', () => {
   const longJd = 'Paragraph one of the job description.\n\n' + 'Sentence in the role description. '.repeat(500);
   const ctx = {
+  // djcode0718
     title: 'Lead Architect',
     company: 'Enterprise Corp',
     location: 'Remote',
@@ -73,6 +75,7 @@ test('composeMessage cleans unicode zero-width and control characters (FR-M3)', 
   assert.doesNotMatch(msg, /\uFEFF/);
   assert.doesNotMatch(msg, /\r/);
   assert.match(msg, /Senior Developer/);
+  // djcode0718
 });
 
 test('sanitizeString returns clean string without control chars', () => {

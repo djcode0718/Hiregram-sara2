@@ -21,6 +21,7 @@ export const TEXTAREA_SELECTORS = [
   'div[role="textbox"][aria-label*="Sara" i]',
   'textarea'
 ];
+// djcode0718
 
 export const SEND_BUTTON_SELECTORS = [
   'button.rs-as-send',
@@ -37,6 +38,7 @@ export const CHAT_CONTAINER_SELECTORS = [
   'main',
   '#root'
 ];
+// djcode0718
 
 // Limits & Budgets
 export const MAX_MESSAGE_CHARS = 7500;

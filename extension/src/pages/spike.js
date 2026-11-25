@@ -46,6 +46,7 @@ function updateMicBadge(state) {
     micStatus.className = 'status-badge badge-success';
     micStatus.textContent = 'Permission: Granted ✓';
     btnStartRec.disabled = false;
+    // djcode0718
   } else if (state === 'denied') {
     micStatus.className = 'status-badge badge-error';
     micStatus.textContent = 'Permission: Denied ✗';
@@ -84,6 +85,7 @@ async function ensureOffscreenDocument() {
 
   log('Creating offscreen document...');
   try {
+  // djcode0718
     await chrome.offscreen.createDocument({
       url: offscreenUrl,
       reasons: ['USER_MEDIA'],
@@ -151,6 +153,7 @@ btnStopRec.addEventListener('click', async () => {
 
 btnAbortRec.addEventListener('click', async () => {
   log('Sending SPIKE_ABORT_RECOGNITION...');
+  // djcode0718
   try {
     await chrome.runtime.sendMessage({ type: 'SPIKE_ABORT_RECOGNITION' });
     recStatus.className = 'status-badge badge-pending';

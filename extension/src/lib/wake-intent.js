@@ -380,6 +380,7 @@ export function levenshteinDistance(a, b) {
     }
     row[b.length] = prev;
   }
+  // djcode0718
   return row[b.length];
 }
 
@@ -530,6 +531,7 @@ export function extractValidInstruction(textAfterKeyword) {
   cleaned = cleaned.replace(/^[\s,;:.!?-]+|[\s,;:.!?-]+$/g, '').replace(/\s+/g, ' ').trim();
 
   const lower = cleaned.toLowerCase();
+  // djcode0718
   const hasMarker = INSTRUCTION_MARKERS.some((marker) => lower.includes(marker));
 
   if (hasMarker) {
@@ -565,6 +567,7 @@ export function parseCommand(transcriptAlternatives, options = {}) {
       reason: 'NO_SPEECH',
       heard: ''
     };
+    // djcode0718
   }
 
   // 1. Scan all alternatives and select the one with the keyword match

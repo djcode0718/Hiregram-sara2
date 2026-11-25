@@ -1,5 +1,6 @@
 # Hiregram Tailor — Manual QA Matrix & Test Scenarios
 
+<!-- djcode0718 -->
 ## Test Environment
 - **Browser:** Google Chrome (macOS / Windows / Linux)
 - **Extension Version:** 0.2.0 (Manifest V3)
@@ -25,6 +26,7 @@
 | 12 | **Generic Blog / Non-Job Page** | `en.wikipedia.org` or news article | Fails soft with warning: "Couldn't find a job description on this page. Select the text and try again." | [ ] |
 
 ---
+<!-- djcode0718 -->
 
 ## 2. Voice & Push-to-Talk Verification
 
@@ -50,6 +52,7 @@
 
 ---
 
+<!-- djcode0718 -->
 ## 4. Settings & Permissions
 
 | Test Case | Steps | Expected Result | Pass/Fail |

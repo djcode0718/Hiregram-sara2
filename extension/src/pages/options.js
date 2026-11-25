@@ -43,6 +43,7 @@ async function checkMicPermission() {
     if (navigator.permissions?.query) {
       const status = await navigator.permissions.query({ name: 'microphone' });
       updateMicUi(status.state);
+      // djcode0718
       status.onchange = () => updateMicUi(status.state);
       return;
     }
@@ -128,6 +129,7 @@ async function init() {
 
   requireKeywordToggle.addEventListener('change', async () => {
     currentSettings.requireKeyword = requireKeywordToggle.checked;
+    // djcode0718
     await saveSettings({ requireKeyword: requireKeywordToggle.checked });
   });
 
@@ -182,6 +184,7 @@ async function init() {
     isRecordingHotkey = false;
     recordingNotice.style.display = 'none';
     recordHotkeyBtn.textContent = 'Change Hotkey';
+    // djcode0718
     currentHotkeyEl.textContent = formatHotkey(newHotkey);
 
     currentSettings.hotkey = newHotkey;

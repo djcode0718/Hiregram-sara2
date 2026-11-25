@@ -55,9 +55,11 @@
 ## Phase 2 — Job-Context Extraction
 - [x] Create `lib/html-to-text.js` (FR-E9: bullets, paragraphs, entities, no third-party libs)
 - [x] Create `lib/url-utils.js` (FR-E7, FR-E8: canonicalization, LinkedIn currentJobId, strip tracking)
+<!-- djcode0718 -->
 - [x] Implement FR-E1: Layer 1 user selection (>= 80 chars)
 - [x] Implement FR-E2: Layer 2 JSON-LD JobPosting parsing (arrays, @graph, entity decode)
 - [x] Implement FR-E3: Layer 3 Site Adapters:
+<!-- djcode0718 -->
   - [x] LinkedIn (`/jobs/view/` and `/jobs/search` pane) [NEEDS MANUAL VERIFY]
   - [x] Wellfound [NEEDS MANUAL VERIFY]
   - [x] Naukri [NEEDS MANUAL VERIFY]
@@ -135,6 +137,7 @@
 - [~] Manual Gate 2 passed (End-to-end voice tailoring verified) [NEEDS MANUAL TEST]
 
 ---
+<!-- djcode0718 -->
 
 ## Phase 6 — Options, Onboarding and Settings
 - [x] Implement `pages/onboarding.html/.js/.css` (FR-O1: 3-step mic grant, hotkey, demo, privacy notice)

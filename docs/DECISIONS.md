@@ -11,6 +11,7 @@ This log records all significant technical and design decisions made during the 
 - **Alternatives Considered:** Keeping `hiregram-tailor/` as root directory. Rejected because the root is dedicated to the full project setup including `tests/`, `docs/`, and `scripts/`.
 
 ---
+<!-- djcode0718 -->
 
 ### [2026-11-23] Decision 002: Tooling and Buildless Extension
 - **Context:** The extension needs testing and linting, but the runtime extension must be completely buildless and bundler-free.
@@ -101,6 +102,7 @@ This log records all significant technical and design decisions made during the 
 - **Reason:** Resolves the blocking hang on `/resume`, isolates editing sessions, and prevents double-sends across tabs.
 
 ---
+<!-- djcode0718 -->
 
 ### [2026-11-23] Decision 009: Robust Wake-Intent Parsing & Closed Shadow DOM Overlay
 - **Context:** Real-world speech recognition transcripts from Chrome revealed common mis-hearings of "Sara" ("Sahara", "Sarah", "Sera", "Zara", "Saara"), Hindi/Hinglish speech artifacts ("marriage mein", "Mere"), and WebSpeechEngine firing multiple final segments for single utterances.
@@ -144,6 +146,7 @@ This log records all significant technical and design decisions made during the 
 ---
 
 ### [2026-11-25] Decision 012: Flexible Keyword Positioning and Order-Independent Semantic Intent Matching
+<!-- djcode0718 -->
 - **Context:** Candidates address Sara with diverse phrasing, STT artifacts, and word arrangements (e.g. "Sara tailor my resume for this jd", "Tailor my resume for this jd, Sara", "Sara, for this jd tailor my resume", "Sara can you match my cv with this job", "Sara make my resume fit this jd"). Previously, the keyword check was restricted to the beginning, word order was tightly coupled, and conversational prefixes could collide with non-tailoring query patterns.
 - **Decision:**
   1. Expanded `ACCEPTED_KEYWORDS` with common STT phonetic variations (`saira`, `cyra`, `syra`, `sora`, `surah`, `shara`, `serah`, `sehra`, `sayra`, `tara`, `saras`, `sarahs`, `saria`, `saraa`, `sharah`) and trailing possessive/plural stripping.
