@@ -110,10 +110,11 @@ sequenceDiagram
 - **WCAG Compliant:** Accessible status updates via `role="status"` and `aria-live="polite"`. Respects `prefers-reduced-motion` and OS dark/light mode themes.
 
 ### 🧠 3. Smart Wake-Keyword & Intent Parser
-- **Fuzzy Tolerance:** Matches "Sara" with a Levenshtein distance of &le; 1 (handles "Sarah", "Sera", "Zara", "Saara", etc.).
-- **Phonetic & Dialect Aliases:** Specially tuned for Indian English accents and speech-to-text artifacts (accepts "Sahara", ignores filler phrase noise).
-- **Semantic Intent Classifier:** Verifies true resume tailoring intent across dozens of natural variations (*tailor, adapt, customize, optimize, rewrite, update, fit, match, tune, tweak, polish, revise*) paired with resume entities (*CV, profile, bio, experience, skills*) and job targets (*JD, role, position, opening, company, screen*).
-- **Accidental Voice Rejection:** Filters out casual chit-chat, conversational queries (e.g. *"Sara, make me a coffee"*, *"Sara, tell me a joke"*, weather, music, food orders), and bare *"Sara"* calls without instructions, guiding the candidate instead of misfiring.
+- **Fuzzy Tolerance & Phonetics:** Matches "Sara" with a Levenshtein distance of &le; 1 and supports common STT spelling variations (`sara`, `sarah`, `sera`, `zara`, `saara`, `saira`, `cyra`, `syra`, `sora`, `surah`, `shara`, `serah`, `sehra`, `sayra`, `tara`, `saras`, `sarahs`, `sahara`).
+- **Flexible Keyword Positioning:** Addresses Sara at the start (*"Sara, tailor my resume for this jd"*) or at the end (*"Tailor my resume for this jd, Sara"*), with automatic cleaning of conversational prefixes (*hey, hi, ok, okay, hello, please, can, could, would, yo*).
+- **Order-Independent Semantic Matching:** Understands colloquial and varied phrasing regardless of word arrangement ("words here and there" e.g. *"Sara tailor my resume for this jd"*, *"Sara, tailor this jd to my resume"*, *"Sara, for this jd tailor my resume"*, *"Sara make my resume fit this jd"*).
+- **Rich Semantic Dictionaries:** Recognizes tailoring actions (*tailor, customize, adapt, optimize, rewrite, update, fit, match, align, adjust, tune, tweak, refine, polish, revise, craft, format, sync, suit, gear, reframe, make, build, generate, create, write*), resume entities (*resume, CV, profile, bio, experience, skills, background, qualifications, credentials*), and job targets (*JD, role, position, opening, posting, vacancy, listing, company, employer, firm, screen, requirements*).
+- **Accidental Voice Rejection:** Strictly filters out casual chit-chat, non-tailoring queries (e.g. *"Sara, make me a coffee"*, *"Sara, tell me a joke"*, weather, music, food orders), and bare *"Sara"* calls without instructions, guiding the candidate instead of misfiring.
 - **Interim Speech Preservation:** Concatenates all final recognition segments plus trailing interim speech, ensuring words spoken right before releasing the hotkey are never truncated or lost.
 - **Custom Instruction Extraction:** Recognizes explicit prompt qualifiers (e.g., *"focus on React"*, *"keep it to one page"*, *"emphasize leadership"*).
 

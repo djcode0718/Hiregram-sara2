@@ -379,6 +379,150 @@ const TEST_PHRASES = [
     expectedKeyword: true,
     expectedIntent: 'TAILOR'
   },
+  {
+    input: ['Sara tailor my resume for this jd'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Tailor my resume for this jd, Sara'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, use this jd to update my resume'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, make my resume fit this jd'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sarah\'s tailor my resume for this jd'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Saira tailor my resume for this jd'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, tailor this jd to my resume'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, for this jd tailor my resume'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, for this company tailor my resume'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, help me tailor my resume for this jd'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, work on my resume for this role'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, do my resume for this job'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara can you tailor my resume for this jd'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara please tailor my resume for this jd'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Tailor for this role, Sara'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, my background for this position'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, sync my CV with this JD'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, suit my qualifications for this opening'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Yo Sara, tailor my resume for this jd'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, tailor my resume for this j d'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, tailor my resume for this j.d.'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, match my experience with this role'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, gear my resume towards this position'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, reframe my credentials for this job'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
 
   // 37-43: Keyword missing & edge cases
   {

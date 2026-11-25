@@ -141,6 +141,22 @@ This log records all significant technical and design decisions made during the 
   4. Added user setting toggle in `options.html` / `options.js` allowing candidates to configure background vs active tab opening.
 - **Reason:** Preserves the user's reading flow on job boards, allows Sara to analyze and tailor in the background without staring at an empty chat box, and gives a 1-click shortcut to switch when ready.
 
+---
+
+### [2026-11-25] Decision 012: Flexible Keyword Positioning and Order-Independent Semantic Intent Matching
+- **Context:** Candidates address Sara with diverse phrasing, STT artifacts, and word arrangements (e.g. "Sara tailor my resume for this jd", "Tailor my resume for this jd, Sara", "Sara, for this jd tailor my resume", "Sara can you match my cv with this job", "Sara make my resume fit this jd"). Previously, the keyword check was restricted to the beginning, word order was tightly coupled, and conversational prefixes could collide with non-tailoring query patterns.
+- **Decision:**
+  1. Expanded `ACCEPTED_KEYWORDS` with common STT phonetic variations (`saira`, `cyra`, `syra`, `sora`, `surah`, `shara`, `serah`, `sehra`, `sayra`, `tara`, `saras`, `sarahs`, `saria`, `saraa`, `sharah`) and trailing possessive/plural stripping.
+  2. Enhanced `findKeywordInTranscript` to search both the first 5 words AND the trailing 2 words, enabling both address-first ("Sara, tailor...") and address-last ("Tailor my resume..., Sara") speech patterns.
+  3. Cleaned conversational prefixes ("hey", "hi", "ok", "okay", "hello", "please", "can", "could", "would", "yo") preceding the keyword in `parseCommand`, preventing prefix collision with non-tailoring blocks (e.g. "Hey Sara, tailor for this role").
+  4. Expanded semantic dictionaries:
+     - `TAILOR_VERBS`: Added sync, synchronize, suit, reframe, pitch, gear.
+     - `GENERAL_ACTION_VERBS`: Added make, build, generate, create, write, set, change, apply, do, work, help, put, convert, transform.
+     - `RESUME_ENTITIES`: Added background, qualifications, credentials, detail.
+     - `JOB_TARGETS`: Added specification, specs, advert, requirements, criteria, reqs.
+  5. Implemented order-independent semantic intent evaluation: matching resume entity + job target, resume entity + general verb/connector, or direct tailoring verb regardless of word positioning ("words here and there"), while strictly rejecting non-tailoring commands (coffee, food, jokes, weather, music, general inquiries).
+- **Reason:** Satisfies natural speech patterns where users phrase requests colloquially, word order varies freely, and STT transcribes names with subtle variations, all while maintaining 100% defense against accidental activation on non-tailoring requests.
+
 
 
 

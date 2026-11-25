@@ -18,10 +18,25 @@ export const ACCEPTED_KEYWORDS = new Set([
   'saara',
   'sarra',
   'sahra',
-  'sahara'
+  'sahara',
+  'saira',
+  'syra',
+  'cyra',
+  'sora',
+  'surah',
+  'shara',
+  'serah',
+  'sehra',
+  'sayra',
+  'tara',
+  'saras',
+  'sarahs',
+  'saria',
+  'saraa',
+  'sharah'
 ]);
 
-export const PREFIXES = new Set(['hey', 'hi', 'ok', 'okay', 'hello']);
+export const PREFIXES = new Set(['hey', 'hi', 'ok', 'okay', 'hello', 'please', 'can', 'could', 'would', 'yo']);
 
 export const TAILOR_VERBS = new Set([
   'tailor',
@@ -30,6 +45,7 @@ export const TAILOR_VERBS = new Set([
   'tailors',
   'tailoring',
   'tailored',
+  'trailer',
   'customize',
   'customise',
   'customizes',
@@ -140,12 +156,90 @@ export const TAILOR_VERBS = new Set([
   'revise',
   'revises',
   'revising',
-  'revised'
+  'revised',
+  'sync',
+  'synchronize',
+  'synchronise',
+  'suit',
+  'suits',
+  'suited',
+  'reframe',
+  'reframes',
+  'reframing',
+  'reframed',
+  'pitch',
+  'pitches',
+  'pitching',
+  'pitched',
+  'gear',
+  'gears',
+  'gearing',
+  'geared'
+]);
+
+export const GENERAL_ACTION_VERBS = new Set([
+  'make',
+  'makes',
+  'making',
+  'made',
+  'build',
+  'builds',
+  'building',
+  'built',
+  'generate',
+  'generates',
+  'generating',
+  'generated',
+  'create',
+  'creates',
+  'creating',
+  'created',
+  'write',
+  'writes',
+  'writing',
+  'wrote',
+  'set',
+  'sets',
+  'setting',
+  'change',
+  'changes',
+  'changing',
+  'changed',
+  'apply',
+  'applies',
+  'applying',
+  'applied',
+  'do',
+  'does',
+  'doing',
+  'did',
+  'done',
+  'work',
+  'works',
+  'working',
+  'worked',
+  'help',
+  'helps',
+  'helping',
+  'helped',
+  'put',
+  'puts',
+  'putting',
+  'convert',
+  'converts',
+  'converting',
+  'converted',
+  'transform',
+  'transforms',
+  'transforming',
+  'transformed'
 ]);
 
 export const RESUME_ENTITIES = new Set([
   'resume',
   'resumes',
+  'resumé',
+  'résumé',
   'cv',
   'cvs',
   'profile',
@@ -156,7 +250,15 @@ export const RESUME_ENTITIES = new Set([
   'skills',
   'skillset',
   'application',
-  'applications'
+  'applications',
+  'background',
+  'backgrounds',
+  'qualification',
+  'qualifications',
+  'credentials',
+  'credential',
+  'detail',
+  'details'
 ]);
 
 export const JOB_TARGETS = new Set([
@@ -187,7 +289,24 @@ export const JOB_TARGETS = new Set([
   'firm',
   'firms',
   'screen',
-  'page'
+  'page',
+  'site',
+  'here',
+  'this',
+  'that',
+  'description',
+  'descriptions',
+  'requirement',
+  'requirements',
+  'criteria',
+  'specification',
+  'specifications',
+  'specs',
+  'spec',
+  'advert',
+  'advertisement',
+  'reqs',
+  'req'
 ]);
 
 export const INSTRUCTION_MARKERS = [
@@ -209,25 +328,22 @@ export const INSTRUCTION_MARKERS = [
 ];
 
 export const NON_TAILORING_PATTERNS = [
-  /^(?:what(?:'s|\s+is)|\bwhats\b)/i,
-  /^(?:who(?:'s|\s+is)|\bwhos\b)/i,
-  /^(?:where(?:'s|\s+is)|\bwheres\b)/i,
-  /^(?:how(?:\s+do|\s+can|\s+to|\s+are|\s+is))/i,
-  /^(?:tell\s+me|tell\s+a\s+joke|joke)/i,
-  /^(?:play\s+|listen\s+to|spotify|youtube)/i,
-  /^(?:search\s+for|search\s+google|google\s+for|find\s+jobs|look\s+up)/i,
+  /^(?:what|who|where|when|why|how)\b/i,
+  /^(?:tell\s+me|tell\s+a\s+joke|joke)\b/i,
+  /^(?:play\s+|listen\s+to|spotify|youtube)\b/i,
+  /^(?:search\s+for|search\s+google|google\s+for|find\s+jobs|look\s+up)\b/i,
   /^(?:order\s+|buy\s+|call\s+|send\s+(?:an?\s+)?email|text\s+|message\s+)/i,
-  /^(?:weather|forecast)/i,
-  /^(?:hello|hi|hey|howdy|sup)\b/i,
-  /^(?:can\s+you\s+(?:tell|play|search|call|order|buy|sing|make))/i,
+  /^(?:weather|forecast)\b/i,
+  /^(?:can\s+you\s+(?:tell|play|search|call|order|buy|sing))\b/i,
   /\b(?:coffee|tea|pizza|burger|food|lunch|dinner|breakfast|drink|water|groceries)\b/i,
   /\b(?:joke|laugh|music|song|spotify|youtube|netflix|movie|game)\b/i
 ];
 
 const BOILERPLATE_PATTERNS = [
-  /tailor\s+(?:my\s+)?(?:resume|cv|profile)?\s*(?:for\s+this\s+(?:role|job|company|position)(?:\s+and\s+(?:company|role|job))?)?/gi,
-  /for\s+this\s+(?:role|job|company|position)(?:\s+and\s+(?:company|role|job))?/gi,
+  /tailor\s+(?:my\s+)?(?:resume|cv|profile)?\s*(?:for\s+this\s+(?:role|job|company|position|jd)(?:\s+and\s+(?:company|role|job|jd))?)?/gi,
+  /for\s+this\s+(?:role|job|company|position|jd)(?:\s+and\s+(?:company|role|job|jd))?/gi,
   /for\s+this\s+(?:company\s+and\s+job|job\s+and\s+company)/gi,
+  /(?:for\s+this\s+)?\bjd\b/gi,
   /marriage\s+(?:mein|image|me)/gi,
   /\bmere\b/gi,
   /\bthis\s+company\b/gi,
@@ -274,8 +390,16 @@ export function levenshteinDistance(a, b) {
  */
 export function isKeywordToken(token) {
   if (!token) return false;
-  const clean = token.toLowerCase().replace(/[^a-z]/g, '');
+  let clean = token.toLowerCase().replace(/[^a-z]/g, '');
   if (!clean) return false;
+
+  // Strip possessive or plural s ('s, s) e.g. "sarah's", "sara's"
+  if (clean.endsWith('s') && clean.length > 4) {
+    const stripped = clean.slice(0, -1);
+    if (ACCEPTED_KEYWORDS.has(stripped) || levenshteinDistance(stripped, 'sara') <= 1) {
+      return true;
+    }
+  }
 
   if (ACCEPTED_KEYWORDS.has(clean)) return true;
 
@@ -288,7 +412,8 @@ export function isKeywordToken(token) {
 }
 
 /**
- * Extracts keyword match info from the first 4 words of a transcript.
+ * Extracts keyword match info from the transcript.
+ * Checks the beginning (first 5 words) or the end (last 2 words).
  * @param {string} transcript
  * @returns {{ found: boolean, keywordToken: string, index: number, words: string[] }}
  */
@@ -297,42 +422,44 @@ function findKeywordInTranscript(transcript) {
     return { found: false, keywordToken: '', index: -1, words: [] };
   }
 
-  const cleanWords = transcript
-    .trim()
-    .split(/\s+/)
-    .map((w) => w.replace(/[^\w-]/g, '').toLowerCase())
-    .filter(Boolean);
-
-  const searchWords = cleanWords.slice(0, 4);
-
-  // Skip optional prefix if present in word 0
-  let startIndex = 0;
-  if (searchWords.length > 1 && PREFIXES.has(searchWords[0])) {
-    startIndex = 1;
+  const rawWords = transcript.trim().split(/\s+/).filter(Boolean);
+  if (rawWords.length === 0) {
+    return { found: false, keywordToken: '', index: -1, words: [] };
   }
 
-  for (let i = startIndex; i < searchWords.length; i++) {
-    const word = searchWords[i];
+  // 1. Search in first 5 words (standard starting address)
+  const firstBatchLimit = Math.min(rawWords.length, 5);
+  for (let i = 0; i < firstBatchLimit; i++) {
+    const word = rawWords[i];
     if (isKeywordToken(word)) {
-      return { found: true, keywordToken: word, index: i, words: cleanWords };
+      return { found: true, keywordToken: word, index: i, words: rawWords };
     }
   }
 
-  return { found: false, keywordToken: '', index: -1, words: cleanWords };
+  // 2. Search in the last 2 words (e.g. "Tailor my resume for this jd, Sara")
+  const endStartIndex = Math.max(0, rawWords.length - 2);
+  for (let i = endStartIndex; i < rawWords.length; i++) {
+    const word = rawWords[i];
+    if (isKeywordToken(word)) {
+      return { found: true, keywordToken: word, index: i, words: rawWords };
+    }
+  }
+
+  return { found: false, keywordToken: '', index: -1, words: rawWords };
 }
 
 /**
- * Evaluates whether the spoken text after the keyword is related to tailoring a resume
+ * Evaluates whether the spoken text is related to tailoring a resume
  * for the job or company on the screen.
- * @param {string} afterKeywordText
+ * @param {string} commandText
  * @returns {boolean}
  */
-export function isTailoringIntent(afterKeywordText) {
-  if (!afterKeywordText || typeof afterKeywordText !== 'string') {
+export function isTailoringIntent(commandText) {
+  if (!commandText || typeof commandText !== 'string') {
     return false;
   }
 
-  const clean = afterKeywordText.trim();
+  const clean = commandText.trim();
   if (!clean) return false;
 
   // 1. Explicit Non-tailoring patterns
@@ -342,10 +469,11 @@ export function isTailoringIntent(afterKeywordText) {
     }
   }
 
-  const lower = clean.toLowerCase();
-  const words = lower.replace(/[^a-z0-9\s-]/g, ' ').trim().split(/\s+/).filter(Boolean);
+  // Normalize common STT representations of "j d" / "j.d." -> "jd"
+  const normalized = clean.toLowerCase().replace(/\bj\s*\.?\s*d\b/g, 'jd');
+  const words = normalized.replace(/[^a-z0-9\s-]/g, ' ').trim().split(/\s+/).filter(Boolean);
 
-  // 2. Contains any Tailoring Action Verb (or fuzzy match to "tailor")
+  // 2. Direct Tailoring Action Verb (or fuzzy match to "tailor")
   for (const word of words) {
     if (TAILOR_VERBS.has(word)) return true;
     if (levenshteinDistance(word, 'tailor') <= 1) return true;
@@ -353,32 +481,32 @@ export function isTailoringIntent(afterKeywordText) {
 
   // 3. Contains any Instruction Directive
   for (const marker of INSTRUCTION_MARKERS) {
-    if (lower.includes(marker)) return true;
+    if (normalized.includes(marker)) return true;
   }
 
-  // 4. Contains a Resume Entity combined with target context or preposition
   const hasResume = words.some((w) => RESUME_ENTITIES.has(w));
   const hasJobTarget = words.some((w) => JOB_TARGETS.has(w));
-  const hasTargetPreposition = /\b(?:for|to|with|against|towards|on)\b/i.test(lower);
+  const hasGeneralVerb = words.some((w) => GENERAL_ACTION_VERBS.has(w));
+  const hasConnector = /\b(?:for|to|with|against|towards|on|from|based|according|as\s+per)\b/i.test(normalized);
 
-  if (hasResume && (hasJobTarget || hasTargetPreposition)) {
-    return true;
-  }
+  // 4. Resume Entity + Job Target in any order ("here and there", e.g. "for this jd, my resume")
+  if (hasResume && hasJobTarget) return true;
 
-  // 5. Contains a Job Target combined with target preposition (e.g. "for this role", "for this company", "on this page")
-  if (hasJobTarget && hasTargetPreposition) {
-    return true;
-  }
+  // 5. Resume Entity + General creation verb or connector ("make my resume", "my resume for this")
+  if (hasResume && (hasGeneralVerb || hasConnector)) return true;
 
-  // 6. Speech artifact check: user transcripts matching known boilerplate fragments
+  // 6. Job Target + Connector ("for this jd", "with this job description", "for Google")
+  if (hasJobTarget && hasConnector) return true;
+
+  // 7. Speech artifact check: user transcripts matching known boilerplate fragments
   if (
-    lower.includes('for this') ||
-    lower.includes('for that') ||
-    lower.includes('this job') ||
-    lower.includes('this role') ||
-    lower.includes('this company') ||
-    lower.includes('marriage image') ||
-    lower.includes('marriage mein')
+    normalized.includes('for this') ||
+    normalized.includes('for that') ||
+    normalized.includes('this job') ||
+    normalized.includes('this role') ||
+    normalized.includes('this company') ||
+    normalized.includes('marriage image') ||
+    normalized.includes('marriage mein')
   ) {
     return true;
   }
@@ -468,17 +596,34 @@ export function parseCommand(transcriptAlternatives, options = {}) {
     };
   }
 
-  // 3. Extract text after keyword
-  let afterKeywordText = '';
+  // 3. Extract command tokens (remove the keyword token wherever it appears)
+  let commandText = '';
   if (keywordMatch.found) {
-    const rawTokens = heard.split(/\s+/);
-    afterKeywordText = rawTokens.slice(keywordMatch.index + 1).join(' ').trim();
+    const rawTokens = heard.split(/\s+/).filter(Boolean);
+    const commandTokens = rawTokens.filter((token, idx) => {
+      if (idx === keywordMatch.index) return false;
+      // Also drop repeated keyword token immediately adjacent (e.g. "Sara Sara")
+      if (Math.abs(idx - keywordMatch.index) === 1 && isKeywordToken(token)) return false;
+      return true;
+    });
+
+    // Strip leading conversational prefixes/greetings (e.g. "Hey", "Hi", "Ok", "Please")
+    while (commandTokens.length > 0) {
+      const cleanFirst = commandTokens[0].toLowerCase().replace(/[^a-z]/g, '');
+      if (PREFIXES.has(cleanFirst)) {
+        commandTokens.shift();
+      } else {
+        break;
+      }
+    }
+
+    commandText = commandTokens.join(' ').trim();
   } else {
-    afterKeywordText = heard;
+    commandText = heard;
   }
 
-  // 4. Require an instruction after the keyword (bare "Sara" does not trigger tailoring)
-  if (!afterKeywordText) {
+  // 4. Require an instruction (bare "Sara" does not trigger tailoring)
+  if (!commandText) {
     return {
       ok: false,
       keywordFound: keywordMatch.found,
@@ -490,7 +635,7 @@ export function parseCommand(transcriptAlternatives, options = {}) {
   }
 
   // 5. Intent Determination
-  if (!isTailoringIntent(afterKeywordText)) {
+  if (!isTailoringIntent(commandText)) {
     return {
       ok: false,
       keywordFound: keywordMatch.found,
@@ -505,7 +650,7 @@ export function parseCommand(transcriptAlternatives, options = {}) {
   const intent = 'TAILOR';
 
   // 6. Instruction Extraction
-  const instruction = extractValidInstruction(afterKeywordText);
+  const instruction = extractValidInstruction(commandText);
 
   return {
     ok: true,
