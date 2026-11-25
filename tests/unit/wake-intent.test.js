@@ -264,6 +264,118 @@ const TEST_PHRASES = [
     expectedOk: false,
     expectedReason: 'UNSUPPORTED_INTENT'
   },
+  {
+    input: ['Sara, tell me a joke'],
+    expectedOk: false,
+    expectedReason: 'UNSUPPORTED_INTENT'
+  },
+  {
+    input: ['Sara, how do you make pizza'],
+    expectedOk: false,
+    expectedReason: 'UNSUPPORTED_INTENT'
+  },
+  {
+    input: ['Sara, order a pizza'],
+    expectedOk: false,
+    expectedReason: 'UNSUPPORTED_INTENT'
+  },
+  {
+    input: ['Sara, call mom'],
+    expectedOk: false,
+    expectedReason: 'UNSUPPORTED_INTENT'
+  },
+  {
+    input: ['Sara, who is the president of France'],
+    expectedOk: false,
+    expectedReason: 'UNSUPPORTED_INTENT'
+  },
+  {
+    input: ['Sara, what time is our meeting'],
+    expectedOk: false,
+    expectedReason: 'UNSUPPORTED_INTENT'
+  },
+  {
+    input: ['Sara, how are you doing today'],
+    expectedOk: false,
+    expectedReason: 'UNSUPPORTED_INTENT'
+  },
+  {
+    input: ['Sara, can you open Netflix'],
+    expectedOk: false,
+    expectedReason: 'UNSUPPORTED_INTENT'
+  },
+  {
+    input: ['Sara, write an essay about space exploration'],
+    expectedOk: false,
+    expectedReason: 'UNSUPPORTED_INTENT'
+  },
+  {
+    input: ['Sara, do you like coffee or tea'],
+    expectedOk: false,
+    expectedReason: 'UNSUPPORTED_INTENT'
+  },
+
+  // 37-46: Additional natural tailoring ways
+  {
+    input: ['Sara, adapt this CV for Google'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, customize my profile for this opening'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ["Sara, align my resume with what's on the screen"],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, tune my resume for this position'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, polish my CV for this JD'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, revise my resume for this opening'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, prepare my application for this employer'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, craft my CV for this listing'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, resume for this role'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
+  {
+    input: ['Sara, my CV for this company'],
+    expectedOk: true,
+    expectedKeyword: true,
+    expectedIntent: 'TAILOR'
+  },
 
   // 37-43: Keyword missing & edge cases
   {

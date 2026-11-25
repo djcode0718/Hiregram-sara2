@@ -115,6 +115,21 @@ This log records all significant technical and design decisions made during the 
   4. Built `src/content/overlay.js` rendering a sleek pill inside a closed Shadow DOM (`mode: "closed"`) on the top-level document, displaying live transcript feedback with zero host page style leakage.
 - **Reason:** Satisfies FR-V1..V9, FR-A1..A8, FR-U1..U6, and FR-K1..K7, preventing garbled speech noise from reaching Sara.
 
+---
+
+### [2026-11-25] Decision 010: Semantic Tailoring Intent Classifier & Accidental Query Filtering
+- **Context:** Holding `Option+S` and speaking arbitrary conversational queries (e.g. asking for the weather, telling a joke, ordering groceries, chit-chatting) previously fell through to the default `TAILOR` intent, accidentally triggering job extraction and opening Hiregram.
+- **Decision:**
+  1. Created `isTailoringIntent` in `src/lib/wake-intent.js` evaluating transcripts after the keyword against:
+     - Comprehensive `TAILOR_VERBS` (tailor, adapt, customize, optimize, rewrite, update, fit, match, align, adjust, tune, tweak, refine, polish, revise, craft, format, etc.).
+     - `RESUME_ENTITIES` (resume, cv, profile, bio, experience, skills, application).
+     - `JOB_TARGETS` (jd, job, role, position, opening, posting, vacancy, company, employer, firm, on screen, on this page).
+     - `INSTRUCTION_MARKERS` (focus on, emphasize, highlight, keep it to one page, single page, etc.).
+     - Blocklist of non-tailoring query patterns (`NON_TAILORING_PATTERNS`: questions like "what's the weather", "tell me a joke", "play music", "search for jobs", "order pizza", "how do you make", "call mom").
+  2. If none of the tailoring semantic patterns match, reject the command with `UNSUPPORTED_INTENT` and display user-friendly overlay guidance:
+     `"I can only tailor your resume for jobs on screen. Try: 'Sara, tailor my resume for this role.'"`
+- **Reason:** Prevents accidental triggers and false positives while supporting dozens of natural ways to express resume tailoring.
+
 
 
 
