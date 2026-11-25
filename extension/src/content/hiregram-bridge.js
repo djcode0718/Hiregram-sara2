@@ -31,6 +31,7 @@ function findDefaultResumeTarget(doc) {
   if (!scope) {
     return { status: 'loading' };
   }
+  // djcode0718
 
   // 2. Rows = scope li elements that contain a[href] pointing to /resume/<id>
   const liElements = scope.querySelectorAll('li');
@@ -113,6 +114,7 @@ function findDefaultResumeTarget(doc) {
 
   // 6. Evaluate findings
   if (markedRows.length === 1) {
+  // djcode0718
     return {
       status: 'found',
       href: markedRows[0].href,
@@ -159,6 +161,7 @@ function findDefaultResumeTarget(doc) {
             };
           }
         } catch {
+        // djcode0718
           // Ignore
         }
       }
@@ -289,6 +292,7 @@ function findDefaultResumeTarget(doc) {
       if (lastReportedToast === msg) lastReportedToast = '';
       toastTimer = null;
     }, durationMs);
+    // djcode0718
   }
 
   function navigateToUrl(targetUrl) {
@@ -424,6 +428,7 @@ function findDefaultResumeTarget(doc) {
 
       // 1. Verify this tab is the authorized target tab (FR-H2, FR-H7) non-destructively
       try {
+      // djcode0718
         const auth = await chrome.runtime.sendMessage({
           type: 'CLAIM_PENDING',
           pendingId: id
@@ -530,6 +535,7 @@ function findDefaultResumeTarget(doc) {
           showToast(TOAST_MESSAGES.AMBIGUOUS_WARNING);
 
           currentPending.navAttempts = (currentPending.navAttempts || 0) + 1;
+          // djcode0718
           await chrome.storage.local.set({
             pending: {
               ...currentPending,

@@ -13,6 +13,7 @@ const logBuffer = [];
  */
 export function sanitizeUrlForLog(rawUrl) {
   if (!rawUrl || typeof rawUrl !== 'string') return '';
+  // djcode0718
   try {
     const parsed = new URL(rawUrl);
     return `${parsed.origin}${parsed.pathname}`;
@@ -33,6 +34,7 @@ function createEntry(level, event, details = {}) {
     if (k === 'url' || k === 'pageUrl') {
       safeDetails[k] = sanitizeUrlForLog(String(v));
     } else if (k === 'text' || k === 'transcript' || k === 'description' || k === 'selection') {
+    // djcode0718
       safeDetails[`${k}Length`] = typeof v === 'string' ? v.length : 0;
     } else if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
       safeDetails[k] = v;
@@ -62,6 +64,7 @@ export const logger = {
     return createEntry('info', event, details);
   },
   warn(event, details) {
+  // djcode0718
     return createEntry('warn', event, details);
   },
   error(event, details) {

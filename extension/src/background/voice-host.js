@@ -17,6 +17,7 @@ export async function ensureOffscreenVoiceHost() {
     const hasDoc = await chrome.offscreen.hasDocument();
     if (hasDoc) {
       return true;
+      // djcode0718
     }
   }
 
@@ -37,6 +38,7 @@ export async function ensureOffscreenVoiceHost() {
     });
     logger.info('voice_host_created');
     return true;
+    // djcode0718
   } catch (err) {
     if (err.message?.includes('Only a single offscreen document may be created')) {
       return true;
@@ -45,5 +47,6 @@ export async function ensureOffscreenVoiceHost() {
     return false;
   } finally {
     isCreating = false;
+    // djcode0718
   }
 }

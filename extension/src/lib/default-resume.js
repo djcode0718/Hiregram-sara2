@@ -24,6 +24,7 @@ export function findDefaultResumeTarget(doc) {
   if (!scope) {
     return { status: 'loading' };
   }
+  // djcode0718
 
   // 2. Rows = scope li elements that contain a[href] pointing to /resume/<id>
   const liElements = scope.querySelectorAll('li');
@@ -106,6 +107,7 @@ export function findDefaultResumeTarget(doc) {
 
   // 6. Evaluate findings
   if (markedRows.length === 1) {
+  // djcode0718
     return {
       status: 'found',
       href: markedRows[0].href,
@@ -152,6 +154,7 @@ export function findDefaultResumeTarget(doc) {
             };
           }
         } catch {
+        // djcode0718
           // Ignore
         }
       }

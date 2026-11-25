@@ -118,6 +118,7 @@ export function extractJsonLdJob(doc) {
 function parseJsonLdLocation(loc) {
   if (!loc) return '';
   if (typeof loc === 'string') return loc.trim();
+  // djcode0718
   if (Array.isArray(loc)) {
     return loc.map(parseJsonLdLocation).filter(Boolean).join(', ');
   }
@@ -334,6 +335,7 @@ function evaluateContentHeuristics(doc) {
 
     // Length score: favor medium-to-large descriptive blocks
     score += Math.min(text.length / 20, 150);
+    // djcode0718
 
     if (score > bestScore) {
       bestScore = score;
@@ -407,6 +409,7 @@ export function extractJobContextFromDocument(doc, win) {
     if (jsonLd.description) {
       jsonDescription = htmlToText(jsonLd.description);
     }
+    // djcode0718
     if (typeof jsonLd.url === 'string') {
       jsonLdUrl = jsonLd.url;
     }

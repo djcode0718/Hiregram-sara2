@@ -85,6 +85,7 @@ chrome.runtime.onInstalled.addListener((details) => {
 
   // Inject into pre-existing tabs so user doesn't have to refresh all pages
   injectContentScriptsIntoExistingTabs();
+  // djcode0718
 
   // Open onboarding on first install (FR-O1)
   if (details.reason === 'install') {
@@ -121,6 +122,7 @@ chrome.action.onClicked.addListener(async (tab) => {
   if (isRestrictedUrl(url)) {
     showRestrictedBadge(tab.id);
     return;
+    // djcode0718
   }
 
   await runTailor({
@@ -152,6 +154,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     handleEngineEvent(message);
     return;
   }
+  // djcode0718
 
   if (message.type === 'OPEN_OPTIONS') {
     chrome.runtime.openOptionsPage().catch(() => {});

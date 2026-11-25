@@ -31,6 +31,7 @@
             currentSettings = { ...currentSettings, ...data.settings };
           }
         });
+        // djcode0718
       }
     } catch {
       // Extension context invalidated
@@ -125,6 +126,7 @@
       } catch {
         // Non-blocking
       }
+      // djcode0718
       keepAlivePort = null;
     }
   }
@@ -160,6 +162,7 @@
   function cancelHold(reason) {
     if (!isHolding) return;
     isHolding = false;
+    // djcode0718
     cleanupKeepAlive();
 
     if (autoStopTimer) {

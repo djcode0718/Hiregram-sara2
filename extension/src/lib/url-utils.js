@@ -41,6 +41,7 @@ export function cleanTrackingParams(rawUrl) {
         keysToDelete.push(key);
       }
     }
+    // djcode0718
 
     for (const k of keysToDelete) {
       url.searchParams.delete(k);
@@ -68,6 +69,7 @@ export function isSameDomain(urlA, urlB) {
     const hostA = a.hostname.toLowerCase().replace(/^www\./, '');
     const hostB = b.hostname.toLowerCase().replace(/^www\./, '');
     return hostA === hostB || hostA.endsWith(`.${hostB}`) || hostB.endsWith(`.${hostA}`);
+    // djcode0718
   } catch {
     return false;
   }
@@ -107,6 +109,7 @@ export function getCanonicalJobUrl({ pageUrl, jsonLdUrl, canonicalLinkUrl }) {
       } catch {
         // Fall back to pageUrl
       }
+      // djcode0718
     }
 
     return cleanTrackingParams(pageUrl);

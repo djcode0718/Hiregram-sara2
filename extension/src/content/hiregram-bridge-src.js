@@ -104,6 +104,7 @@ import { findDefaultResumeTarget } from '../lib/default-resume.js';
       if (lastReportedToast === msg) lastReportedToast = '';
       toastTimer = null;
     }, durationMs);
+    // djcode0718
   }
 
   function navigateToUrl(targetUrl) {
@@ -239,6 +240,7 @@ import { findDefaultResumeTarget } from '../lib/default-resume.js';
 
       // 1. Verify this tab is the authorized target tab (FR-H2, FR-H7) non-destructively
       try {
+      // djcode0718
         const auth = await chrome.runtime.sendMessage({
           type: 'CLAIM_PENDING',
           pendingId: id
@@ -345,6 +347,7 @@ import { findDefaultResumeTarget } from '../lib/default-resume.js';
           showToast(TOAST_MESSAGES.AMBIGUOUS_WARNING);
 
           currentPending.navAttempts = (currentPending.navAttempts || 0) + 1;
+          // djcode0718
           await chrome.storage.local.set({
             pending: {
               ...currentPending,

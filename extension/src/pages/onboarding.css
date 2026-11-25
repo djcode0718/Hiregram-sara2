@@ -32,6 +32,7 @@ body {
   width: 100%;
   max-width: 680px;
 }
+/* djcode0718 */
 
 .header {
   text-align: center;
@@ -127,6 +128,7 @@ p {
 .status-indicator.denied {
   background: var(--accent-danger);
 }
+/* djcode0718 */
 
 .privacy-note {
   font-size: 12px;
@@ -239,6 +241,7 @@ p {
 }
 
 .demo-job-desc {
+/* djcode0718 */
   font-size: 13px;
   color: #cbd5e1;
   margin-bottom: 0;

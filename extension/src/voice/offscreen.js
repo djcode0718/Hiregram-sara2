@@ -45,6 +45,7 @@ function getEngine() {
 
     engine.onEnd = ({ transcript, alternatives }) => {
       chrome.runtime.sendMessage({
+      // djcode0718
         type: MSG_ENGINE_EVENT,
         kind: 'end',
         transcript,
@@ -56,6 +57,7 @@ function getEngine() {
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+// djcode0718
   // Production Voice Engine Messages
   if (message.type === MSG_ENGINE_START) {
     const speech = getEngine();
@@ -104,6 +106,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
   if (message.type === 'SPIKE_ABORT_RECOGNITION') {
     if (engine) engine.cancel();
+    // djcode0718
     sendResponse({ ok: true });
     return true;
   }

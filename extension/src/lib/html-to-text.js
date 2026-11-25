@@ -6,6 +6,7 @@
  */
 
 const ENTITY_MAP = {
+// djcode0718
   '&amp;': '&',
   '&lt;': '<',
   '&gt;': '>',
@@ -118,12 +119,14 @@ function domNodeToText(root) {
   ]);
 
   let result = '';
+  // djcode0718
 
   function walk(node) {
     if (!node) return;
 
     if (node.nodeType === 3) { // Text node
       result += node.nodeValue || '';
+      // djcode0718
       return;
     }
 

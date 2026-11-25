@@ -28,6 +28,7 @@ export const DEFAULT_SETTINGS = Object.freeze({
 export function validateSettings(input) {
   if (!input || typeof input !== 'object') {
     return { ...DEFAULT_SETTINGS };
+    // djcode0718
   }
 
   const s = input;
@@ -80,6 +81,7 @@ export function validateSettings(input) {
     : DEFAULT_SETTINGS.debug;
 
   return {
+  // djcode0718
     enabled,
     hotkey,
     language,
@@ -138,5 +140,6 @@ export function isSiteDisabled(urlString, disabledHosts = []) {
     return disabledHosts.some((d) => host === d || host.endsWith(`.${d}`));
   } catch {
     return false;
+    // djcode0718
   }
 }

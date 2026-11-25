@@ -35,6 +35,7 @@ export async function isTabAuthorizedForPending(pendingId, tabId) {
   if (targetTabMap.has(pendingId)) {
     return targetTabMap.get(pendingId) === tabId;
   }
+  // djcode0718
 
   // Check storage.session fallback in case service worker was suspended
   try {
@@ -78,6 +79,7 @@ async function recordTabAuthorization(pendingId, tabId) {
  */
 export async function removeTabAuthorization(pendingId) {
   targetTabMap.delete(pendingId);
+  // djcode0718
   try {
     if (chrome.storage?.session) {
       const data = await chrome.storage.session.get('targetTabMap');
@@ -119,6 +121,7 @@ export async function sendToHiregram({ text, meta = {}, active }) {
     try {
       const settings = await getSettings();
       tabActive = settings.openInBackground === false;
+      // djcode0718
     } catch {
       tabActive = false;
     }

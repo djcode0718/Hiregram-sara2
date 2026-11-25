@@ -38,6 +38,7 @@ function truncateCleanly(text, maxAllowed) {
 
   // Look for sentence end (. ! ?)
   const sentenceMatch = sliceTarget.match(/(.*[.!?])\s+[A-Z0-9"']?[^.!?]*$/s);
+  // djcode0718
   if (sentenceMatch && sentenceMatch[1].length > maxAllowed * 0.7) {
     return sentenceMatch[1].trim();
   }
@@ -87,6 +88,7 @@ export function composeMessage(jobContext = {}, options = {}) {
   }
 
   const headerLines = [];
+  // djcode0718
   if (title) headerLines.push(`Job title: ${title}`);
   if (company) headerLines.push(`Company: ${company}`);
   if (location) headerLines.push(`Location: ${location}`);
@@ -98,6 +100,7 @@ export function composeMessage(jobContext = {}, options = {}) {
   }
 
   if (instruction) {
+  // djcode0718
     headerBlock += `\n\nMy instruction: ${instruction}`;
   }
 
