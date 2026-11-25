@@ -110,8 +110,11 @@ sequenceDiagram
 - **WCAG Compliant:** Accessible status updates via `role="status"` and `aria-live="polite"`. Respects `prefers-reduced-motion` and OS dark/light mode themes.
 
 ### 🧠 3. Smart Wake-Keyword & Intent Parser
-- **Fuzzy Tolerance:** Matches "Sara" with a Levenshtein distance of &le; 1 (handles "Sarah", "Sera", etc.).
+- **Fuzzy Tolerance:** Matches "Sara" with a Levenshtein distance of &le; 1 (handles "Sarah", "Sera", "Zara", "Saara", etc.).
 - **Phonetic & Dialect Aliases:** Specially tuned for Indian English accents and speech-to-text artifacts (accepts "Sahara", ignores filler phrase noise).
+- **Semantic Intent Classifier:** Verifies true resume tailoring intent across dozens of natural variations (*tailor, adapt, customize, optimize, rewrite, update, fit, match, tune, tweak, polish, revise*) paired with resume entities (*CV, profile, bio, experience, skills*) and job targets (*JD, role, position, opening, company, screen*).
+- **Accidental Voice Rejection:** Filters out casual chit-chat, conversational queries (e.g. *"Sara, make me a coffee"*, *"Sara, tell me a joke"*, weather, music, food orders), and bare *"Sara"* calls without instructions, guiding the candidate instead of misfiring.
+- **Interim Speech Preservation:** Concatenates all final recognition segments plus trailing interim speech, ensuring words spoken right before releasing the hotkey are never truncated or lost.
 - **Custom Instruction Extraction:** Recognizes explicit prompt qualifiers (e.g., *"focus on React"*, *"keep it to one page"*, *"emphasize leadership"*).
 
 ### 📄 4. Multi-Layer Job Context Extraction
@@ -303,6 +306,11 @@ By default, the voice parser expects commands to start with "Sara" (e.g. <i>"Sar
 <details>
 <summary><b>4. How do I tailor a job post on an unsupported or private portal?</b></summary>
 Simply select/highlight the job description text with your mouse (&ge; 80 characters), then hold <kbd>Option+S</kbd>. Hiregram Tailor automatically prioritizes your highlighted text over automatic page extraction.
+</details>
+
+<details>
+<summary><b>5. What happens if I say something unrelated while holding Option+S?</b></summary>
+Hiregram Tailor features a semantic intent classifier. If you speak everyday conversation (e.g. <i>"Sara, make me a coffee"</i>, <i>"Sara, tell me a joke"</i>, or ask about the weather), the request is cleanly rejected with gentle on-screen feedback: <i>"I can only tailor your resume for jobs on screen"</i>, preventing accidental triggers.
 </details>
 
 ---
